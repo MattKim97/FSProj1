@@ -69,8 +69,8 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.DATE,
       allowNull:false,
       validate:{
-        isAfter: new Date().toJSON().slice(0, 10)
-        //or? newDate().toLocaleDateString()??
+        isAfter: new Date().toLocaleDateString()
+        //or? newDate().toLocaleDateString() OR new Date().toJSON().slice(0, 10)
       }
     },
     endDate: {
