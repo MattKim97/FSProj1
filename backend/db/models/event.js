@@ -31,28 +31,51 @@ module.exports = (sequelize, DataTypes) => {
   }
   Event.init({
     venueId: {
-      type:DataTypes.INTEGER
+      type:DataTypes.INTEGER,
+      allowNull:false
     },
     groupId:  {
-      type:DataTypes.INTEGER
+      type:DataTypes.INTEGER,
+      allowNull:false
     },
     name:  {
-      type:DataTypes.STRING
+      type:DataTypes.STRING,
+      validate:{
+        min: 5
+      },
+      allowNull:false
     },
     description: {
-      type:DataTypes.TEXT
+      type:DataTypes.TEXT,
+      allowNull:false
     },
     type:  {
-      type:DataTypes.ENUM
+      type:DataTypes.ENUM,
+      allowNull:false
     },
     capacity:  {
-      type:DataTypes.INTEGER
+      type:DataTypes.INTEGER,
+      allowNull:false
     },
     price:  {
-      type:DataTypes.INTEGER
+      type:DataTypes.INTEGER,
+      allowNull:false
     },
-    startDate: DataTypes.DATE,
-    endDate: DataTypes.DATE,
+    startDate: {
+      type:DataTypes.DATE,
+      allowNull:false,
+      validate:{
+        isAfter: new Date().toJSON().slice(0, 10)
+        //or? newDate().toLocaleDateString()??
+      }
+    },
+    endDate: {
+      type:DataTypes.DATE,
+      allowNull:false,
+      validate:{
+        isAfter: this.startDate
+      }
+    },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   }, {

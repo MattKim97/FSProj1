@@ -21,34 +21,43 @@ module.exports = {
           model: 'Venues',
           key: 'id'
         },
+        allowNull:false,
       },
       groupId: {
         type: Sequelize.INTEGER,
+        allowNull:false,
         references: {
           model: 'Groups',
           key: 'id'
         },
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false,
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull:false,
       },
       type: {
-        type: Sequelize.ENUM("pending", "active", "disabled")
+        type: Sequelize.ENUM("Online", "In Person"),
+        allowNull:false,
       },
       capacity: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull:false,
       },
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull:false,
       },
       startDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull:false,
       },
       endDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull:false,
       },
       createdAt: {
         allowNull: false,

@@ -18,28 +18,35 @@ module.exports = {
       },
       organizerId: {
         type: Sequelize.INTEGER,
+        allowNull:false,
         references: {
           model: 'Users',
           key: 'id'
         },
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(60),
+        allowNull:false
       },
       about: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull:false
       },
       type: {
-        type: Sequelize.ENUM("pending", "active", "disabled")
+        type: Sequelize.ENUM("Online", "In Person"),
+        allowNull:false
       },
       private: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        allowNull:false
       },
       city: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       state: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       createdAt: {
         type: Sequelize.DATE

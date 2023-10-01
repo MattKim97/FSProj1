@@ -23,22 +23,28 @@ module.exports = (sequelize, DataTypes) => {
   }
   Venue.init({
     groupId: {
-      type:DataTypes.INTEGER
+      type:DataTypes.INTEGER,
+      allowNull: false
     },
     address: {
-      type:DataTypes.STRING
+      type:DataTypes.STRING,
+      allowNull: false
     },
     city: {
-      type:DataTypes.STRING
+      type:DataTypes.STRING,
+      allowNull: false
     },
     state: {
-      type:DataTypes.STRING
+      type:DataTypes.STRING,
+      allowNull: false
     },
     lat: {
-      type:DataTypes.DECIMAL
+      type:DataTypes.DECIMAL,
+      allowNull: false
     },
     lng: {
-      type:DataTypes.DECIMAL
+      type:DataTypes.DECIMAL,
+      allowNull: false
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
