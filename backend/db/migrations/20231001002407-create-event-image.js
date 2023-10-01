@@ -40,5 +40,6 @@ module.exports = {
     options.tableName = "EventImages";
 
 
-    await queryInterface.dropTable(options);  }
+    await queryInterface.dropTable(options);
+    }
 };
