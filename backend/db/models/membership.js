@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER
     },
     status:{
-      type:DataTypes.ENUM
+      type:DataTypes.ENUM,
+      values: ['co-host', 'member', 'pending'],
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE

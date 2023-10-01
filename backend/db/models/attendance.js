@@ -21,13 +21,17 @@ module.exports = (sequelize, DataTypes) => {
   }
   Attendance.init({
     eventId: {
-      type:DataTypes.INTEGER
+      type:DataTypes.INTEGER,
+      allowNull:false
     },
     userId: {
-      type:DataTypes.INTEGER
+      type:DataTypes.INTEGER,
+      allowNull:false
     },
     status: {
-      type: DataTypes.ENUM
+      type: DataTypes.ENUM,
+      values: ['Online', 'In Person'],
+      allowNull:false
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
