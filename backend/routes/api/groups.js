@@ -10,6 +10,134 @@ const { Group, GroupImage , Membership , User , Venue, Organizer} = require('../
 
 const router = express.Router();
 
+const validateGroups = [
+    check('name')
+      .exists({ checkFalsy: true })
+      .withMessage('Please provide a name.')
+      .isLength({ min: 1, max: 60 })
+      .withMessage("Name must be 60 characters or less"),
+    check('about')
+      .exists({ checkFalsy: true })
+      .withMessage('Please provide an about blurb.')
+      .isLength({ min: 50})
+      .withMessage("About must be 50 characters or less"),
+    check('type')
+      .exists({ checkFalsy: true })
+      .withMessage('Please provide a type.')
+      .isIn(['Online','In Person'])
+      .withMessage("Type must be 'Online' or 'In Person'"),
+    check('private')
+      .exists({ checkFalsy: true })
+      .withMessage('Please provide a private status.')
+      .isBoolean()
+      .withMessage("Private must be a boolean"),
+    check('city')
+      .exists({ checkFalsy: true })
+      .withMessage('City is required'),
+    check('state')
+      .exists({ checkFalsy: true })
+      .withMessage('State is required'),
+   handleValidationErrors
+  ];
+
+router.post('/', requireAuth,validateGroups, async (req,res,next) => {
+    const {name,about,type,private,city,state} = req.body
+
+    const user = req.user
+   
+    const group = await Group.create({
+        organizerId: user.id,
+        name,
+        about,
+        type,
+        private,
+        city,
+        state
+})
+
+res.json(group)
+
+})
+
+router.post('/:groupId/images',requireAuth, async (req,res,next) => {
+
+    const {url , preview} = req.body
+
+    const group = await Group.findOne({
+        where:{
+            id: req.params.groupId
+        }
+    })
+
+    if(!group){
+        return res.status(404).json({
+            "message": "Group couldn't be found"
+        })
+    }
+
+   const image = await group.createGroupImage({
+        url,
+        preview
+    })
+
+    const imageObj = {
+        id: image.id,
+        url: image.url,
+        preview: image.preview
+    }
+
+
+    res.json(imageObj)
+})
+
+router.put('/:groupId',requireAuth,validateGroups, async (req,res,next) => {
+const {name,about,type,private,city,state} = req.body
+
+const group = await Group.findOne({
+    where :{
+        id: req.params.groupId
+    }
+})
+
+if(!group){
+    return res.status(404).json({
+        "message": "Group couldn't be found"
+    })
+}
+
+const updatedGroup = await group.update({
+    name,about,type,private,city,state
+})
+
+res.json(updatedGroup)
+
+})
+
+router.delete('/:groupId',requireAuth, async (req,res,next) => {
+    const group = await Group.findOne({
+        where :{
+            id: req.params.groupId
+        }
+    })
+
+    if(!group){
+        return res.status(404).json({
+            "message": "Group couldn't be found"
+        })
+    }
+
+    await group.destroy()
+
+    res.json({
+        "message": "Successfully deleted"
+    })
+
+})
+
+
+
+
+
 router.get('/', async (req,res,next) => {
     const groups = await Group.findAll({
     })
@@ -168,8 +296,11 @@ router.get('/:groupId', async (req,res,next) => {
     
     res.json(groupJSON)
 } else {
-    res.status(404).json({"message": "Group couldn't be found",})
+    return res.status(404).json({"message": "Group couldn't be found",})
 }
+
+
+
 
 })
 
