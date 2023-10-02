@@ -122,4 +122,27 @@ if(user.id === group.organizerId || membership.status == "co-host") return next(
  return next(err);
 }
 
-  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorizationGroup, requireAuthorizationVenue};
+const requireAuthorizationVenueMemOnly = async function (req,res,next){
+
+  const user = req.user
+
+  const venue = await Venue.findByPk(req.params.venueId)
+
+
+const membership = Venue.find({
+  where:{
+    userId: user.id
+  }
+})
+
+
+if(membership.status == "co-host") return next()
+
+
+ const err = new Error('Forbidden');
+ err.message = 'Forbidden';
+ err.status = 403;
+ return next(err);
+}
+
+  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorizationGroup, requireAuthorizationVenue, requireAuthorizationVenueMemOnly};

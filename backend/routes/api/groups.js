@@ -40,6 +40,30 @@ const validateGroups = [
    handleValidationErrors
   ];
 
+  const validateVenues = [
+check('address')
+    .exists({ checkFalsy: true })
+    .withMessage('Street address is required'),
+check('city')
+    .exists({ checkFalsy: true })
+    .withMessage("City is required"),
+  check('state')
+    .exists({ checkFalsy: true })
+    .withMessage("State is required"),
+  check('lat')
+    .exists({ checkFalsy: true })
+    .withMessage('Latitude is required')
+    .isDecimal()
+    .withMessage("Latitude is not valid"),
+    check('lng')
+    .exists({ checkFalsy: true })
+    .withMessage('Longitude is required')
+    .isDecimal()
+    .withMessage("Longitude is not valid"),
+    handleValidationErrors
+  ]
+
+
 router.post('/', requireAuth,validateGroups, async (req,res,next) => {
     const {name,about,type,private,city,state} = req.body
 
@@ -58,6 +82,7 @@ router.post('/', requireAuth,validateGroups, async (req,res,next) => {
 res.json(group)
 
 })
+
 
 router.post('/:groupId/images',requireAuth,requireAuthorizationGroup, async (req,res,next) => {
 
@@ -267,7 +292,6 @@ router.get('/current', requireAuth, async (req,res,next) => {
 
 router.get('/:groupId/venues', requireAuth, requireAuthorizationVenue, async (req,res,next) => {
 
-    console.log('asdasd')
     
     const group = await Group.findOne({
         where :{
@@ -293,6 +317,38 @@ router.get('/:groupId/venues', requireAuth, requireAuthorizationVenue, async (re
     res.json(venue)
 
 })
+
+router.post('/:groupId/venues', requireAuth, requireAuthorizationVenue, validateVenues, async (req,res,next) => {
+    const {address,city,state,lat,lng} = req.body
+
+
+    const group = await Group.findByPk(req.params.groupId)
+
+    if(!group){
+        return res.status(404).json({
+            "message": "Group couldn't be found"
+        })
+    }
+
+    const venue = await group.createVenue({
+        address,city,state,lat,lng
+    })
+
+    const venueObj = {
+        id: venue.id,
+        groupId: group.id,
+        address,
+        city,
+        state,
+        lat,
+        lng
+    }
+
+    res.json(venueObj)
+
+
+})
+
 
 router.get('/:groupId', async (req,res,next) => {
 
