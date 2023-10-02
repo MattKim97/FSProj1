@@ -31,7 +31,7 @@ module.exports = {
         },
       },
       status: {
-        type: Sequelize.ENUM("Online", "In Person")
+        type: Sequelize.ENUM("Attending","Waitlist" ,"Pending")
       },
       createdAt: {
         type: Sequelize.DATE

@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.ENUM,
-      values: ['Online', 'In Person'],
+      values: ['Attending', 'Waitlist', "Pending"],
       allowNull:false
     },
     createdAt: DataTypes.DATE,
