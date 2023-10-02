@@ -1,7 +1,7 @@
 // backend/utils/auth.js
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Group } = require('../db/models');
+const { User, Group , Membership} = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -74,11 +74,7 @@ const requireAuthorizationGroup = async function (req,res,next){
 
   const user = req.user
 
-  const group = await Group.findOne({
-    where:{
-      id: req.params.groupId
-    }
-  })
+  const group = await Group.findByPk(req.params.groupId)
 
   if(!group){
     return res.status(404).json({
@@ -95,4 +91,35 @@ const requireAuthorizationGroup = async function (req,res,next){
  return next(err);
 }
 
-  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorizationGroup };
+const requireAuthorizationVenue = async function (req,res,next){
+
+  const user = req.user
+
+
+  const group = await Group.findByPk(req.params.groupId)
+
+  console.log(group)
+
+  if(!group){
+    return res.status(404).json({
+        "message": "Group couldn't be found"
+    })
+  }
+
+const membership = await group.getMemberships({
+  where:{
+    userId: user.id
+  }
+})
+
+
+if(user.id === group.organizerId || membership.status == "co-host") return next()
+
+
+ const err = new Error('Forbidden');
+ err.message = 'Forbidden';
+ err.status = 403;
+ return next(err);
+}
+
+  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorizationGroup, requireAuthorizationVenue};

@@ -3,7 +3,7 @@ const { Op, Model } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { requireAuth, requireAuthorizationGroup} = require("../../utils/auth.js");
+const { requireAuth, requireAuthorizationGroup, requireAuthorizationVenue} = require("../../utils/auth.js");
 
 
 const { Group, GroupImage , Membership , User , Venue, Organizer} = require('../../db/models');
@@ -188,7 +188,7 @@ router.get('/current', requireAuth, async (req,res,next) => {
 
     user = req.user
 
-    const groups = await Group.findAll({
+    const memberGroups = await Group.findAll({
         include: {
             model: Membership,
             where: {
@@ -201,12 +201,26 @@ router.get('/current', requireAuth, async (req,res,next) => {
         }
     })
 
-    const groupsJSON = groups.map((group) => {
+    const ownedGroups = await Group.findAll({
+        where:{
+            organizerId: user.id
+        }
+    })
+
+    const memberGroupsJSON = memberGroups.map((group) => {
         const groupData = group.toJSON()
         return groupData;
     });
 
-    const groupIds = groupsJSON.map((group) => group.id);
+    const ownedGroupsJSON = ownedGroups.map((group) => {
+        const groupData = group.toJSON()
+        return groupData;
+    });
+
+    const groups= [...memberGroupsJSON,...ownedGroupsJSON]
+
+
+    const groupIds = groups.map((group) => group.id);
 
     const members = await Membership.findAll({
         where:{
@@ -224,7 +238,7 @@ router.get('/current', requireAuth, async (req,res,next) => {
         return memberData;
     });
 
-    groupsJSON.forEach((group) => {
+    groups.forEach((group) => {
         const groupId = group.id;
         const groupMembers = membersJSON.filter((member) => member.groupId === groupId);
         group.numMembers = groupMembers.length;
@@ -233,20 +247,50 @@ router.get('/current', requireAuth, async (req,res,next) => {
 
     const images = await GroupImage.findAll()
 
-    for(let i = 0; i < groupsJSON.length; i++){
+    for(let i = 0; i < groups.length; i++){
         for(let j = 0; j<images.length; j++)
-        if(images[j].groupId == groupsJSON[i].id){
+        if(images[j].groupId == groups[i].id){
             if(images[j].preview === true){
-            groupsJSON[i].previewImage = images[j].url
+                groups[i].previewImage = images[j].url
             } else {
-                groupsJSON[i].previewImage = 'No preview available'
+                groups[i].previewImage = 'No preview available'
             }
         }
     }
 
 
-    res.json(groupsJSON)
+    res.json(groups)
 
+
+})
+
+
+router.get('/:groupId/venues', requireAuth, requireAuthorizationVenue, async (req,res,next) => {
+
+    console.log('asdasd')
+    
+    const group = await Group.findOne({
+        where :{
+            id: req.params.groupId
+        },
+    })
+
+    if(!group){
+        return res.status(404).json({
+            "message": "Group couldn't be found"
+        })
+    }
+
+    const venue = await Venue.findAll({
+        where:{
+            groupId: req.params.groupId
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        }
+    })
+
+    res.json(venue)
 
 })
 
