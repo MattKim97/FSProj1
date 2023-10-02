@@ -72,12 +72,18 @@ app.use((err, _req, res, _next) => {
       // stack: isProduction ? null : err.stack
     });
   }
+  if(err.status === 403){
+    return res.json({
+      message: err.message,
+      // stack: isProduction ? null : err.stack
+    });
+  }
   console.error(err);
   res.json({
     title: err.title || 'Server Error',
     message: err.message,
-    errors: err.errors,
-    stack: isProduction ? null : err.stack
+    errors: err.errors
+    // stack: isProduction ? null : err.stack
   });
 });
 

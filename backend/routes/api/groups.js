@@ -3,7 +3,7 @@ const { Op, Model } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { requireAuth} = require("../../utils/auth.js");
+const { requireAuth, requireAuthorizationGroup} = require("../../utils/auth.js");
 
 
 const { Group, GroupImage , Membership , User , Venue, Organizer} = require('../../db/models');
@@ -59,7 +59,7 @@ res.json(group)
 
 })
 
-router.post('/:groupId/images',requireAuth, async (req,res,next) => {
+router.post('/:groupId/images',requireAuth,requireAuthorizationGroup, async (req,res,next) => {
 
     const {url , preview} = req.body
 
@@ -90,7 +90,7 @@ router.post('/:groupId/images',requireAuth, async (req,res,next) => {
     res.json(imageObj)
 })
 
-router.put('/:groupId',requireAuth,validateGroups, async (req,res,next) => {
+router.put('/:groupId',requireAuth,requireAuthorizationGroup,validateGroups, async (req,res,next) => {
 const {name,about,type,private,city,state} = req.body
 
 const group = await Group.findOne({
@@ -113,7 +113,7 @@ res.json(updatedGroup)
 
 })
 
-router.delete('/:groupId',requireAuth, async (req,res,next) => {
+router.delete('/:groupId',requireAuth,requireAuthorizationGroup, async (req,res,next) => {
     const group = await Group.findOne({
         where :{
             id: req.params.groupId
