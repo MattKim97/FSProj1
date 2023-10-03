@@ -206,7 +206,7 @@ router.get('/', async (req,res,next) => {
         }
     }
 
-    res.json(groupsJSON)
+    res.json({Groups:groupsJSON})
 })
 
 router.get('/current', requireAuth, async (req,res,next) => {
