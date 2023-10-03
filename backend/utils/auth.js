@@ -1,7 +1,7 @@
 // backend/utils/auth.js
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Group , Membership, Venue} = require('../db/models');
+const { User, Group , Membership, Venue, Event} = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -146,4 +146,36 @@ if(user.id === group.organizerId || membership.status == "co-host") return next(
  return next(err);
 }
 
-  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorizationGroup, requireAuthorizationVenue, requireAuthorizationVenueMemOnly};
+const requireAuthorizationEvents = async function (req,res,next){
+
+const user = req.user
+
+const event = await Event.findByPk(req.params.eventId)
+
+const group = await event.getGroup()
+
+const membership = await group.getMemberships({
+  where:{
+    userId: user.id
+  }
+})
+
+const attendance = await event.getAttendances({
+  where:{
+    userId: user.id
+  }
+})
+
+console.log(attendance)
+
+
+if(user.id === group.organizerId || membership.status == "co-host"|| attendance[0].status == "Attending") return next()
+
+
+ const err = new Error('Forbidden');
+ err.message = 'Forbidden';
+ err.status = 403;
+ return next(err);
+}
+
+  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorizationGroup, requireAuthorizationVenue, requireAuthorizationVenueMemOnly, requireAuthorizationEvents};

@@ -66,10 +66,11 @@ check('city')
 
   const validateEvents = [
     check('venueId')
-        .exists({ checkFalsy: true })
-        .withMessage('Venue must be provided')
+        // .exists({ checkFalsy: true })
+        // .withMessage('Venue must be provided')
         .custom(async value => {
 
+            if (value == null) return true
 
             const venues = await Venue.findByPk(value)
 
@@ -335,7 +336,7 @@ router.get('/current', requireAuth, async (req,res,next) => {
     }
 
 
-    res.json(groups)
+    res.json({Groups:[...groups]})
 
 })
 
