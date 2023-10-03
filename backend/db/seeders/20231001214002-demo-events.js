@@ -16,7 +16,7 @@ module.exports = {
         groupId: 1,
         name: 'Demolition Event',
         description: 'We are literally going to demolish things',
-        type: 'In Person', 
+        type: 'In person', 
         capacity: 90,
         price: 55,
         startDate: '10/1/2024',

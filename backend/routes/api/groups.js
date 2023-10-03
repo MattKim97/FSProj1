@@ -6,7 +6,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth, requireAuthorizationGroup, requireAuthorizationVenue} = require("../../utils/auth.js");
 
 
-const { Group, GroupImage , Membership , User , Venue, Organizer} = require('../../db/models');
+const { Group, GroupImage , Membership , User , Venue, Organizer, Event} = require('../../db/models');
 
 const router = express.Router();
 
@@ -24,8 +24,8 @@ const validateGroups = [
     check('type')
       .exists({ checkFalsy: true })
       .withMessage('Please provide a type.')
-      .isIn(['Online','In Person'])
-      .withMessage("Type must be 'Online' or 'In Person'"),
+      .isIn(['Online','In person'])
+      .withMessage("Type must be 'Online' or 'In person'"),
     check('private')
       .exists({ checkFalsy: true })
       .withMessage('Please provide a private status.')
@@ -286,8 +286,60 @@ router.get('/current', requireAuth, async (req,res,next) => {
 
     res.json(groups)
 
+})
+
+router.get('/:groupId/events',async (req,res,next) => {
+
+    const group = await Group.findByPk(req.params.groupId, {
+        attributes: ['id','name','city','state']
+    })
+
+    if(!group){
+        return res.status(404).json({
+            "message": "Group couldn't be found"
+        })
+    }
+
+    const preEvents = await group.getEvents({
+        attributes:{
+        exclude: ['createdAt','updatedAt','description','capacity','price']
+        }
+    })
+
+    // const attendances = await Events.getAttendances()
+    // const image = await Events.getEventImage()
+    // const venue = await Events.getVenue()
+
+    const Events = preEvents.map((event) => {
+        const eventData = event.toJSON()
+        return eventData;
+    });
+
+    for (let i = 0; i<Events.length; i++){
+
+        const venue = await preEvents[i].getVenue({ attributes:{
+            exclude: ['createdAt','updatedAt','groupId','address','lat', 'lng']
+        }});
+
+        const attendances = await preEvents[i].getAttendances({where:{status: 'Attending'}})
+        const image = await preEvents[i].getEventImages()
+
+        Events[i].numAttending = attendances.length
+        Events[i].previewImage = image[0].url
+        Events[i].Group = group
+
+        if(venue.length === 0){
+            Events[i].venueId = null
+            Events[i].Venues = null
+        }
+        Events[i].Venues = venue
+    }
+
+
+    res.json({Events:Events})
 
 })
+
 
 
 router.get('/:groupId/venues', requireAuth, requireAuthorizationVenue, async (req,res,next) => {
@@ -348,6 +400,24 @@ router.post('/:groupId/venues', requireAuth, requireAuthorizationVenue, validate
 
     res.json(venueObj)
 
+
+})
+
+router.post('/:groupId/events', requireAuth, requireAuthorizationVenue, async (req,res,next) => {
+
+    const {venueId,name,type,capacity,price,description,startDate,endDate} = req.body
+
+    console.log('HEREEEEEEEEEEEEEEEEEEE' , startDate)
+
+    console.log('HEREEEEEEEEEEEEEEEEEEE' , endDate)
+
+    const group = await Group.findByPk(req.params.groupId)
+
+    const newEvent = await group.createEvent({
+        venueId,name,type,capacity,price,description,startDate,endDate
+    })
+
+    res.json(newEvent)
 
 })
 

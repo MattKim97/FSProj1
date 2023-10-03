@@ -15,7 +15,7 @@ module.exports = {
         organizerId: 1,
         name: 'Demo Lition',
         about: 'A lil group that really likes demolition I am just trying to hit a minimum of fifty characters',
-        type: "In Person",
+        type: "In person",
         private: false,
         city: 'Demolition City',
         state: 'Demolition state', 

@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     type:  {
       type:DataTypes.ENUM,
-      values: ['Online', 'In Person'],
+      values: ['Online', 'In person'],
       allowNull:false
     },
     capacity:  {
@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false
     },
     price:  {
-      type:DataTypes.INTEGER,
+      type:DataTypes.DECIMAL,
       allowNull:false,
       validate:{
         min:0
@@ -77,7 +77,11 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.DATE,
       allowNull:false,
       validate:{
-        isAfter: this.startDate
+        something(value){
+          if(this.startDate > value){
+            throw new Error ("End date must be after Start date")
+          }
+        }
       }
     },
     createdAt: DataTypes.DATE,

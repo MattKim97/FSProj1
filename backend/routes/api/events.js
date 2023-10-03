@@ -12,8 +12,8 @@ router.get('/', async (req,res,next) => {
 
     const preEvents = await Event.findAll({
         attributes:{
-            exclude: ['createdAt','updatedAt']
-        }
+            exclude: ['createdAt','updatedAt','description','capacity','price']
+            }
     })
 
      const Events = preEvents.map((event) => {
@@ -22,15 +22,20 @@ router.get('/', async (req,res,next) => {
     });
 
     for (let i = 0; i<preEvents.length; i++){
-        const group = await preEvents[i].getGroup({ attributes:{
-            exclude: ['createdAt','updatedAt']
-        }});
+        const group = await preEvents[i].getGroup({ 
+            attributes: ['id','name','city','state']
+            // exclude: ['createdAt','updatedAt']
+        });
         const venue = await preEvents[i].getVenue({ attributes:{
-            exclude: ['createdAt','updatedAt']
+            exclude: ['createdAt','updatedAt','groupId','address','lat', 'lng']
         }});
+
+        const image = await preEvents[i].getEventImages()
+
 
         const attendances = await preEvents[i].getAttendances({where:{status: 'Attending'}})
         Events[i].numAttending = attendances.length
+        Events[i].previewImage = image[0].url
         Events[i].Group = group
         if(venue.length === 0){
             Events[i].venueId = null
