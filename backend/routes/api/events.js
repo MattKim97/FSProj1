@@ -49,11 +49,12 @@ const validateEvents = [
         .withMessage("Description is required"),
     check('startDate')
         .exists({ checkFalsy: true })
-        .withMessage("startDate is required")
+        .withMessage("Start date is required")
         .isAfter(new Date().toLocaleDateString())
-        .withMessage("startDate must be in the future"),
+        .withMessage("Start date must be in the future"),
     check('endDate')
         .exists({ checkFalsy: true })
+        .withMessage("End date is required")
         .isAfter(this.startDate)
         .withMessage("End date is less than start date"),
 
