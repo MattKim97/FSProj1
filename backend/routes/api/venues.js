@@ -10,36 +10,6 @@ const { Group, GroupImage , Membership , User , Venue, Organizer} = require('../
 
 const router = express.Router();
 
-const validateGroups = [
-    check('name')
-      .exists({ checkFalsy: true })
-      .withMessage('Please provide a name.')
-      .isLength({ min: 1, max: 60 })
-      .withMessage("Name must be 60 characters or less"),
-    check('about')
-      .exists({ checkFalsy: true })
-      .withMessage('Please provide an about blurb.')
-      .isLength({ min: 50})
-      .withMessage("About must be 50 characters or less"),
-    check('type')
-      .exists({ checkFalsy: true })
-      .withMessage('Please provide a type.')
-      .isIn(['Online','In Person'])
-      .withMessage("Type must be 'Online' or 'In Person'"),
-    check('private')
-      .exists({ checkFalsy: true })
-      .withMessage('Please provide a private status.')
-      .isBoolean()
-      .withMessage("Private must be a boolean"),
-    check('city')
-      .exists({ checkFalsy: true })
-      .withMessage('City is required'),
-    check('state')
-      .exists({ checkFalsy: true })
-      .withMessage('State is required'),
-   handleValidationErrors
-  ];
-
   const validateVenues = [
 check('address')
     .exists({ checkFalsy: true })
