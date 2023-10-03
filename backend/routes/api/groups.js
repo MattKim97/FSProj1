@@ -314,7 +314,9 @@ router.get('/:groupId/venues', requireAuth, requireAuthorizationVenue, async (re
         }
     })
 
-    res.json(venue)
+    res.json({
+        "Venues":venue
+    })
 
 })
 
