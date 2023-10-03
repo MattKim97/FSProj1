@@ -178,4 +178,31 @@ if(user.id === group.organizerId || membership.status == "co-host"|| attendance[
  return next(err);
 }
 
-  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorizationGroup, requireAuthorizationVenue, requireAuthorizationVenueMemOnly, requireAuthorizationEvents};
+const requireAuthorizationEventsHostsOnly = async function (req,res,next){
+
+  const user = req.user
+  
+  const event = await Event.findByPk(req.params.eventId)
+
+  if(!event){
+    return res.status(404).json({message: "Event couldn't be found"})
+}
+  
+  const group = await event.getGroup()
+  
+  const membership = await group.getMemberships({
+    where:{
+      userId: user.id
+    }
+  })
+  
+  if(user.id === group.organizerId || membership.status == "co-host") return next()
+  
+  
+   const err = new Error('Forbidden');
+   err.message = 'Forbidden';
+   err.status = 403;
+   return next(err);
+  }
+
+  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorizationGroup, requireAuthorizationVenue, requireAuthorizationVenueMemOnly, requireAuthorizationEvents, requireAuthorizationEventsHostsOnly};

@@ -3,12 +3,63 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { requireAuth, requireAuthorizationGroup, requireAuthorizationVenue, requireAuthorizationEvents} = require("../../utils/auth.js");
+const { requireAuth, requireAuthorizationGroup, requireAuthorizationVenue, requireAuthorizationEvents, requireAuthorizationEventsHostsOnly} = require("../../utils/auth.js");
 
 
 const { Event, Group, Venue, Attendance } = require('../../db/models');
 
 const router = express.Router();
+
+const validateEvents = [
+    check('venueId')
+        // .exists({ checkFalsy: true })
+        // .withMessage('Venue must be provided')
+        .custom(async value => {
+
+            if (value == null) return true
+
+            const venues = await Venue.findByPk(value)
+
+            if (!venues) throw new Error ("Venue does not exist")
+
+            return true
+        }),
+    check('name')
+        .exists({ checkFalsy: true })
+        .withMessage("Name is required")
+        .isLength({ min: 5})
+        .withMessage("Name must be at least 5 characters"),
+    check('type')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a type.')
+        .isIn(['Online','In person'])
+        .withMessage("Type must be 'Online' or 'In person'"),
+    check('capacity')
+        .exists({ checkFalsy: true })
+        .withMessage('Capacity is required')
+        .isInt()
+        .withMessage("Capacity must be an integer"),
+    check('price')
+        .exists({ checkFalsy: true })
+        .withMessage('Price is required')
+        .isDecimal()
+        .withMessage("Price is invalid"),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage("Description is required"),
+    check('startDate')
+        .exists({ checkFalsy: true })
+        .withMessage("startDate is required")
+        .isAfter(new Date().toLocaleDateString())
+        .withMessage("startDate must be in the future"),
+    check('endDate')
+        .exists({ checkFalsy: true })
+        .isAfter(this.startDate)
+        .withMessage("End date is less than start date"),
+
+    handleValidationErrors
+
+]
 
 router.get('/', async (req,res,next) => {
 
@@ -122,6 +173,58 @@ router.post('/:eventId/images',requireAuth,requireAuthorizationEvents, async (re
 
 
     res.json(imageObj)
+
+})
+
+router.put('/:eventId',requireAuth,requireAuthorizationEventsHostsOnly,validateEvents, async (req,res,next) => {
+
+    const {venueId,name,type,capacity,price,description,startDate,endDate} = req.body
+
+    const venues = await Venue.findByPk(venueId)
+
+    if(!venues){
+        return res.status(404).json({message: "Venue couldn't be found"})
+    }
+
+
+
+    const event = await Event.findByPk(req.params.eventId,{
+    })
+
+    if(!event){
+        return res.status(404).json({message: "Event couldn't be found"})
+    }
+
+    const updatedEvent = await event.update({
+        venueId,name,type,capacity,price,description,startDate,endDate
+    })
+
+    const updatedEventObj = {
+        id: updatedEvent.id,
+        groupId: updatedEvent.groupId,
+        venueId: updatedEvent.venueId,
+        venueId,name,type,capacity,price,description,startDate,endDate
+    }
+    
+    res.json(updatedEventObj)
+
+
+})
+
+router.delete('/:eventId',requireAuth,requireAuthorizationEventsHostsOnly, async (req,res,next) => {
+
+    const event = await Event.findByPk(req.params.eventId,{
+    })
+
+    if(!event){
+        return res.status(404).json({message: "Event couldn't be found"})
+    }
+
+    await event.destroy()
+
+    res.json({
+        message: 'Successfully deleted'
+    })
 
 })
 
