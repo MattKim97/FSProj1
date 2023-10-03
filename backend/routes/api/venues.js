@@ -64,7 +64,7 @@ check('city')
   ]
 
 
-  router.put('/:venueId', requireAuth, validateVenues, async (req,res,next) => {
+  router.put('/:venueId', requireAuth, requireAuthorizationVenueMemOnly,validateVenues, async (req,res,next) => {
 
     const {address,city,state,lat,lng} = req.body
 

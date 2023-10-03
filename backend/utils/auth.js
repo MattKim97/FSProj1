@@ -1,7 +1,7 @@
 // backend/utils/auth.js
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User, Group , Membership} = require('../db/models');
+const { User, Group , Membership, Venue} = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -128,15 +128,16 @@ const requireAuthorizationVenueMemOnly = async function (req,res,next){
 
   const venue = await Venue.findByPk(req.params.venueId)
 
+const group = await venue.getGroup()
 
-const membership = Venue.find({
+const membership = await group.getMemberships({
   where:{
     userId: user.id
   }
 })
 
 
-if(membership.status == "co-host") return next()
+if(user.id === group.organizerId || membership.status == "co-host") return next()
 
 
  const err = new Error('Forbidden');
