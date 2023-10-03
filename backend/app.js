@@ -66,6 +66,13 @@ app.use((err, _req, _res, next) => {
 
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
+  if(err.status === 400){
+    return res.json({
+      message: err.message,
+      errors: err.errors      
+      // stack: isProduction ? null : err.stack
+    });
+  }
   if(err.status === 401){
     return res.json({
       message: err.message,

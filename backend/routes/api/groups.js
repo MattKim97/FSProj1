@@ -7,6 +7,7 @@ const { requireAuth, requireAuthorizationGroup, requireAuthorizationVenue} = req
 
 
 const { Group, GroupImage , Membership , User , Venue, Organizer, Event} = require('../../db/models');
+const venue = require('../../db/models/venue');
 
 const router = express.Router();
 
@@ -62,6 +63,56 @@ check('city')
     .withMessage("Longitude is not valid"),
     handleValidationErrors
   ]
+
+  const validateEvents = [
+    check('venueId')
+        .exists({ checkFalsy: true })
+        .withMessage('Venue must be provided')
+        .custom(async value => {
+
+
+            const venues = await Venue.findByPk(value)
+
+            if (!venues) throw new Error ("Venue does not exist")
+
+            return true
+        }),
+    check('name')
+        .exists({ checkFalsy: true })
+        .withMessage("Name is required")
+        .isLength({ min: 5})
+        .withMessage("Name must be at least 5 characters"),
+    check('type')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a type.')
+        .isIn(['Online','In person'])
+        .withMessage("Type must be 'Online' or 'In person'"),
+    check('capacity')
+        .exists({ checkFalsy: true })
+        .withMessage('Capacity is required')
+        .isInt()
+        .withMessage("Capacity must be an integer"),
+    check('price')
+        .exists({ checkFalsy: true })
+        .withMessage('Price is required')
+        .isDecimal()
+        .withMessage("Price is invalid"),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage("Description is required"),
+    check('startDate')
+        .exists({ checkFalsy: true })
+        .withMessage("startDate is required")
+        .isAfter(new Date().toLocaleDateString())
+        .withMessage("startDate must be in the future"),
+    check('endDate')
+        .exists({ checkFalsy: true })
+        .isAfter(this.startDate)
+        .withMessage("End date is less than start date"),
+
+    handleValidationErrors
+
+]
 
 
 router.post('/', requireAuth,validateGroups, async (req,res,next) => {
@@ -323,9 +374,14 @@ router.get('/:groupId/events',async (req,res,next) => {
 
         const attendances = await preEvents[i].getAttendances({where:{status: 'Attending'}})
         const image = await preEvents[i].getEventImages()
-
+        // res.json(image)
         Events[i].numAttending = attendances.length
-        Events[i].previewImage = image[0].url
+
+        if(image.length === 0){
+            Events[i].previewImage = null
+        } else {
+            Events[i].previewImage = image[0].url
+        }
         Events[i].Group = group
 
         if(venue.length === 0){
@@ -403,21 +459,43 @@ router.post('/:groupId/venues', requireAuth, requireAuthorizationVenue, validate
 
 })
 
-router.post('/:groupId/events', requireAuth, requireAuthorizationVenue, async (req,res,next) => {
+router.post('/:groupId/events', requireAuth, requireAuthorizationVenue, validateEvents, async (req,res,next) => {
 
     const {venueId,name,type,capacity,price,description,startDate,endDate} = req.body
 
-    console.log('HEREEEEEEEEEEEEEEEEEEE' , startDate)
+    // const venue = await Venue.findByPk(req.body.venueId)
 
-    console.log('HEREEEEEEEEEEEEEEEEEEE' , endDate)
+    // if(!venue){
+    //     res.send(400).json({'venueId': 'Venue does not exist'})
+    // }
+
 
     const group = await Group.findByPk(req.params.groupId)
+
+    if(!group){
+        return res.status(404).json({
+            "message": "Group couldn't be found"
+        })
+    }
 
     const newEvent = await group.createEvent({
         venueId,name,type,capacity,price,description,startDate,endDate
     })
 
-    res.json(newEvent)
+    const newEventObj = {
+        id: newEvent.id,
+        groupId: newEvent.groupId,
+        venueId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate
+    }
+
+    res.json(newEventObj)
 
 })
 
