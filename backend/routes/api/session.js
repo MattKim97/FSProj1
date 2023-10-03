@@ -15,7 +15,7 @@ const validateLogin = [
     check('credential')
       .exists({ checkFalsy: true })
       .notEmpty()
-      .withMessage('Email is required'),
+      .withMessage('Email or username is required'),
     check('password')
       .exists({ checkFalsy: true })
       .withMessage('Password is required.'),
