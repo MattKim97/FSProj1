@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { Event, Group, Venue } = require('../../db/models');
+const { Event, Group, Venue, Attendance } = require('../../db/models');
 
 const router = express.Router();
 
@@ -28,6 +28,9 @@ router.get('/', async (req,res,next) => {
         const venue = await preEvents[i].getVenue({ attributes:{
             exclude: ['createdAt','updatedAt']
         }});
+
+        const attendances = await preEvents[i].getAttendances({where:{status: 'Attending'}})
+        Events[i].numAttending = attendances.length
         Events[i].Group = group
         if(venue.length === 0){
             Events[i].venueId = null
