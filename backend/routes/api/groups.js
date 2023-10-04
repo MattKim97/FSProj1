@@ -763,7 +763,8 @@ router.get('/:groupId', async (req,res,next) => {
           attributes: ['id', 'url', 'preview']
         },
         {
-          model: User, as: 'Organizer'
+          model: User, as: 'Organizer',
+          attributes:['id','firstName','lastName']
         },
         {
           model: Venue,
