@@ -62,12 +62,101 @@ const validateEvents = [
 
 ]
 
-router.get('/', async (req,res,next) => {
+const validateQuery = [
+    check('page')
+        .custom(value =>{
+            if(!value) return true 
+
+            if (value > 0 || value <= 10) return true
+            else return false
+        })
+        .withMessage('Page must be greater than or equal to 1')
+        .custom(value =>{
+
+            if(!value) return true 
+
+            if (isNaN(value)) return false
+            else return true
+        })
+        .withMessage('Page must be a integer'),
+    check('size')
+        .custom(value =>{
+
+            if(!value) return true 
+
+            if (value > 0 || value <= 20) return true
+            else return false
+        })
+        .withMessage('Page must be greater than or equal to 1')
+        .custom(value =>{
+
+            if(!value) return true 
+
+            if (isNaN(value)) return false
+            else return true
+        })
+        .withMessage('Page must be a integer'),
+    check('name')
+        .custom(value =>{
+            if(!value) return true 
+            if (isNaN(value)) return true
+            else return false
+        }) 
+        .withMessage('Name must be a string'),
+    check('type')
+    .custom(value =>{
+        if(!value) return true 
+        if (value == 'Online' || value == 'In person') return true
+        else return false
+    }) 
+        .withMessage("Type must be 'Online' or 'In person'"),
+    check('date')
+    .custom(value =>{
+        if(!value) return true 
+        if (value.isDate()) return true
+        else return false
+    }) 
+        .withMessage("Start date must be a valid datetime"),
+
+    handleValidationErrors
+]
+
+router.get('/', validateQuery , async (req,res,next) => {
+
+    let { page, size , name, type, startDate } = req.query;
+
+    const whereObj = {}
+
+    const pagination = {}
+
+    if(!size){
+        size = 20
+    }
+    if(!page){
+        page = 1
+    }
+
+    pagination.limit = size 
+    pagination.offset = (size * (page - 1))
+
+    if(name){
+        whereObj.name = name
+    }
+
+    if(type){
+        whereObj.type = type
+    }
+
+    if(startDate){
+        whereObj.startDate = startDate
+    }
 
     const preEvents = await Event.findAll({
+        where: {...whereObj},
         attributes:{
             exclude: ['createdAt','updatedAt','description','capacity','price']
-            }
+            },
+        ...pagination
     })
 
      const Events = preEvents.map((event) => {
