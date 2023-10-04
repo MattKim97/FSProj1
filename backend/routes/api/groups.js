@@ -115,65 +115,6 @@ check('city')
 
 ]
 
-const validateQuery = [
-    check('page')
-        .custom(value =>{
-            if(!value) return true 
-
-            if (value > 0 || value <= 10) return true
-            else return false
-        })
-        .withMessage('Page must be greater than or equal to 1')
-        .custom(value =>{
-
-            if(!value) return true 
-
-            if (isNaN(value)) return false
-            else return true
-        })
-        .withMessage('Page must be a integer'),
-    check('size')
-        .custom(value =>{
-
-            if(!value) return true 
-
-            if (value > 0 || value <= 20) return true
-            else return false
-        })
-        .withMessage('Page must be greater than or equal to 1')
-        .custom(value =>{
-
-            if(!value) return true 
-
-            if (isNaN(value)) return false
-            else return true
-        })
-        .withMessage('Page must be a integer'),
-    check('name')
-        .custom(value =>{
-            if(!value) return true 
-            if (isNaN(value)) return true
-            else return false
-        }) 
-        .withMessage('Name must be a string'),
-    check('type')
-    .custom(value =>{
-        if(!value) return true 
-        if (value == 'Online' || value == 'In person') return true
-        else return false
-    }) 
-        .withMessage("Type must be 'Online' or 'In person'"),
-    check('date')
-    .custom(value =>{
-        if(!value) return true 
-        if (value.isDate()) return true
-        else return false
-    }) 
-        .withMessage("Start date must be a valid datetime"),
-
-    handleValidationErrors
-]
-
 
 router.post('/', requireAuth,validateGroups, async (req,res,next) => {
     const {name,about,type,private,city,state} = req.body
@@ -409,34 +350,9 @@ router.delete('/:groupId',requireAuth,requireAuthorizationGroup, async (req,res,
 
 
 router.get('/', async (req,res,next) => {
-   
-
-    // const { page, size , name, type, startDate } = req.query;
-
-    // const whereObj = {}
-
-    // const pagination = {}
-
-
-    // pagination.offset = size * (page - 1) || 0
-    // pagination.limit = size || 20
-
-    // if(name){
-    //     whereObj.name = name
-    // }
-
-    // if(type){
-    //     whereObj.type = type
-    // }
-
-    // if(startDate){
-    //     whereObj.startDate = startDate
-    // }
-
     const groups = await Group.findAll({
-        // where:{...whereObj},
-        // ...pagination
     })
+
 
     const groupsJSON = groups.map((group) => {
         const groupData = group.toJSON()
@@ -519,7 +435,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         }
     });
 
-    const groups = groupData.map((group) => {
+    const groups = groups.map((group) => {
         const groupData = group.toJSON()
         return groupData;
     });
