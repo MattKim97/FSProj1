@@ -328,6 +328,60 @@ router.post('/:eventId/attendance',requireAuth, async (req,res,next) => {
 
 })
 
+router.put('/:eventId/attendance',requireAuth,requireAuthorizationEventsHostsOnly, async (req,res,next) => {
+
+    const {userId, status} = req.body
+
+    const event = await Event.findByPk(req.params.eventId,{
+        attributes:{
+            exclude: ['createdAt','updatedAt']
+        }
+    })
+
+    if(!event){
+        return res.status(404).json({message: "Event couldn't be found"})
+    }
+
+    const user = await User.findByPk(userId)
+
+    const attendance = await user.getAttendances({
+        where: {
+            eventId: event.id
+        }
+    })
+
+    if(!attendance.length){
+        return res.status(404).json({message: "Attendance between the user and the event does not exist"})
+
+    }
+
+    if (status == "Pending"){
+        return res.status(404).json({message: "Cannot change an attendance status to pending"})
+    }
+
+    if (status == "Attending"){
+        return res.status(404).json({message: "User is already attending event"})
+    }
+
+
+    await attendance[0].update({
+        userId,
+        status,
+    })
+
+    const updatedAttendance = {
+        id: attendance[0].id,
+        eventId: event.id,
+        userId,
+        status,
+    }
+
+    res.json({updatedAttendance})
+
+
+})
+
+
 
 
 
@@ -430,6 +484,44 @@ router.put('/:eventId',requireAuth,requireAuthorizationEventsHostsOnly,validateE
     
     res.json(updatedEventObj)
 
+
+})
+
+router.delete('/:eventId/attendance',requireAuth, async (req,res,next) => {
+
+    const currentUser = req.user
+
+    const {userId} = req.body
+
+    const event = await Event.findByPk(req.params.eventId,{
+    })
+
+    if(!event){
+        return res.status(404).json({message: "Event couldn't be found"})
+    }
+
+    const user = await User.findByPk(userId)
+
+    const group = await event.getGroup()
+
+    const attendance = await user.getAttendances({
+        where: {
+            eventId: event.id
+        }
+    })
+
+    if(!attendance.length){
+        return res.status(404).json({message: "Attendance does not exist for this User"})
+    }
+
+    if (currentUser.id == group.organizerId || currentUser.id == userId){
+        await attendance[0].destroy()
+
+        res.json({"message": "Successfully deleted attendance from event"})
+
+    } else{
+        return res.status(403).json({message: "Only the User or organizer may delete an Attendance"})
+    }
 
 })
 

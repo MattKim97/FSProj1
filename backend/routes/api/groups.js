@@ -395,10 +395,9 @@ router.get('/', async (req,res,next) => {
     res.json({Groups:groupsJSON})
 })
 
-router.get('/current', requireAuth, async (req,res,next) => {
-
-    user = req.user
-
+router.get('/current', requireAuth, async (req, res, next) => {
+    const user = req.user;
+    
     const memberGroups = await Group.findAll({
         include: {
             model: Membership,
@@ -410,31 +409,41 @@ router.get('/current', requireAuth, async (req,res,next) => {
             },
             attributes: []
         }
-    })
+    });
 
     const ownedGroups = await Group.findAll({
-        where:{
+        where: {
             organizerId: user.id
         }
-    })
+    });
 
-    const memberGroupsJSON = memberGroups.map((group) => {
+    const uniqueGroupIds = new Set();
+
+    memberGroups.forEach((group) => {
+        uniqueGroupIds.add(group.id);
+    });
+
+    ownedGroups.forEach((group) => {
+        uniqueGroupIds.add(group.id);
+    });
+
+    const groupData = await Group.findAll({
+        where: {
+            id: {
+                [Op.in]: [...uniqueGroupIds]
+            }
+        }
+    });
+
+    const groups = groupData.map((group) => {
         const groupData = group.toJSON()
         return groupData;
     });
-
-    const ownedGroupsJSON = ownedGroups.map((group) => {
-        const groupData = group.toJSON()
-        return groupData;
-    });
-
-    const groups= [...memberGroupsJSON,...ownedGroupsJSON]
-
 
     const groupIds = groups.map((group) => group.id);
-
+    
     const members = await Membership.findAll({
-        where:{
+        where: {
             groupId: {
                 [Op.in]: groupIds
             },
@@ -442,12 +451,9 @@ router.get('/current', requireAuth, async (req,res,next) => {
                 [Op.in]: ['co-host', 'member']
             }
         }
-    })
-
-    const membersJSON = members.map((member) => {
-        const memberData = member.toJSON()
-        return memberData;
     });
+
+    const membersJSON = members.map((member) => member.toJSON());
 
     groups.forEach((group) => {
         const groupId = group.id;
@@ -455,24 +461,22 @@ router.get('/current', requireAuth, async (req,res,next) => {
         group.numMembers = groupMembers.length;
     });
 
+    const images = await GroupImage.findAll();
 
-    const images = await GroupImage.findAll()
-
-    for(let i = 0; i < groups.length; i++){
-        for(let j = 0; j<images.length; j++)
-        if(images[j].groupId == groups[i].id){
-            if(images[j].preview === true){
-                groups[i].previewImage = images[j].url
-            } else {
-                groups[i].previewImage = 'No preview available'
+    for (let i = 0; i < groups.length; i++) {
+        for (let j = 0; j < images.length; j++) {
+            if (images[j].groupId == groups[i].id) {
+                if (images[j].preview === true) {
+                    groups[i].previewImage = images[j].url;
+                } else {
+                    groups[i].previewImage = 'No preview available';
+                }
             }
         }
     }
 
-
-    res.json({Groups:[...groups]})
-
-})
+    res.json({ Groups: [...groups] });
+});
 
 router.get('/:groupId/events',async (req,res,next) => {
 
@@ -624,7 +628,7 @@ router.get('/:groupId/members',async (req,res,next) => {
 
 }
 
-    return res.json(object)
+    res.json(object)
 
 })
 
