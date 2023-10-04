@@ -435,7 +435,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         }
     });
 
-    const groups = groups.map((group) => {
+    const groups = groupData.map((group) => {
         const groupData = group.toJSON()
         return groupData;
     });
