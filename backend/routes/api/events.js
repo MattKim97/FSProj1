@@ -6,7 +6,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth, requireAuthorizationGroup, requireAuthorizationVenue, requireAuthorizationEvents, requireAuthorizationEventsHostsOnly} = require("../../utils/auth.js");
 
 
-const { Event, Group, Venue, Attendance } = require('../../db/models');
+const { Event, Group, Venue, Attendance, User, Membership } = require('../../db/models');
 
 const router = express.Router();
 
@@ -109,6 +109,227 @@ router.get('/', async (req,res,next) => {
     })
 
 })
+
+
+
+router.get('/:eventId/attendees', async (req,res,next) => {
+
+    const event = await Event.findByPk(req.params.eventId,{
+        attributes:{
+            exclude: ['createdAt','updatedAt']
+        }
+    })
+
+    if(!event){
+        return res.status(404).json({message: "Event couldn't be found"})
+    }
+
+    const user = req.user
+
+    const group = await event.getGroup()
+
+    const membership = await group.getMemberships({
+        where: {
+            userId: user.id
+        }
+    })
+
+    let object = {
+        Attendees:[
+
+        ]
+    }
+
+    if(membership.length == 0){
+        if (user.id == group.organizerId){
+            const attendees = await event.getAttendances({
+                attributes:{
+                    exclude: ['createdAt','updatedAt']
+                }
+            })
+    
+            const attendeesJSON = attendees.map((attendee) => {
+                const attendeeData = attendee.toJSON()
+                return attendeeData;
+            });
+    
+            for (const attendee of attendeesJSON) {
+                const user = await User.findByPk(attendee.userId);
+            
+                const newUser = {
+                  id: user.id,
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                  Attendance: {
+                    status: attendee.status,
+                  },
+                };
+            
+                object.Attendees.push(newUser);
+            }
+        } else {
+            const attendees = await event.getAttendances({
+                where:{
+                    status:{
+                        [Op.not]: 'Pending'
+                    }
+                },
+                attributes:{
+                    exclude: ['createdAt','updatedAt']
+                }
+            })
+    
+            const attendeesJSON = attendees.map((attendee) => {
+                const attendeeData = attendee.toJSON()
+                return attendeeData;
+            });
+    
+            for (const attendee of attendeesJSON) {
+                const user = await User.findByPk(attendee.userId);
+            
+                const newUser = {
+                  id: user.id,
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                  Attendance: {
+                    status: attendee.status,
+                  },
+                };
+            
+                object.Attendees.push(newUser);
+            }
+        
+        }
+    } else {
+
+        if (user.id == group.organizerId || membership[0].status == "co-host" ){
+            const attendees = await event.getAttendances({
+                attributes:{
+                    exclude: ['createdAt','updatedAt']
+                }
+            })
+    
+            const attendeesJSON = attendees.map((attendee) => {
+                const attendeeData = attendee.toJSON()
+                return attendeeData;
+            });
+    
+            for (const attendee of attendeesJSON) {
+                const user = await User.findByPk(attendee.userId);
+            
+                const newUser = {
+                  id: user.id,
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                  Attendance: {
+                    status: attendee.status,
+                  },
+                };
+            
+                object.Attendees.push(newUser);
+            }
+        
+        } else {
+            const attendees = await event.getAttendances({
+                where:{
+                    status:{
+                        [Op.not]: 'Pending'
+                    }
+                },
+                attributes:{
+                    exclude: ['createdAt','updatedAt']
+                }
+            })
+    
+            const attendeesJSON = attendees.map((attendee) => {
+                const attendeeData = attendee.toJSON()
+                return attendeeData;
+            });
+    
+            for (const attendee of attendeesJSON) {
+                const user = await User.findByPk(attendee.userId);
+            
+                const newUser = {
+                  id: user.id,
+                  firstName: user.firstName,
+                  lastName: user.lastName,
+                  Attendance: {
+                    status: attendee.status,
+                  },
+                };
+            
+                object.Attendees.push(newUser);
+            }
+        
+    
+        }
+    }
+
+
+    return res.json(object)
+
+
+})
+
+router.post('/:eventId/attendance',requireAuth, async (req,res,next) => {
+
+    const user = req.user
+
+    const event = await Event.findByPk(req.params.eventId,{
+        attributes:{
+            exclude: ['createdAt','updatedAt']
+        }
+    })
+
+    if(!event){
+        return res.status(404).json({message: "Event couldn't be found"})
+    }
+
+    const group = await event.getGroup()
+
+    const membership = await group.getMemberships({
+        where: {
+            userId: user.id
+        }
+    })
+
+    if(!membership.length){
+        res.status(403).json({message: "Forbidden"})
+    } else {
+        const attendance = await event.getAttendances({
+            where: {
+                userId : user.id
+            }
+        })
+        if(attendance.length){
+            if (attendance[0].status == "Pending"){
+                res.status(400).json({message: "Attendance has already been requested"})
+
+            } else {
+                res.status(400).json({message: "User is already an attendee of the event"}) 
+            }
+        } else {
+
+            await event.createAttendance({
+                userId: user.id,
+                status: "Pending"
+            })
+
+            res.json({
+                userId: user.id,
+                status: "Pending"
+            })
+
+        }
+
+
+    }
+
+
+})
+
+
+
 
 router.get('/:eventId', async (req,res,next) => {
 

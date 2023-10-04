@@ -624,7 +624,7 @@ router.get('/:groupId/members',async (req,res,next) => {
 
 }
 
-    res.json(object)
+    return res.json(object)
 
 })
 
