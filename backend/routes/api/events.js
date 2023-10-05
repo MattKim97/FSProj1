@@ -110,7 +110,7 @@ const validateQuery = [
         else return false
     }) 
         .withMessage("Type must be 'Online' or 'In person'"),
-    check('date')
+    check('startDate')
     .custom(value =>{
         if(!value) return true 
         if (value.isDate()) return true
