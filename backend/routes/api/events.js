@@ -113,8 +113,10 @@ const validateQuery = [
     check('startDate')
     .custom(value =>{
         if(!value) return true 
-        if (value.isDate()) return true
-        else return false
+        if (isNaN(new Date(value).getTime())) {
+            return false
+        }
+        return true
     }) 
         .withMessage("Start date must be a valid datetime"),
 
