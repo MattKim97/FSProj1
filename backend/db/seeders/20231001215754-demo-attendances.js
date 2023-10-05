@@ -15,22 +15,22 @@ module.exports = {
       {
         eventId: 1,
         userId: 1,
-        status: 'Attending'
+        status: 'attending'
       },
       {
         eventId: 2,
         userId: 2,
-        status: 'Waitlist'
+        status: 'waitlist'
       },
       {
         eventId: 2,
         userId: 3,
-        status: 'Pending'
+        status: 'pending'
       },
       {
         eventId: 1,
         userId: 2,
-        status: 'Attending'
+        status: 'attending'
       },
 
     ], options, { validate: true });

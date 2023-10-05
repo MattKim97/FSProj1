@@ -178,7 +178,7 @@ router.get('/', validateQuery , async (req,res,next) => {
         const image = await preEvents[i].getEventImages()
 
 
-        const attendances = await preEvents[i].getAttendances({where:{status: 'Attending'}})
+        const attendances = await preEvents[i].getAttendances({where:{status: 'attending'}})
         Events[i].numAttending = attendances.length
         if(image.length === 0){
             Events[i].previewImage = null
@@ -262,7 +262,7 @@ router.get('/:eventId/attendees', async (req,res,next) => {
             const attendees = await event.getAttendances({
                 where:{
                     status:{
-                        [Op.not]: 'Pending'
+                        [Op.not]: 'pending'
                     }
                 },
                 attributes:{
@@ -324,7 +324,7 @@ router.get('/:eventId/attendees', async (req,res,next) => {
             const attendees = await event.getAttendances({
                 where:{
                     status:{
-                        [Op.not]: 'Pending'
+                        [Op.not]: 'pending'
                     }
                 },
                 attributes:{
@@ -393,7 +393,7 @@ router.post('/:eventId/attendance',requireAuth, async (req,res,next) => {
             }
         })
         if(attendance.length){
-            if (attendance[0].status == "Pending"){
+            if (attendance[0].status == "pending"){
                 res.status(400).json({message: "Attendance has already been requested"})
 
             } else {
@@ -403,12 +403,12 @@ router.post('/:eventId/attendance',requireAuth, async (req,res,next) => {
 
             await event.createAttendance({
                 userId: user.id,
-                status: "Pending"
+                status: "pending"
             })
 
             res.json({
                 userId: user.id,
-                status: "Pending"
+                status: "pending"
             })
 
         }
@@ -446,11 +446,11 @@ router.put('/:eventId/attendance',requireAuth,requireAuthorizationEventsHostsOnl
 
     }
 
-    if (status == "Pending"){
+    if (status == "pending"){
         return res.status(404).json({message: "Cannot change an attendance status to pending"})
     }
 
-    if (status == "Attending"){
+    if (status == "attending"){
         return res.status(404).json({message: "User is already attending event"})
     }
 

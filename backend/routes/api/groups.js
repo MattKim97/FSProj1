@@ -372,10 +372,10 @@ router.get('/', async (req,res,next) => {
     groupsJSON.forEach((group) => {
         const groupId = group.id;
         const groupMembers = membersJSON.filter((member) => member.groupId === groupId);
-        const nonPendingMembers = groupMembers.filter((member) =>{
+        const nonpendingMembers = groupMembers.filter((member) =>{
             return member.status == 'co-host' || member.status == 'member'
         })
-        group.numMembers = nonPendingMembers.length;
+        group.numMembers = nonpendingMembers.length;
     });
 
 
@@ -511,7 +511,7 @@ router.get('/:groupId/events',async (req,res,next) => {
             exclude: ['createdAt','updatedAt','groupId','address','lat', 'lng']
         }});
 
-        const attendances = await preEvents[i].getAttendances({where:{status: 'Attending'}})
+        const attendances = await preEvents[i].getAttendances({where:{status: 'attending'}})
         const image = await preEvents[i].getEventImages()
         // res.json(image)
         Events[i].numAttending = attendances.length

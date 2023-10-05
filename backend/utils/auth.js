@@ -169,7 +169,7 @@ const attendance = await event.getAttendances({
 console.log(attendance)
 
 
-if(user.id === group.organizerId || membership.status == "co-host"|| attendance[0].status == "Attending") return next()
+if(user.id === group.organizerId || membership.status == "co-host"|| attendance[0].status == "attending") return next()
 
 
  const err = new Error('Forbidden');
