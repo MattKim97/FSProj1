@@ -115,7 +115,7 @@ const membership = await group.getMemberships({
 if(membership.length){
   if(membership[0].status == "co-host") return next()
 } 
-else if(  user.id === group.organizerId
+if(  user.id === group.organizerId
   ) {
     return next()
 }
@@ -150,7 +150,7 @@ const membership = await group.getMemberships({
 if(membership.length){
   if(membership[0].status == "co-host") return next()
 } 
-else if(  user.id === group.organizerId
+if(  user.id === group.organizerId
   ) {
     return next()
 }
@@ -227,7 +227,7 @@ const requireAuthorizationEventsHostsOnly = async function (req,res,next){
   if(membership.length){
     if(membership[0].status == "co-host") return next()
   } 
-  else if(  user.id === group.organizerId
+  if (  user.id === group.organizerId
     ) {
       return next()
   }  

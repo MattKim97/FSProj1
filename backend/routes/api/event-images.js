@@ -29,14 +29,14 @@ router.delete('/:imageId',requireAuth,async (req,res,next) => {
     if(membership.length !== 0){
         if(membership[0].status == "co-host"){
             await image.destroy()
-            res.json({
+            return res.json({
                 "message": "Successfully deleted"
             })
         }
       } 
-      else if(user.id === group.organizerId) {
+    if(user.id === group.organizerId) {
             await image.destroy()
-            res.json({
+            return res.json({
                 "message": "Successfully deleted"
             })
       } else {
