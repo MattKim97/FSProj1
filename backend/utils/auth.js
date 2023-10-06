@@ -113,7 +113,7 @@ const membership = await group.getMemberships({
 })
 
 
-if(user.id === group.organizerId || membership.status == "co-host") return next()
+if(user.id === group.organizerId || membership[0].status == "co-host") return next()
 
 
  const err = new Error('Forbidden');
@@ -127,6 +127,12 @@ const requireAuthorizationVenueMemOnly = async function (req,res,next){
   const user = req.user
 
   const venue = await Venue.findByPk(req.params.venueId)
+
+  if(!venue){
+    return res.status(404).json({
+        "message": "Venue couldn't be found"
+    })
+}
 
 const group = await venue.getGroup()
 
@@ -151,6 +157,11 @@ const requireAuthorizationEvents = async function (req,res,next){
 const user = req.user
 
 const event = await Event.findByPk(req.params.eventId)
+
+
+if(!event){
+  return res.status(404).json({message: "Event couldn't be found"})
+}
 
 const group = await event.getGroup()
 

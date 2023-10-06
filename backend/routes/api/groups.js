@@ -28,8 +28,6 @@ const validateGroups = [
       .isIn(['Online','In person'])
       .withMessage("Type must be 'Online' or 'In person'"),
     check('private')
-      .exists({ checkFalsy: true })
-      .withMessage('Please provide a private status.')
       .isBoolean()
       .withMessage("Private must be a boolean"),
     check('city')
@@ -200,11 +198,26 @@ router.put('/:groupId/membership',requireAuth, async (req,res,next) => {
 
     const otherUser = await User.findByPk(memberId)
 
+    if(!otherUser){
+        return res.status(400).json({
+            message: 'Validations Error',
+            errors: {
+                memberId: "User couldn't be found"
+            }
+        })
+    }
+
     const userMembershipStatus = await group.getMemberships({
         where: {
             userId : user.id
         }
     })
+
+    if(userMembershipStatus.length == 0){
+          return res.status(403).json({
+                message: 'Forbidden'
+            })
+    }
 
     const otherUserMembershipStatus = await group.getMemberships({
         where: {
@@ -221,15 +234,6 @@ router.put('/:groupId/membership',requireAuth, async (req,res,next) => {
     if(!group){
         return res.status(404).json({
             "message": "Group couldn't be found"
-        })
-    }
-
-    if(!otherUser){
-        return res.status(400).json({
-            message: 'Validations Error',
-            errors: {
-                status: "User couldn't be found"
-            }
         })
     }
 
