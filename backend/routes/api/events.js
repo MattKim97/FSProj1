@@ -414,8 +414,12 @@ router.post('/:eventId/attendance',requireAuth, async (req,res,next) => {
     })
 
     if(!membership.length){
-        res.status(403).json({message: "Forbidden"})
-    } else {
+        return res.status(403).json({message: "Forbidden"})
+    }
+    else if (membership[0].status == "pending"){
+        return res.status(403).json({message: "Forbidden"})
+    }
+     else  {
         const attendance = await event.getAttendances({
             where: {
                 userId : user.id
