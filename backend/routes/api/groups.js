@@ -519,6 +519,8 @@ router.get('/:groupId/events',async (req,res,next) => {
         const image = await preEvents[i].getEventImages()
         // res.json(image)
         Events[i].numAttending = attendances.length
+        Events[i].startDate = new Date(Events[i].startDate).toISOString().slice(0,10)
+        Events[i].endDate = new Date(Events[i].endDate).toISOString().slice(0,10)
 
         if(image.length === 0){
             Events[i].previewImage = null

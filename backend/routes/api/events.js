@@ -177,6 +177,9 @@ router.get('/', validateQuery , async (req,res,next) => {
 
         const image = await preEvents[i].getEventImages()
 
+        Events[i].startDate = new Date(Events[i].startDate).toISOString().slice(0,10)
+        Events[i].endDate = new Date(Events[i].endDate).toISOString().slice(0,10)
+
 
         const attendances = await preEvents[i].getAttendances({where:{status: 'attending'}})
         Events[i].numAttending = attendances.length
@@ -570,7 +573,9 @@ router.put('/:eventId',requireAuth,requireAuthorizationEventsHostsOnly,validateE
         id: updatedEvent.id,
         groupId: updatedEvent.groupId,
         venueId: updatedEvent.venueId,
-        venueId,name,type,capacity,price,description,startDate,endDate
+        startDate: new Date(startDate).toISOString().slice(0,10),
+        endDate: new Date(endDate).toISOString().slice(0,10),
+        venueId,name,type,capacity,price,description,
     }
     
     res.json(updatedEventObj)
