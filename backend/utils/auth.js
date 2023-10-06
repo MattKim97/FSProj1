@@ -112,9 +112,13 @@ const membership = await group.getMemberships({
   }
 })
 
-
-if(user.id === group.organizerId || membership[0].status == "co-host") return next()
-
+if(membership.length){
+  if(membership[0].status == "co-host") return next()
+} 
+else if(  user.id === group.organizerId
+  ) {
+    return next()
+}
 
  const err = new Error('Forbidden');
  err.message = 'Forbidden';
@@ -143,8 +147,13 @@ const membership = await group.getMemberships({
 })
 
 
-if(user.id === group.organizerId || membership.status == "co-host") return next()
-
+if(membership.length){
+  if(membership[0].status == "co-host") return next()
+} 
+else if(  user.id === group.organizerId
+  ) {
+    return next()
+}
 
  const err = new Error('Forbidden');
  err.message = 'Forbidden';
@@ -179,8 +188,16 @@ const attendance = await event.getAttendances({
 
 console.log(attendance)
 
-
-if(user.id === group.organizerId || membership.status == "co-host"|| attendance[0].status == "attending") return next()
+if(membership.length){
+  if(membership[0].status == "co-host") return next()
+} 
+if(  user.id === group.organizerId
+  ) {
+    return next()
+}
+if (attendance.length){
+  if(attendance[0].status === "attending") return next()
+}
 
 
  const err = new Error('Forbidden');
@@ -207,8 +224,13 @@ const requireAuthorizationEventsHostsOnly = async function (req,res,next){
     }
   })
   
-  if(user.id === group.organizerId || membership.status == "co-host") return next()
-  
+  if(membership.length){
+    if(membership[0].status == "co-host") return next()
+  } 
+  else if(  user.id === group.organizerId
+    ) {
+      return next()
+  }  
   
    const err = new Error('Forbidden');
    err.message = 'Forbidden';

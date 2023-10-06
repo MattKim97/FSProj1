@@ -438,6 +438,10 @@ router.put('/:eventId/attendance',requireAuth,requireAuthorizationEventsHostsOnl
 
     const user = await User.findByPk(userId)
 
+    if(!user){
+        return res.status(404).json({message: "User does not exist"})
+    }
+
     const attendance = await user.getAttendances({
         where: {
             eventId: event.id
@@ -453,7 +457,7 @@ router.put('/:eventId/attendance',requireAuth,requireAuthorizationEventsHostsOnl
         return res.status(404).json({message: "Cannot change an attendance status to pending"})
     }
 
-    if (status == "attending"){
+    if (status == "attending" && attendance[0].status == "attending"){
         return res.status(404).json({message: "User is already attending event"})
     }
 
@@ -610,12 +614,23 @@ router.delete('/:eventId/attendance',requireAuth, async (req,res,next) => {
         return res.status(404).json({message: "Attendance does not exist for this User"})
     }
 
-    if (currentUser.id == group.organizerId || currentUser.id == userId){
+    if (currentUser.id == group.organizerId){
         await attendance[0].destroy()
 
         res.json({"message": "Successfully deleted attendance from event"})
 
-    } else{
+    } 
+    else if (currentUser.id == userId){
+
+
+        await attendance[0].destroy()
+
+        res.json({"message": "Successfully deleted attendance from event"})
+    }
+    else{
+        // console.log(currentUser.id)
+        // console.log(userId)
+
         return res.status(403).json({message: "Only the User or organizer may delete an Attendance"})
     }
 

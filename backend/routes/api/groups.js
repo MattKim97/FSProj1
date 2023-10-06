@@ -219,11 +219,6 @@ router.put('/:groupId/membership',requireAuth, async (req,res,next) => {
         }
     })
 
-    if(userMembershipStatus.length == 0){
-          return res.status(403).json({
-                message: 'Forbidden'
-            })
-    }
 
     const otherUserMembershipStatus = await group.getMemberships({
         where: {
@@ -247,11 +242,19 @@ router.put('/:groupId/membership',requireAuth, async (req,res,next) => {
     }
 
     if(status == 'member'){
+        if(userMembershipStatus.length == 0){
+       if(user.id !== group.organizerId ){
+        return res.status(403).json({
+            message: 'Forbidden'
+        })
+       }
+      } else {
         if(user.id !== group.organizerId ||userMembershipStatus[0].status !== 'co-host' ){
             return res.status(403).json({
                 message: 'Forbidden'
             })
         }
+      }
     }
     if(status == 'co-host'){
         if(user.id !== group.organizerId){
