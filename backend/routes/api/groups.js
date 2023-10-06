@@ -196,6 +196,12 @@ router.put('/:groupId/membership',requireAuth, async (req,res,next) => {
 
     const group = await Group.findByPk(req.params.groupId)
 
+    if(!group){
+        return res.status(404).json({
+            "message": "Group couldn't be found"
+        })
+    }
+
     const otherUser = await User.findByPk(memberId)
 
     if(!otherUser){
@@ -228,12 +234,6 @@ router.put('/:groupId/membership',requireAuth, async (req,res,next) => {
     if(otherUserMembershipStatus.length === 0){
         return res.status(404).json({
             "message": "Membership between the user and the group does not exist"
-        })
-    }
-
-    if(!group){
-        return res.status(404).json({
-            "message": "Group couldn't be found"
         })
     }
 
