@@ -23,12 +23,18 @@ check('city')
   check('lat')
     .exists({ checkFalsy: true })
     .withMessage('Latitude is required')
-    .isDecimal()
+    .isFloat({
+      min: -180,
+      max: 180
+  })    
     .withMessage("Latitude is not valid"),
     check('lng')
     .exists({ checkFalsy: true })
     .withMessage('Longitude is required')
-    .isDecimal()
+    .isFloat({
+      min: -180,
+      max: 180
+  })    
     .withMessage("Longitude is not valid"),
     handleValidationErrors
   ]
