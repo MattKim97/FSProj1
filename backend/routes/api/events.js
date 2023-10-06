@@ -65,10 +65,17 @@ const validateEvents = [
 const validateQuery = [
     check('page')
         .custom(value =>{
+            
             if(!value) return true 
 
-            if (value > 0 || value <= 10) return true
-            else return false
+            if (value > 0) return true
+
+            // if (value > 10) {
+            //     value = 10
+            //     return true
+            // }
+            
+            return false
         })
         .withMessage('Page must be greater than or equal to 1')
         .custom(value =>{
@@ -84,9 +91,15 @@ const validateQuery = [
 
             if(!value) return true 
 
-            if (value > 0 || value <= 20) return true
-            else return false
-        })
+            if (value > 0) return true
+            // if (value > 20) {
+            //     value = 20
+            //     console.log("the value" , value)
+            //     return true
+            // }
+
+            return false
+            })
         .withMessage('Page must be greater than or equal to 1')
         .custom(value =>{
 
@@ -105,6 +118,8 @@ const validateQuery = [
         .withMessage('Name must be a string'),
     check('type')
     .custom(value =>{
+
+        console.log(value)
         if(!value) return true 
         if (value == 'Online' || value == 'In person') return true
         else return false
@@ -112,7 +127,8 @@ const validateQuery = [
         .withMessage("Type must be 'Online' or 'In person'"),
     check('startDate')
     .custom(value =>{
-        if(!value) return true 
+        if(!value) return true
+
         if (isNaN(new Date(value).getTime())) {
             return false
         }
@@ -136,6 +152,16 @@ router.get('/', validateQuery , async (req,res,next) => {
     }
     if(!page){
         page = 1
+    }
+
+    if(size > 20){
+        size = 20
+        console.log(size)
+    }
+
+    if(page > 10){
+        page = 10
+        console.log(page)
     }
 
     pagination.limit = size 
