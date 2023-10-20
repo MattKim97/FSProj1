@@ -1,14 +1,11 @@
-// frontend/src/components/SignupFormPage/index.js
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
 import "./SignupForm.css";
 
-
-function SignupFormPage() {
+function SignupFormModal() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -16,10 +13,7 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
-
-  if (sessionUser) return <Redirect to="/" />;
-  //if session already has a current user, that is store within out store, then we will automatically redirect our user to the root directory if they are 
-  // trying to access the SignUpFormPage
+  const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,25 +27,24 @@ function SignupFormPage() {
           lastName,
           password,
         })
-      ).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
+      )
+        .then(closeModal)
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) {
+            setErrors(data.errors);
+          }
+        });
     }
     return setErrors({
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
   };
 
-  // on submit validates that the inputted password is the same as the password fields, dispatches signup thunk action with the form input values
-  //if confirm password does not match the previous inputted password field's value then set state of errors with data.errors
-
   return (
     <>
-      <h1 className="signupForm">Sign Up</h1>
-      <form onSubmit={handleSubmit} className="signupForm">
+      <h1>Sign Up</h1>
+      <form onSubmit={handleSubmit}>
         <label>
           Email
           <input
@@ -59,7 +52,6 @@ function SignupFormPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="signupForm"
           />
         </label>
         {errors.email && <p>{errors.email}</p>}
@@ -70,7 +62,6 @@ function SignupFormPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="signupForm"
           />
         </label>
         {errors.username && <p>{errors.username}</p>}
@@ -81,8 +72,6 @@ function SignupFormPage() {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
-            className="signupForm"
-
           />
         </label>
         {errors.firstName && <p>{errors.firstName}</p>}
@@ -93,8 +82,6 @@ function SignupFormPage() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
-            className="signupForm"
-
           />
         </label>
         {errors.lastName && <p>{errors.lastName}</p>}
@@ -105,8 +92,6 @@ function SignupFormPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="signupForm"
-
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
@@ -117,18 +102,15 @@ function SignupFormPage() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            className="signupForm"
-
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button 
-        type="submit"
-        className="signupButton"
-        >Sign Up</button>
+        {errors.confirmPassword && (
+          <p>{errors.confirmPassword}</p>
+        )}
+        <button type="submit">Sign Up</button>
       </form>
     </>
   );
 }
-// check to see if errors exists within our error state, and then display the errors if they exists after each label within a <p> tag
-export default SignupFormPage;
+
+export default SignupFormModal;
