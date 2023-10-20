@@ -43,8 +43,8 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      <h1 className="loginTitle">Sign Up</h1>
+      <form onSubmit={handleSubmit} style={{padding:'50px'}}>
         <label>
           Email
           <input
@@ -52,6 +52,8 @@ function SignupFormModal() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="loginForm"
+
           />
         </label>
         {errors.email && <p>{errors.email}</p>}
@@ -62,6 +64,8 @@ function SignupFormModal() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            className="loginForm"
+
           />
         </label>
         {errors.username && <p>{errors.username}</p>}
@@ -72,6 +76,8 @@ function SignupFormModal() {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
+            className="loginForm"
+
           />
         </label>
         {errors.firstName && <p>{errors.firstName}</p>}
@@ -82,6 +88,8 @@ function SignupFormModal() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
+            className="loginForm"
+
           />
         </label>
         {errors.lastName && <p>{errors.lastName}</p>}
@@ -92,6 +100,8 @@ function SignupFormModal() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="loginForm"
+
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
@@ -102,12 +112,17 @@ function SignupFormModal() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            className="loginForm"
+
           />
         </label>
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
+        <button 
+        type="submit"
+        className="loginButton"
+        >Sign Up</button>
       </form>
     </>
   );
