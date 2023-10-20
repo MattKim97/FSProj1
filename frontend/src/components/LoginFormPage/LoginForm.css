@@ -1,0 +1,29 @@
+html *{
+background-color: whitesmoke;
+font-family: monospace;
+box-sizing: border-box;
+}
+
+.loginTitle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginForm{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    text-align: left;
+}
+
+.loginButton{
+    padding: 80px;
+}
+
+.loginButton:hover{
+    background-image: url("../../../../images/frog.jpg");
+    border: solid green 1rem;
+    box-shadow: lawngreen 5px 5px 5px;
+}
