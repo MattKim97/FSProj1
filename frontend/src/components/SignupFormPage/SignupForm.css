@@ -1,11 +1,10 @@
-
-.loginTitle{
+.signupForm{
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.loginForm{
+.signupForm{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,18 +13,9 @@
     margin-top: 5px;
 }
 
-.loginButton{
+.signupButton{
     margin-top: 10px;
     padding: 7px;
     background-color: #FF5A5F;
     color: white;
 }
-
-/* .loginButton:hover{
-    background-image: url("../../../../images/frog.jpg");
-    border: solid green 1rem;
-    box-shadow: lawngreen 5px 5px 5px;
-    color: white;
-    font-weight: bold;
-    font-size: larger;
-} */
