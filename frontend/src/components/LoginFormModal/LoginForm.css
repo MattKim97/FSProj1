@@ -1,8 +1,8 @@
 
 .loginTitle{
     display: flex;
-    align-items: center;
     justify-content: center;
+    font-size: x-large;
 }
 
 .loginForm{
@@ -11,7 +11,10 @@
     align-items: center;
     justify-content: center;
     text-align: left;
-    margin-top: 5px;
+    margin-top: 10px;
+    background-color: #E8F0FE;
+    height: 20px;
+    width: 200px;
 }
 
 .loginButton{
@@ -19,16 +22,14 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    padding: 7px;
+    height: 45px;
+    width: 200px;    
     background-color: #FF5A5F;
     color: white;
 }
 
-/* .loginButton:hover{
-    background-image: url("../../../../images/frog.jpg");
-    border: solid green 1rem;
-    box-shadow: lawngreen 5px 5px 5px;
-    color: white;
-    font-weight: bold;
-    font-size: larger;
-} */
+.loginStyle{
+    border-radius: 25px;
+    padding: 10px 20px;
+    background-color: whitesmoke;
+}
