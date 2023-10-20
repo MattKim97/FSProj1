@@ -156,12 +156,10 @@ router.get('/', validateQuery , async (req,res,next) => {
 
     if(size > 20){
         size = 20
-        console.log(size)
     }
 
     if(page > 10){
         page = 10
-        console.log(page)
     }
 
     pagination.limit = size 
