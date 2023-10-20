@@ -3,5 +3,9 @@
 }
 
 .profile-dropdown{
-    border: 2px,red,solid;
+    list-style-type: none;
+}
+
+.buttonsForProfile{
+    border: black 2px solid;
 }
