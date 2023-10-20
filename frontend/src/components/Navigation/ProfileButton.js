@@ -12,19 +12,26 @@ function ProfileButton({ user }) {
     if (showMenu) return;
     setShowMenu(true);
   };
+  // if showMenu is already true just return otherwise set showMenu
+  //to true
 
   useEffect(() => {
     if (!showMenu) return;
+    //if showMenu is false immediately return out
 
     const closeMenu = (e) => {
       if (!ulRef.current.contains(e.target)) {
         setShowMenu(false);
+        //In the closeMenu function change showMenu to false only if the target of the click event does NOT contain the HTML element of the dropdown menu.
       }
     };
+    //otherwise add a listener to see if we click off our element to trigger close menu
+    //which will setShowMenu to false which will close our menu element
 
     document.addEventListener('click', closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
+    //cleanup function
   }, [showMenu]);
 
   const logout = (e) => {
