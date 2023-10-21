@@ -19,11 +19,14 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
+        console.log("🚀 ~ file: index.js:22 ~ handleSubmit ~ data:", data)
         if (data && data.errors) {
           setErrors(data.errors);
+          console.log(errors)
+
         }
       });
-  };
+    };
 
   return (
     <div className="loginStyle">
