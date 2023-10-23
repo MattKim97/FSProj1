@@ -5,9 +5,9 @@
 .profile-dropdown{
     list-style-type: none;
     position: absolute;
-    border: 1px solid #ccc;
+    border: 2px solid black;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
-    right: 100px
+    /* right: 100px */
 }
 
 .buttonsForProfile{

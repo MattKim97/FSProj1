@@ -55,3 +55,38 @@ margin-bottom: 10px;
     justify-content: center;
     align-items: center;
 }
+
+
+.linkOn{
+    color: teal;
+    text-decoration: underline;
+    cursor: default;
+    font-size: xx-large;
+}
+
+.linkOff{
+    color: grey;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: xx-large;
+}
+.links{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.linkContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-right: 440px;
+    margin-top: 20px;
+  }
+
+  .groupsHeaderText{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: large;
+    color: #999999;
+  }

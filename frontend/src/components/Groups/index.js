@@ -5,31 +5,53 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import "./Groups.css";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { useState } from "react";
 
 export default function Groups() {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.groupReducer.groups);
   const history = useHistory();
+  const [activeTab, setActiveTab] = useState("groups"); // "groups" is active by default
+
 
   useEffect(() => {
     dispatch(getGroups());
   }, [dispatch]);
 
 
-  function handleOnClick(groupId) {
+  const  handleOnClick = (groupId) => {
     history.push(`/groups/${groupId}`);
   }
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
 
   if (!groups || groups.length === 0) return null;
 
   return (
     <div className="groupsContainer">
-      <div>
-        <a href="/events">Events</a>
-        <a href="/groups">Groups</a>
+      <div className="linkContainer">
+      <div className="links">
+        <a
+          href="/events"
+          style={{marginRight:'10px'}}
+          className={activeTab === 'events' ? 'linkOn': 'linkOff'}
+          onClick={() => handleTabClick("events")}
+        >
+          Events
+        </a>
+        <a
+          href="/groups"
+          className={activeTab === 'groups' ? 'linkOn': 'linkOff'}
+          onClick={() => handleTabClick("groups")}
+        >
+          Groups
+        </a>
       </div>
       <div>
-        <div>Groups in Meetup</div>
+        <div className="groupsHeaderText">Groups in Meetup</div>
+      </div>
       </div>
       {groups.map((group) => (
         <div key={group.id} className="groupsList">
