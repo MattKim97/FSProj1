@@ -19,7 +19,7 @@ module.exports = {
       },
       {
         groupId: 2,
-        url: 'fakeuser1groupimages.com',
+        url: 'https://whyy.org/wp-content/uploads/2019/08/bigstock-Rubber-Stamp-And-Word-Fake-Pri-272426671-768x512.jpg',
         preview: false,
       },
     ], options, { validate: true });

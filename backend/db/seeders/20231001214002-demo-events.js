@@ -33,6 +33,17 @@ module.exports = {
         startDate: '1/1/2024',
         endDate: '1/3/2024',
       },
+      {
+        venueId: 1,
+        groupId: 1,
+        name: 'Demolition Event 2',
+        description: 'We are literally going to demolish things again',
+        type: 'In person', 
+        capacity: 90,
+        price: 55,
+        startDate: '11/10/2024',
+        endDate: '11/11/2024',
+      }
 
     ], options, { validate: true });
   },

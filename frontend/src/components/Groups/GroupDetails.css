@@ -75,6 +75,7 @@ margin-top: 215px;
     grid-row: 200px;
     gap: 20px;
     border-top: 2px solid #999999;
+    cursor: pointer;
 }
 
 .groupEventImg{

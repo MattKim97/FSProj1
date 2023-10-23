@@ -16,7 +16,6 @@ export default function GroupDetails() {
 
   const events = useSelector((state) => state.groupReducer.Events);
   
-  console.log("🚀 ~ file: GroupDetails.js:18 ~ GroupDetails ~ events:", events)
   
   const handleOnClick = () => {
       window.alert("Feature Coming Soon...");
@@ -104,8 +103,8 @@ export default function GroupDetails() {
           <h2>Upcoming Events({events.length})</h2>
           <div className="groupDetailsBottom">
             {events.map((event) => (
-                <div>
-              <div key={event.id} className="groupEventDetailGridContainer">
+            <div key={event.id}>
+              <div className="groupEventDetailGridContainer">
                 <img className="groupDetailsBottom groupEventImg" src={event.previewImage} />
                 <div className="groupDetailsBottom">
                     <div>{event.startDate}</div>
