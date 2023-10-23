@@ -1,0 +1,34 @@
+html{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.gridContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-row: 1fr;
+    gap: 20px;
+}
+
+.meetupImage{
+    width: 500px;
+    height: auto;
+}
+
+.textHeader{
+    font-size: 40px;
+    font-weight: bolder;
+}
+
+.textBody{
+    font-size: 15px;
+    color: gray
+}
+
+.textBodySecond{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
