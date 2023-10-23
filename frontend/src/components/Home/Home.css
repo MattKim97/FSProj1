@@ -8,6 +8,7 @@ html{
     grid-template-columns: 1fr 1fr;
     grid-row: 1fr;
     gap: 20px;
+    margin-top: 20px;
 }
 .imageContainer{
     display: flex;
@@ -37,9 +38,64 @@ html{
 }
 
 .textBodySecond{
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
+
+.gridContainerSec3{
+    display: grid;
+    grid-template-columns: repeat(3, 250px  );
+    justify-content: center;
+    grid-row: 1fr;
+    margin-top: 20px;
+    gap: 25px   
+}
+
+.meetupGridImages{
+    width: 250px;
+    height: auto;
+}
+
+.meetupGridText{
+    text-align: center;
+}
+
+.meetupGridLinks{
+margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  color: #00525E;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+.meetupGridLinksDisabled{
+    margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      color: grey;
+      font-size: larger;
+      font-weight: bolder;
+    }
+
+.meetupButton{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.meetupButtonStyle{
+    background-color: #00525E;
+    color: white;
+    width: 200px;
+    height: 50px;
+    border: 1px black solid;
+    box-shadow: 10px 5px 5px black;
+    cursor: pointer;
+
+  }

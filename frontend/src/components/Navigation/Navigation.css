@@ -26,6 +26,13 @@
 .userIcon{
     font-size: 24px;
 }
+.roundedButton{
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px   ;
+    cursor: pointer;
+}
 
 /* .userLogin-Signup{
     border: 1px solid #ccc;
