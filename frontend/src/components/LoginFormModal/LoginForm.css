@@ -28,6 +28,17 @@
     color: white;
 }
 
+.loginButtonDemo{
+    flex-direction: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    height: 45px;
+    width: 200px;    
+    background-color: #FF5A5F;
+    color: white;
+}
+
 .loginStyle{
     border-radius: 25px;
     padding: 10px 20px;

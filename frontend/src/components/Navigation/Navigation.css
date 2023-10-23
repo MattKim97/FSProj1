@@ -8,4 +8,9 @@
 
 .buttonsForProfile{
     border: black 2px solid;
+    cursor: pointer;
+}
+
+.userList{
+    list-style: none;
 }

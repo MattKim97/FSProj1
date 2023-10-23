@@ -19,14 +19,26 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        console.log("🚀 ~ file: index.js:22 ~ handleSubmit ~ data:", data)
         if (data && data.errors) {
           setErrors(data.errors);
-          console.log(errors)
-
         }
       });
     };
+
+    const handleDemoLogin = async () => {
+      setCredential('Demo-lition');
+      setPassword('password');
+      try {
+        const response = await dispatch(sessionActions.login({ credential, password }));
+        if (response.ok) {
+          const data = await response.json();
+        } else {
+          console.error('Something went wrong');
+        }
+      } catch (error) {
+        console.error('An error occurred during login:', error);
+      }
+    }
 
   return (
     <div className="loginStyle">
@@ -59,7 +71,10 @@ function LoginFormModal() {
         <button 
         type="submit"
         className="loginButton"
+        disabled={Object.values(errors).length>0}
         >Log In</button>
+        <div></div>
+        <button className='loginButtonDemo'onClick={handleDemoLogin}>Log in as Demo User</button>
       </form>
     </div>
   );
