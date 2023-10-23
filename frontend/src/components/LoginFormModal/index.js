@@ -71,7 +71,7 @@ function LoginFormModal() {
         <button 
         type="submit"
         className="loginButton"
-        disabled={Object.values(errors).length>0}
+        disabled={credential === "" || password === ""}
         >Log In</button>
         <div></div>
         <button className='loginButtonDemo'onClick={handleDemoLogin}>Log in as Demo User</button>

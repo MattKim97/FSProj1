@@ -126,7 +126,8 @@ function SignupFormModal() {
         <button 
         type="submit"
         className="loginButton"
-        disabled={Object.values(errors).length}
+        //I dunno about this lol
+        disabled={email === "" ||password === "" ||username === "" ||firstName === "" ||lastName === "" || username.length < 4 || password.length < 6}
         >Sign Up</button>
       </form>
     </div>
