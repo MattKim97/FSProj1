@@ -9,7 +9,18 @@ html{
     grid-row: 1fr;
     gap: 20px;
 }
+.imageContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.textContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 .meetupImage{
     width: 500px;
     height: auto;
