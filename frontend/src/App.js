@@ -14,9 +14,11 @@ function App() {
 
   return (
     <>
-    <Header/>
+    <div style={{display:'flex', justifyContent:'space-between', backgroundColor:'lightgreen'}}>
+      <Header/>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch></Switch>}
+    </div>
     </>
   );
 }
