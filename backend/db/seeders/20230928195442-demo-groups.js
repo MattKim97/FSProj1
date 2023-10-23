@@ -13,7 +13,7 @@ module.exports = {
     await Group.bulkCreate([
       {
         organizerId: 1,
-        name: 'Demo Lition',
+        name: 'Demolition Event',
         about: 'A lil group that really likes demolition I am just trying to hit a minimum of fifty characters',
         type: "In person",
         private: false,
@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         organizerId: 2,
-        name: 'Fake User1',
+        name: 'Fake Event 1',
         about: 'I am just trying to hit fifty characters why is the minimum fifty characters that is low-key alot whyyyyyyyyyyyyyyyyyy',
         type: "Online",
         private: true,

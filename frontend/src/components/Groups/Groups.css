@@ -1,4 +1,57 @@
 .groupsList{
  display: flex;
- border: solid black 2px;
+ /* border: solid black 2px; */
+ width: fit-content;
+ justify-content: center;
+ align-items: center;
+}
+
+.groupsGridContainer{
+    display: grid;
+    grid-template-columns: 300px 300px;
+    grid-row: 200px;
+    gap: 20px;
+    justify-content: center;
+    border-top: 2px solid #999999;
+    border-bottom: 1px solid #999999;
+    cursor: pointer;
+}
+
+.groupImages{
+height: auto;
+width: 300px;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.eventsprivateContainter{
+    display: flex;
+    gap: 10px;
+    color: #999999
+
+}
+
+.groupName{
+    font-size: x-large;
+}
+
+.groupLocation{
+    color: #999999;
+    font-size: large;
+}
+
+.groupTextContainer > div{
+    margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.groupTextContainer{
+    width: 60%;
+}
+
+.groupsContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

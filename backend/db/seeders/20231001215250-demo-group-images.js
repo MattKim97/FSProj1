@@ -14,13 +14,13 @@ module.exports = {
     await GroupImage.bulkCreate([
       {
         groupId: 1,
-        url: 'demolitiongroupimages.com',
-        preview: false,
+        url: 'https://upload.wikimedia.org/wikipedia/commons/7/79/Operation_Upshot-Knothole_-_Badger_001.jpg',
+        preview: true,
       },
       {
         groupId: 2,
         url: 'fakeuser1groupimages.com',
-        preview: true,
+        preview: false,
       },
     ], options, { validate: true });
   },
