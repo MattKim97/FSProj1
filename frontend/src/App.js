@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Header from "./components/Header";
 import Home from "./components/Home";
+import Groups from "./components/Groups";
 import { Route } from "react-router-dom/cjs/react-router-dom.min";
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
     <Switch>
       <Route exact path='/'>
         <Home />
+      </Route>
+      <Route exact path='/groups'>
+        <Groups />
       </Route>
     </Switch>
     </>
