@@ -4,6 +4,9 @@
 
 .profile-dropdown{
     list-style-type: none;
+    position: absolute;
+    border: 1px solid #ccc;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .buttonsForProfile{
@@ -13,6 +16,17 @@
 
 .userList{
     list-style: none;
-    background-color: lightgreen;
-    margin-right: 50px;
+    background-color: whitesmoke;
+    margin-right: 100px;
+    display: flex;
+    gap: 10px;
+}
+
+.userIcon{
+    font-size: 24px;
+}
+
+.userLogin-Signup{
+    border: 1px solid #ccc;
+    background-color: cyan;
 }

@@ -14,7 +14,7 @@
     margin-top: 10px;
     background-color: #E8F0FE;
     height: 20px;
-    width: 200px;
+    width: 275px;
 }
 
 .loginButton{
@@ -23,7 +23,7 @@
     justify-content: center;
     margin-top: 10px;
     height: 45px;
-    width: 200px;    
+    width: 275px;    
     background-color: #FF5A5F;
     color: white;
 }
@@ -34,13 +34,29 @@
     justify-content: center;
     margin-top: 10px;
     height: 45px;
-    width: 200px;    
+    width: 275px;    
     background-color: #FF5A5F;
     color: white;
 }
 
 .loginStyle{
     border-radius: 25px;
-    padding: 10px 20px;
+    padding: 20px 50px;
     background-color: whitesmoke;
+}
+
+.disabledButton{
+    background-color: grey;
+    flex-direction: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    height: 45px;
+    width: 275px;    
+    color: darkgrey;
+}
+
+.errors {
+    color: red;
+    width: fit-content;
 }

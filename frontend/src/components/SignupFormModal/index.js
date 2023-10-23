@@ -15,6 +15,16 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const isDisabled =
+  email === "" ||
+  password === "" ||
+  username === "" ||
+  firstName === "" ||
+  lastName === "" ||
+  username.length < 4 ||
+  password.length < 6 ||
+  password !== confirmPassword;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
@@ -46,7 +56,6 @@ function SignupFormModal() {
     <div className="loginStyle"> 
       <h1 className="loginTitle">Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <label>
           <input
             type="text"
             value={email}
@@ -56,10 +65,8 @@ function SignupFormModal() {
             placeholder="Email"
 
           />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          
+        {errors.email && <p className="errors">{errors.email}</p>}
+  
           <input
             type="text"
             value={username}
@@ -67,12 +74,9 @@ function SignupFormModal() {
             required
             className="loginForm"
             placeholder="Username"
-
-
           />
-        </label>
-        {errors.username && <p>{errors.username}</p>}
-        <label>
+        {errors.username && <p className="errors">{errors.username}</p>}
+          
           <input
             type="text"
             value={firstName}
@@ -83,9 +87,7 @@ function SignupFormModal() {
 
 
           />
-        </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
-        <label>
+        {errors.firstName && <p className="errors">{errors.firstName}</p>}
           <input
             type="text"
             value={lastName}
@@ -95,9 +97,7 @@ function SignupFormModal() {
             placeholder="Last Name"
 
           />
-        </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
-        <label>
+        {errors.lastName && <p className="errors">{errors.lastName}</p>}
           <input
             type="password"
             value={password}
@@ -107,9 +107,7 @@ function SignupFormModal() {
             placeholder="Password"
 
           />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <label>
+        {errors.password && <p className="errors">{errors.password}</p>}
           <input
             type="password"
             value={confirmPassword}
@@ -119,15 +117,14 @@ function SignupFormModal() {
             placeholder="Confirm Password"
 
           />
-        </label>
         {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
+          <p className="errors">{errors.confirmPassword}</p>
         )}
         <button 
         type="submit"
-        className="loginButton"
         //I dunno about this lol
-        disabled={email === "" ||password === "" ||username === "" ||firstName === "" ||lastName === "" || username.length < 4 || password.length < 6}
+        disabled={isDisabled}
+        className={isDisabled ? 'disabledButton' :"loginButton"}
         >Sign Up</button>
       </form>
     </div>

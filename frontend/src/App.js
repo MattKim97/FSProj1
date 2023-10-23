@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-    <div style={{display:'flex', justifyContent:'space-between', backgroundColor:'lightgreen'}}>
+    <div style={{display:'flex', justifyContent:'space-between', backgroundColor:'whitesmoke', borderBottom:'grey solid'}}>
       <Header/>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch></Switch>}
