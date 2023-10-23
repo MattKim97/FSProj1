@@ -29,8 +29,8 @@ function LoginFormModal() {
     };
 
     const handleDemoLogin = async () => {
-      setCredential('Demo-lition');
-      setPassword('password');
+      setCredential('Demo User');
+      setPassword('password4');
       try {
         const response = await dispatch(sessionActions.login({ credential, password }));
         if (response.ok) {
