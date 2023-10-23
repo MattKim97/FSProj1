@@ -7,6 +7,7 @@
     position: absolute;
     border: 1px solid #ccc;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    right: 100px
 }
 
 .buttonsForProfile{
