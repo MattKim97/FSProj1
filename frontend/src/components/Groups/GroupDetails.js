@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch, useSelector } from "react-redux";
-import { getGroup } from "../../store/group";
+import { getGroup, getGroupEvents } from "../../store/group";
 import { useEffect } from "react";
 import "./GroupDetails.css";
 
@@ -10,21 +10,27 @@ export default function GroupDetails() {
 
   const { groupId } = useParams();
 
-  const group = useSelector((state) => state.groupReducer.group)
-  console.log("🚀 ~ file: GroupDetails.js:14 ~ GroupDetails ~ group:", group)
+  const group = useSelector((state) => state.groupReducer.group);
 
-  const sessionUser = useSelector(state => state.session.user);
-  console.log("🚀 ~ file: GroupDetails.js:16 ~ GroupDetails ~ sessionUser:", sessionUser)
+  const sessionUser = useSelector((state) => state.session.user);
+
+  const events = useSelector((state) => state.groupReducer.Events);
   
-    const handleOnClick = () => {
-    window.alert("Feature Coming Soon...");
-  };
+  console.log("🚀 ~ file: GroupDetails.js:18 ~ GroupDetails ~ events:", events)
+  
+  const handleOnClick = () => {
+      window.alert("Feature Coming Soon...");
+    };
+    
+    useEffect(() => {
+        dispatch(getGroup(groupId));
+        dispatch(getGroupEvents(groupId));
+    }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getGroup(groupId));
-  }, [dispatch]);
+    if(!events) return null
 
-  if (!group) return null;
+    // if (!group.length || !group) return null;
+
 
   return (
     <div>
@@ -52,7 +58,9 @@ export default function GroupDetails() {
             ></i>
             {group.private ? <div>Private</div> : <div>Public</div>}
           </div>
-          <div>Organized by: {group.Organizer.firstName} {group.Organizer.lastName}</div>
+          <div>
+            Organized by: {group.Organizer.firstName} {group.Organizer.lastName}
+          </div>
           <div>
             <button
               onClick={(e) => handleOnClick()}
@@ -66,23 +74,25 @@ export default function GroupDetails() {
             >
               Join this group
             </button>
-            {sessionUser ? sessionUser.id === group.Organizer.id && (
-            <div className="groupOwnerButtonsContainer">
-            <button className="groupOwnerButtons">Create event</button>
-            <button className="groupOwnerButtons">Update event</button>
-            <button className="groupOwnerButtons">Delete event</button>
-            </div>
-            ): null}
-                
+            {sessionUser
+              ? sessionUser.id === group.Organizer.id && (
+                  <div className="groupOwnerButtonsContainer">
+                    <button className="groupOwnerButtons">Create event</button>
+                    <button className="groupOwnerButtons">Update event</button>
+                    <button className="groupOwnerButtons">Delete event</button>
+                  </div>
+                )
+              : null}
           </div>
         </div>
       </div>
 
       <div className="groupDetailsBottom">
-
         <div>
-          <h2 >Organizer</h2>
-          <div >{group.Organizer.firstName} {group.Organizer.lastName}</div>
+          <h2>Organizer</h2>
+          <div>
+            {group.Organizer.firstName} {group.Organizer.lastName}
+          </div>
         </div>
 
         <div>
@@ -91,15 +101,28 @@ export default function GroupDetails() {
         </div>
 
         <div>
-            <h2>Upcoming Events</h2>
-            <div>Events</div>
+          <h2>Upcoming Events({events.length})</h2>
+          <div className="groupDetailsBottom">
+            {events.map((event) => (
+                <div>
+              <div key={event.id} className="groupEventDetailGridContainer">
+                <img className="groupDetailsBottom groupEventImg" src={event.previewImage} />
+                <div className="groupDetailsBottom">
+                    <div>{event.startDate}</div>
+                    <div>{event.name}</div>
+                    <div>{event.Venues.city} {event.Venues.state} </div>
+                </div>
+              </div>
+              <div className="groupEventBottom">{event.description}</div>
+                </div>
+            ))}
+          </div>
         </div>
 
         <div>
-            <h2>Past Events</h2>
-            <div>Past Events</div>
+          <h2>Past Events:</h2>
+          <div>Past Events</div>
         </div>
-
       </div>
     </div>
   );

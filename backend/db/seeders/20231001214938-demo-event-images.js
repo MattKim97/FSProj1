@@ -12,12 +12,12 @@ module.exports = {
     await EventImage.bulkCreate([
       {
         eventId: 1,
-        url: 'demolitioneventimages.com',
-        preview: false,
+        url: 'https://www.islingtontribune.co.uk/media/2010/01/inews011510_09.jpg',
+        preview: true,
       },
       {
         eventId: 2,
-        url: 'fakeuser1eventimages.com',
+        url: 'https://m.media-amazon.com/images/I/71lFKEZO2RL._AC_UY1000_.jpg',
         preview: true,
       },
     ], options, { validate: true });

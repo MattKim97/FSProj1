@@ -68,3 +68,21 @@ margin-top: 215px;
     height: 50px;
     cursor: pointer;
   }
+
+  .groupEventDetailGridContainer{
+    display: grid;
+    grid-template-columns: 300px 150px;
+    grid-row: 200px;
+    gap: 20px;
+    border-top: 2px solid #999999;
+}
+
+.groupEventImg{
+    height: auto;
+    width: 200px;
+}
+
+.groupEventBottom{
+    border-bottom: 2px solid #999999;
+
+}
