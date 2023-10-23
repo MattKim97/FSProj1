@@ -76,7 +76,7 @@ export default function Groups() {
               </div>
               <div>About: {group.about}</div>
               <div className="eventsprivateContainter">
-                <div>Events:</div>
+                <div>## events</div>
                 <i style={{fontSize:'3px', display:'flex', alignItems:'center'}} class="fa-solid fa-circle"></i>
                 {group.private ? <div>Private</div> : <div>Public</div>}
               </div>

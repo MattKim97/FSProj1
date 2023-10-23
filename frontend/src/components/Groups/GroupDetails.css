@@ -1,0 +1,33 @@
+.groupDetailGridContainer{
+    display: grid;
+    grid-template-columns: 600px 300px;
+    grid-row: 200px;
+    gap: 20px;
+    border-top: 2px solid #999999;
+    border-bottom: 1px solid #999999;
+}
+
+.groupDetailsImages{
+    height: 400px;
+    width: 600px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.groupDetailsTextContainer > div{
+    margin-top: 10px;
+margin-bottom: 10px;
+}
+.groupDetailsTextContainer > div > button{
+margin-top: 220px;
+}
+
+.groupDetailsButton{
+ background-color: #FF5A5F;
+ color: white;
+ height: 50px;
+ width: 200px;
+ border: black 1px solid;
+ box-shadow: 3px 4px 1px black;
+ cursor: pointer;
+}

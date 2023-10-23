@@ -6,8 +6,7 @@
     list-style-type: none;
     position: absolute;
     border: 2px solid black;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
-    /* right: 100px */
+    box-shadow: 0px 3px 6px rgba(1, 1, 1, 1);
 }
 
 .buttonsForProfile{
@@ -34,7 +33,15 @@
     cursor: pointer;
 }
 
-/* .userLogin-Signup{
-    border: 1px solid #ccc;
-    background-color: cyan;
-} */
+.navPointers{
+    cursor: pointer;
+    font-weight: bold;
+    border-bottom: 1px black solid;
+}
+
+.profile-dropdown > li {
+    border-bottom: 1px black solid;
+    display: flex;
+    margin-right: 35px;
+    margin-bottom: 5px;
+}

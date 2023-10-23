@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import Home from "./components/Home";
 import Groups from "./components/Groups";
 import { Route } from "react-router-dom/cjs/react-router-dom.min";
+import GroupDetails from "./components/Groups/GroupDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ function App() {
       </Route>
       <Route exact path='/groups'>
         <Groups />
+      </Route>
+      <Route exact path='/groups/:groupId'>
+        <GroupDetails/>
       </Route>
     </Switch>
     </>

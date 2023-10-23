@@ -42,6 +42,10 @@ function ProfileButton({ user }) {
     history.push('/');
   };
 
+  const  handleOnClick = () => {
+    history.push(`/groups`);
+  }
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -56,25 +60,28 @@ function ProfileButton({ user }) {
             <li>Hello, {user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
+            <li className='navPointers' onClick={() => handleOnClick()}>See all groups</li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button className='navPointers' onClick={logout}>Log Out</button>
             </li>
           </>
         ) : (
-          <>
+          <div className="navPointers"
+          style={{ display:'flex', flexDirection:'column', alignItems: 'center' , marginRight:'35px', marginBottom:'10px', gap:'5px'}}
+          >
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
-              className="userLogin-Signup"
+              className="navPointers"
             />
             <OpenModalMenuItem
               itemText="Sign Up"
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
-              className="userLogin-Signup"
+              className="navPointers"
             />
-          </>
+          </div>
         )}
       </ul>
     </>
