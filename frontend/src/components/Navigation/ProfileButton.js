@@ -46,6 +46,11 @@ function ProfileButton({ user }) {
     history.push(`/groups`);
   }
 
+  const handleOnClickEvent = () => {
+    history.push(`/events`);
+
+  }
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -61,6 +66,7 @@ function ProfileButton({ user }) {
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
             <li className='navPointers' onClick={() => handleOnClick()}>See all groups</li>
+            <li className='navPointers' onClick={() => handleOnClickEvent()}>View Events</li>
             <li>
               <button className='navPointers' onClick={logout}>Log Out</button>
             </li>

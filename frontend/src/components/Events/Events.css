@@ -1,0 +1,83 @@
+.eventsGridContainer{
+    display: grid;
+    grid-template-columns: 300px 300px;
+    grid-row: 200px;
+    gap: 20px;
+    justify-content: center;
+    border-top: 2px solid #999999;
+    border-bottom: 1px solid #999999;
+    cursor: pointer;
+}
+
+.eventImages{
+    height: auto;
+    width: 300px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.eventName{
+    font-size: x-large;
+}
+
+.eventLocation{
+    color: #999999;
+    font-size: large;
+}
+
+.eventTextContainer > div{
+    margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.eventTextContainer{
+    width: 60%;
+}
+
+.eventsContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.eventTime{
+    display: flex;
+    flex-direction: row;
+    gap: 5px    ;
+    color: teal;
+    font-size: larger;
+}
+
+.eventDescription{
+    width: 500px;
+    margin-bottom: 5px;
+}
+
+.eventLinksContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-right: 440px;
+    margin-top: 20px;
+  }
+
+  .eventsContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.eventLinks{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.eventsHeaderText{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: large;
+    color: #999999;
+  }

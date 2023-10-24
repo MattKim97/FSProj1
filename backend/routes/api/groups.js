@@ -534,9 +534,19 @@ router.get('/:groupId/events',async (req,res,next) => {
         const attendances = await preEvents[i].getAttendances({where:{status: 'attending'}})
         const image = await preEvents[i].getEventImages()
         // res.json(image)
+        const startHours = ( '0' + new Date(Events[i].startDate).getHours()).slice(-2)
+        const startMinutes = ( '0' + new Date(Events[i].startDate).getMinutes()).slice(-2)
+        const startSeconds = ( '0' + new Date(Events[i].startDate).getSeconds()).slice(-2)
+
+        const endHours = ( '0' + new Date(Events[i].endDate).getHours()).slice(-2)
+        const endMinutes = ( '0' + new Date(Events[i].endDate).getMinutes()).slice(-2)
+        const endSeconds = ( '0' + new Date(Events[i].endDate).getSeconds()).slice(-2)
+        
         Events[i].numAttending = attendances.length
         Events[i].startDate = new Date(Events[i].startDate).toISOString().slice(0,10)
+        Events[i].startTime =  startHours + ':' + startMinutes + ':' + startSeconds;
         Events[i].endDate = new Date(Events[i].endDate).toISOString().slice(0,10)
+        Events[i].endTime = endHours + ':' + endMinutes + ':' + endSeconds;
 
         if(image.length === 0){
             Events[i].previewImage = null

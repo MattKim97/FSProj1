@@ -39,7 +39,7 @@ margin-top: 215px;
 .groupDetailsBottom {
     background-color: #CCCCCC
     ;
-    padding: 20px; /* Optional: Add padding to the section for spacing */
+    padding: 20px;
   }
 
   .groupDetailsBottom > div {
@@ -71,19 +71,41 @@ margin-top: 215px;
 
   .groupEventDetailGridContainer{
     display: grid;
-    grid-template-columns: 300px 150px;
-    grid-row: 200px;
+    grid-template-columns: 300px 300px;
+    grid-row: 200px 200px;
     gap: 20px;
-    border-top: 2px solid #999999;
     cursor: pointer;
+    border: 1px grey solid;
+    width: 650px;
+    margin-bottom: 10px;
 }
 
 .groupEventImg{
-    height: auto;
-    width: 200px;
+    height: 175px;
+    width: 250px;
 }
 
-.groupEventBottom{
-    border-bottom: 2px solid #999999;
 
+.groupDetailsTime{
+    display: flex;
+    flex-direction: row;
+    background-color: darkgray;
+    gap: 5px    ;
+    color: teal;
+    font-size: larger;
+}
+
+.groupDetailsName{
+    font-size: xx-large;
+}
+
+.groupDetailsLocation{
+    font-size: large;
+}
+
+.groupDetailsEventsDescription{
+    width: 600px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+    background-color: #CCCCCC
 }

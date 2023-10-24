@@ -180,7 +180,7 @@ router.get('/', validateQuery , async (req,res,next) => {
     const preEvents = await Event.findAll({
         where: {...whereObj},
         attributes:{
-            exclude: ['createdAt','updatedAt','description','capacity','price']
+            exclude: ['createdAt','updatedAt','capacity','price']
             },
         ...pagination
     })
@@ -201,10 +201,18 @@ router.get('/', validateQuery , async (req,res,next) => {
 
         const image = await preEvents[i].getEventImages()
 
+        const startHours = ( '0' + new Date(Events[i].startDate).getHours()).slice(-2)
+        const startMinutes = ( '0' + new Date(Events[i].startDate).getMinutes()).slice(-2)
+        const startSeconds = ( '0' + new Date(Events[i].startDate).getSeconds()).slice(-2)
+
+        const endHours = ( '0' + new Date(Events[i].endDate).getHours()).slice(-2)
+        const endMinutes = ( '0' + new Date(Events[i].endDate).getMinutes()).slice(-2)
+        const endSeconds = ( '0' + new Date(Events[i].endDate).getSeconds()).slice(-2)
         Events[i].startDate = new Date(Events[i].startDate).toISOString().slice(0,10)
+        Events[i].startTime =  startHours + ':' + startMinutes + ':' + startSeconds;
         Events[i].endDate = new Date(Events[i].endDate).toISOString().slice(0,10)
-
-
+        Events[i].endTime = endHours + ':' + endMinutes + ':' + endSeconds;
+        
         const attendances = await preEvents[i].getAttendances({where:{status: 'attending'}})
         Events[i].numAttending = attendances.length
         if(image.length === 0){

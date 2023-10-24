@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch, useSelector } from "react-redux";
 import { getGroup, getGroupEvents } from "../../store/group";
 import { useEffect } from "react";
@@ -15,21 +15,25 @@ export default function GroupDetails() {
   const sessionUser = useSelector((state) => state.session.user);
 
   const events = useSelector((state) => state.groupReducer.Events);
-  
-  
+
+  const history = useHistory()
+
   const handleOnClick = () => {
-      window.alert("Feature Coming Soon...");
-    };
-    
-    useEffect(() => {
-        dispatch(getGroup(groupId));
-        dispatch(getGroupEvents(groupId));
-    }, [dispatch]);
+    window.alert("Feature Coming Soon...");
+  };
 
-    if(!events) return null
+  const onClick = () => {
+    history.push(`/events`)
+  }
 
-    // if (!group.length || !group) return null;
+  useEffect(() => {
+    dispatch(getGroup(groupId));
+    dispatch(getGroupEvents(groupId));
+  }, [dispatch]);
 
+  if (!events) return null;
+
+  // if (!group.length || !group) return null;
 
   return (
     <div>
@@ -103,17 +107,34 @@ export default function GroupDetails() {
           <h2>Upcoming Events({events.length})</h2>
           <div className="groupDetailsBottom">
             {events.map((event) => (
-            <div key={event.id}>
-              <div className="groupEventDetailGridContainer">
-                <img className="groupDetailsBottom groupEventImg" src={event.previewImage} />
-                <div className="groupDetailsBottom">
-                    <div>{event.startDate}</div>
-                    <div>{event.name}</div>
-                    <div>{event.Venues.city} {event.Venues.state} </div>
+              <div key={event.id}>
+                <div className="groupEventDetailGridContainer" onClick={(e) => onClick()}>
+                  <img
+                    className="groupDetailsBottom groupEventImg"
+                    src={event.previewImage}
+                  />
+                  <div className="groupDetailsBottom">
+                    <div className="groupDetailsTime">
+                      <div>{event.startDate}</div>
+                      <i
+                        style={{
+                          fontSize: "3px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "#CCCCCC"
+                        }}
+                        class="fa-solid fa-circle"
+                      ></i>
+                      <div>{event.startTime}</div>
+                    </div>
+                    <div className="groupDetailsName">{event.name}</div>
+                    <div className="groupDetailsLocation">
+                      {event.Venues.city} {event.Venues.state}{" "}
+                    </div>
                 </div>
+                <div className="groupEventBottom groupDetailsEventsDescription">{event.description}</div>
               </div>
-              <div className="groupEventBottom">{event.description}</div>
-                </div>
+                  </div>
             ))}
           </div>
         </div>

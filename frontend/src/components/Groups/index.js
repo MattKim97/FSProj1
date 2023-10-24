@@ -4,18 +4,20 @@ import { getGroups } from "../../store/group";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import "./Groups.css";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { useState } from "react";
+import { getEvents } from "../../store/event";
 
 export default function Groups() {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.groupReducer.groups);
   const history = useHistory();
   const [activeTab, setActiveTab] = useState("groups"); // "groups" is active by default
+  const events = useSelector((state) => state.eventReducer.events.Events)
 
 
   useEffect(() => {
     dispatch(getGroups());
+    dispatch(getEvents());
   }, [dispatch]);
 
 
@@ -28,6 +30,9 @@ export default function Groups() {
   };
 
   if (!groups || groups.length === 0) return null;
+  if(!events || events.length === 0) return null
+
+
 
   return (
     <div className="groupsContainer">
@@ -76,7 +81,7 @@ export default function Groups() {
               </div>
               <div>About: {group.about}</div>
               <div className="eventsprivateContainter">
-                <div>## events</div>
+                <div> {events.filter((event) => group.id == event.groupId).length} events</div>
                 <i style={{fontSize:'3px', display:'flex', alignItems:'center'}} class="fa-solid fa-circle"></i>
                 {group.private ? <div>Private</div> : <div>Public</div>}
               </div>
