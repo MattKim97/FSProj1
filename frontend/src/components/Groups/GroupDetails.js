@@ -31,9 +31,10 @@ export default function GroupDetails() {
     dispatch(getGroupEvents(groupId));
   }, [dispatch]);
 
-  if (!events) return null;
+  // if (!events.length) return null;
 
-  // if (!group.length || !group) return null;
+  if (!group) return null;
+  if (!events) return null;
 
   return (
     <div>
