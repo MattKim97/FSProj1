@@ -9,6 +9,7 @@ import Groups from "./components/Groups";
 import { Route } from "react-router-dom/cjs/react-router-dom.min";
 import GroupDetails from "./components/Groups/GroupDetails";
 import Events from "./components/Events";
+import EventDetails from "./components/Events/EventDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,9 @@ function App() {
       </Route>
       <Route exact path='/events'>
         <Events />
+      </Route>
+      <Route exact path='/events/:eventId'>
+        <EventDetails/>
       </Route>
     </Switch>
     </>

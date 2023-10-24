@@ -29,6 +29,14 @@ module.exports = {
         lat: 100.10,
         lng: 100.10,
       },
+      {
+        groupId: 3,
+        address: 'DemoUser ',
+        city: 'DemoUser City',
+        state: 'DemoUser state', 
+        lat: 111.10,
+        lng: 111.10,
+      },
 
     ], options, { validate: true });
   },

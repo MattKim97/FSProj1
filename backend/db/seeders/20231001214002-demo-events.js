@@ -43,6 +43,28 @@ module.exports = {
         price: 55,
         startDate: '11/10/2024 10:00:00',
         endDate: '11/11/2024 20:00:00',
+      },
+      {
+        venueId: 3,
+        groupId: 3,
+        name: 'DemoUser Event 2',
+        description: 'You know what it is!!! Another demo event!!!! Used for what???? You are right! Demoing purposes!!!!',
+        type: 'In person',
+        capacity: 200,
+        price: 10,
+        startDate: '8/10/2024 10:00:00',
+        endDate: '8/11/2024 20:00:00',
+      },
+      {
+        venueId: 3,
+        groupId: 3,
+        name: 'DemoUser Event',
+        description: 'A Demo Event!!! for demoing purposes! So I can see the functionality of my app!',
+        type: 'In person',
+        capacity: 100,
+        price: 15,
+        startDate: '6/10/2023 10:00:00',
+        endDate: '6/11/2023 20:00:00',
       }
     ], options, { validate: true });
   },

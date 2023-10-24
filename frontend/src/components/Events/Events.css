@@ -81,3 +81,125 @@ margin-bottom: 10px;
     font-size: large;
     color: #999999;
   }
+
+  .eventDetailsTime{
+    display: flex;
+    flex-direction: column;
+  }
+
+.eventsDetailsGridContainer{
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+  .eventDetailsGridImage{
+    width: 600px;
+    height: 400px;
+  }
+  .eventDetailsGroupDetails{
+    width: 300px;
+    height: 130px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background-color: white; 
+    border-radius: 10px;
+    padding-left: 25px; 
+    align-items: center;
+  }
+  .eventDetailsGroupDetails > *{
+    background-color: white;     
+  }
+  .eventDetailsGroupDetails > * > *{
+    background-color: white;     
+  }
+  .eventDetailsGridDetails{
+    width: 300px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    font-size: large;
+    margin-top: 50px;
+    gap: 15px ;
+    background-color: white;
+    border-radius: 10px;
+    padding-left: 25px;
+    justify-content: center;
+  }
+
+  .eventDetailsGridDetails > * {
+    background-color: white;
+  }
+  .eventDetailsGridDetails > * > *{
+    background-color: white;
+  }
+
+  .eventDetailsGridDetails > * > * > * {
+    background-color: white;
+  }
+
+  .rightHandContainer{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;      
+
+}
+
+.eventDetailsGroupImage{
+    width: 100px;
+    height: 100px;
+}
+
+
+.eventDetailsTimes{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .eventDetailsBottom{
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-right: 40px;
+    margin-top: 20px;
+    gap: 10px;
+  }
+
+  .eventDetailsContainerPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .eventDetailsGroupDetailsText > div{
+        margin-bottom: 15px;
+  
+  }
+
+  .eventDetailsHeader{
+    display: flex;
+    flex-direction: column;
+    margin-right: 40px;
+    background-color: white;
+    width: max-content;
+    width: 1000px;
+    height: 90px;
+    gap: 10px;
+  }
+
+  .eventDetailsHeader > div {
+    background-color: white;
+  }
+  .eventDetailsHeader > div > i{
+    background-color: white;
+  }
+  .eventDetailsHeader > div > a {
+    background-color: white;
+    color: teal;
+  }

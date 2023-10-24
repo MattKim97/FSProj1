@@ -22,6 +22,11 @@ module.exports = {
         url: 'https://whyy.org/wp-content/uploads/2019/08/bigstock-Rubber-Stamp-And-Word-Fake-Pri-272426671-768x512.jpg',
         preview: false,
       },
+      {
+        groupId: 3,
+        url: 'https://cdn-icons-png.flaticon.com/512/5110/5110617.png',
+        preview: true,
+      },
     ], options, { validate: true });
   },
 

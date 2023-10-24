@@ -15,6 +15,9 @@ export default function GroupDetails() {
   const sessionUser = useSelector((state) => state.session.user);
 
   const events = useSelector((state) => state.groupReducer.Events);
+  
+
+
 
   const history = useHistory()
 
@@ -22,9 +25,9 @@ export default function GroupDetails() {
     window.alert("Feature Coming Soon...");
   };
 
-  const onClick = () => {
-    history.push(`/events`)
-  }
+  // const onClick = () => {
+  //   history.push(`/events/${event.id}`)
+  // }
 
   useEffect(() => {
     dispatch(getGroup(groupId));
@@ -35,6 +38,32 @@ export default function GroupDetails() {
 
   if (!group) return null;
   if (!events) return null;
+
+  events.sort((a, b) => {
+    const startDateA = new Date(a.startDate);
+    const startDateB = new Date(b.startDate);
+    
+    if (startDateA < startDateB) {
+      return -1;
+    }
+    if (startDateA > startDateB) {
+      return 1;
+    }
+    return 0;
+  });
+
+  const currentDate = new Date();
+
+  const upcomingEvents = events.filter((event) => {
+    const eventStartDate = new Date(event.startDate);
+    return eventStartDate >= currentDate;
+  });
+  
+  const pastEvents = events.filter((event) => {
+    const eventStartDate = new Date(event.startDate);
+    return eventStartDate < currentDate;
+  });
+  
 
   return (
     <div>
@@ -55,7 +84,7 @@ export default function GroupDetails() {
             {group.city}, {group.state}
           </div>
           <div className="eventsprivateContainter">
-            <div>## events</div>
+            <div> {events.filter((event) => group.id == event.groupId).length} events</div>
             <i
               style={{ fontSize: "3px", display: "flex", alignItems: "center" }}
               class="fa-solid fa-circle"
@@ -107,9 +136,9 @@ export default function GroupDetails() {
         <div>
           <h2>Upcoming Events({events.length})</h2>
           <div className="groupDetailsBottom">
-            {events.map((event) => (
+            {upcomingEvents.map((event) => (
               <div key={event.id}>
-                <div className="groupEventDetailGridContainer" onClick={(e) => onClick()}>
+                <div className="groupEventDetailGridContainer" onClick={(e) => history.push(`/events/${event.id}`)}>
                   <img
                     className="groupDetailsBottom groupEventImg"
                     src={event.previewImage}
@@ -142,7 +171,38 @@ export default function GroupDetails() {
 
         <div>
           <h2>Past Events:</h2>
-          <div>Past Events</div>
+          <div className="groupDetailsBottom">
+            {pastEvents.map((event) => (
+              <div key={event.id}>
+                <div className="groupEventDetailGridContainer" onClick={(e) => history.push(`/events/${event.id}`)}>
+                  <img
+                    className="groupDetailsBottom groupEventImg"
+                    src={event.previewImage}
+                  />
+                  <div className="groupDetailsBottom">
+                    <div className="groupDetailsTime">
+                      <div>{event.startDate}</div>
+                      <i
+                        style={{
+                          fontSize: "3px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "#CCCCCC"
+                        }}
+                        class="fa-solid fa-circle"
+                      ></i>
+                      <div>{event.startTime}</div>
+                    </div>
+                    <div className="groupDetailsName">{event.name}</div>
+                    <div className="groupDetailsLocation">
+                      {event.Venues.city} {event.Venues.state}{" "}
+                    </div>
+                </div>
+                <div className="groupEventBottom groupDetailsEventsDescription">{event.description}</div>
+              </div>
+                  </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

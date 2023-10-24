@@ -17,7 +17,31 @@ export default function Events() {
       }, [dispatch]);
 
       if(!events || events.length === 0) return null
-  
+
+      events.sort((a, b) => {
+        const startDateA = new Date(a.startDate);
+        const startDateB = new Date(b.startDate);
+        
+        if (startDateA < startDateB) {
+          return -1;
+        }
+        if (startDateA > startDateB) {
+          return 1;
+        }
+        return 0;
+      });
+
+      const currentDate = new Date();
+
+      const upcomingEvents = events.filter((event) => {
+        const eventStartDate = new Date(event.startDate);
+        return eventStartDate >= currentDate;
+      });
+      
+      const pastEvents = events.filter((event) => {
+        const eventStartDate = new Date(event.startDate);
+        return eventStartDate < currentDate;
+      });
   
     const handleTabClick = (tab) => {
       setActiveTab(tab);
@@ -45,11 +69,40 @@ export default function Events() {
             </div>
         <div className="eventsHeaderText">Events in Meetup</div>
       </div>
-      {events.map((event) => (
-              <div key={event.id}>
-                <div className="eventsGridContainer" >
+      {upcomingEvents.map((event) => (
+              <div key={event.id} >
+                <div className="eventsGridContainer" onClick={(e) => history.push(`/events/${event.id}`)}>
                   <img
                     className=" eventImages"
+                    src={event.previewImage}
+                  />
+                  <div className="eventTextContainer">
+                    <div className="eventTime">
+                      <div>{event.startDate}</div>
+                      <i
+                        style={{
+                          fontSize: "3px",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                        class="fa-solid fa-circle"
+                      ></i>
+                      <div>{event.startTime}</div>
+                    </div>
+                    <div className="eventName">{event.name}</div>
+                    <div className=" eventLocation">
+                      {event.Venues.city} {event.Venues.state}{" "}
+                    </div>
+                </div>
+                <div className="eventDescription">{event.description}</div>
+              </div>
+                  </div>
+            ))}
+            {pastEvents.map((event) => (
+              <div key={event.id}>
+                <div className="eventsGridContainer" onClick={(e) => history.push(`/events/${event.id}`)}>
+                  <img
+                    className="eventImages"
                     src={event.previewImage}
                   />
                   <div className="eventTextContainer">

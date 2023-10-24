@@ -29,6 +29,15 @@ module.exports = {
         city: 'FakeUser1 City',
         state: 'FakeUser1 state', 
       },
+      {
+        organizerId: 4,
+        name: 'Demo Group',
+        about: 'This is a Demo Group because it is used for demo purposes and is used for demoing my code',
+        type: "Online",
+        private: false,
+        city: 'DemoUser City',
+        state: 'DemoUser state', 
+      },
 
     ], options, { validate: true });
   },
