@@ -67,33 +67,37 @@ export default function EventDetails() {
             </div>
             <div className="eventDetailsGridDetails">
               <div className="eventDetailsTime">
-                <div className="eventDetailsTimes">
                 <i class="fa-regular fa-clock"></i>
-                  START <span style={{ color: "teal" }}>{event.startDate}</span>{" "}
+               <div>
+               <div className="eventDetailsTimes">
+                  START <span style={{ color: "teal", backgroundColor:'white'}}>{event.startDate}</span>{" "}
                   <i
                     style={{
                       fontSize: "3px",
                       display: "flex",
                       alignItems: "center",
                       color: "teal",
+                      backgroundColor:'white'
                     }}
                     class="fa-solid fa-circle"
                   ></i>{" "}
-                  <span style={{ color: "teal" }}>{event.startTime}</span>{" "}
+                  <span style={{ color: "teal" , backgroundColor:'white'}}>{event.startTime}</span>{" "}
                 </div>
                 <div className="eventDetailsTimes">
-                  END <span style={{ color: "teal" }}>{event.endDate}</span>{" "}
+                  END <span style={{ color: "teal" , backgroundColor:'white'}}>{event.endDate}</span>{" "}
                   <i
                     style={{
                       fontSize: "3px",
                       display: "flex",
                       alignItems: "center",
                       color: "teal",
+                      backgroundColor:'white'
                     }}
                     class="fa-solid fa-circle"
                   ></i>
-                  <span style={{ color: "teal" }}>{event.endTime}</span>{" "}
+                  <span style={{ color: "teal" , backgroundColor:'white'}}>{event.endTime}</span>{" "}
                 </div>
+               </div>
               </div>
               <div className="eventDetailsPrice">
                 <div><i class="fa-solid fa-dollar-sign"></i> {event.price}</div>

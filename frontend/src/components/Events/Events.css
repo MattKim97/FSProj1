@@ -84,7 +84,10 @@ margin-bottom: 10px;
 
   .eventDetailsTime{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
   }
 
 .eventsDetailsGridContainer{
@@ -112,6 +115,10 @@ margin-bottom: 10px;
     background-color: white;     
   }
   .eventDetailsGroupDetails > * > *{
+    background-color: white;     
+  }
+
+  .eventDetailsGroupDetails > * > * >{
     background-color: white;     
   }
   .eventDetailsGridDetails{
