@@ -97,8 +97,8 @@ margin-bottom: 10px;
 }
 
   .eventDetailsGridImage{
-    width: 600px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
   }
   .eventDetailsGroupDetails{
     width: 300px;
@@ -167,7 +167,7 @@ margin-bottom: 10px;
   }
 
   .eventDetailsBottom{
-    width: 1000px;
+    width: 93%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -182,6 +182,7 @@ margin-bottom: 10px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
   }
 
   .eventDetailsGroupDetailsText > div{
@@ -194,8 +195,7 @@ margin-bottom: 10px;
     flex-direction: column;
     margin-right: 40px;
     background-color: white;
-    width: max-content;
-    width: 1000px;
+    width: 93%;
     height: 90px;
     gap: 10px;
   }
@@ -233,7 +233,7 @@ margin-bottom: 10px;
   justify-content: flex-start;
   align-items: flex-start;
   text-align: left;
-  margin-left: 400px;
+  /* margin-left: 400px; */
 }
 
 .eventsFormSections{
@@ -271,7 +271,7 @@ margin-bottom: 10px;
 }
 
 .eventsFormDescription{
-  width: 500px;
+  width: 400px;
   margin-bottom: 10px;
   background-color: #E8F0FE;
   resize: none;

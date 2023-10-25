@@ -15,19 +15,10 @@ import EventsForm from "./components/Events/EventsForm";
 import GroupUpdateForm from "./components/Groups/GroupUpdateForm";
 
 function App() {
-  const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-  }, [dispatch]);
 
   return (
     <>
-    <div style={{display:'flex', justifyContent:'space-between', backgroundColor:'whitesmoke', borderBottom:'grey solid', alignItems:'center'}}>
-      <Header/>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Switch></Switch>}
-    </div>
+    <Header/>
     <Switch>
       <Route exact path='/'>
         <Home />

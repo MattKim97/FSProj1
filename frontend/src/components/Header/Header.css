@@ -10,8 +10,8 @@ color: #FF5A5F;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    /* gap: 1050px; */
-    width: 1300px
+    width: 100%;
+    border-bottom: 2px solid grey;
 }
 
 .headerLink{
@@ -20,4 +20,8 @@ color: teal;
 font-weight: bolder;
 display: flex;
 justify-content: flex-end;
+}
+.profileButtonAndLink{
+    display: flex;
+    align-items: center;
 }

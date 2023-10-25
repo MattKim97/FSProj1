@@ -11,9 +11,10 @@
 .groupDetailsEntireContainer{
 display: flex;
 flex-direction: column;
-/* justify-content: center; */
-/* align-items: center; */
-margin-left: 200px;
+justify-content: center;
+align-items: center;
+/* margin-left: 200px; */
+width: 100%;
 }
 
 
@@ -52,7 +53,10 @@ margin-top: 215px;
     display: flex;
     flex-direction: column;
     padding: 20px;
-    /* width: 1000px */
+    /* align-items: center; */
+    justify-content: center;
+    text-align: left;
+    width: 100%;
   }
 
   .groupDetailsBottom > div {
@@ -89,7 +93,7 @@ margin-top: 215px;
     gap: 20px;
     cursor: pointer;
     border: 1px grey solid;
-    width: 650px;
+    width: 100%;
     margin-bottom: 10px;
 }
 
@@ -128,7 +132,8 @@ margin-top: 215px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  gap:5px 
+  gap:5px ;
+  width: 95%;
 }
 
 .modal {
@@ -184,4 +189,8 @@ margin-top: 215px;
   cursor: pointer;
   box-shadow: 5px 2px 2px black;
 
+}
+
+html{
+  /* background-color: #CCCCCC; */
 }

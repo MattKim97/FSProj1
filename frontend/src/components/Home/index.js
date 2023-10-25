@@ -1,10 +1,9 @@
-import React from "react";
 import "./Home.css";
 import { useSelector } from "react-redux";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import SignupFormModal
  from "../SignupFormModal";
-import { useState, useRef } from "react";
+ import React, { useState, useRef, useEffect } from "react";
 
 export default function Home() {
   const sessionUser = useSelector((state) => state.session.user);
@@ -15,6 +14,31 @@ export default function Home() {
   const signUpModal = () => {
     setShowModal(true)
   }
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const modalRef = useRef(null);
+
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        closeModal();
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [showModal]);
 
   return (
     <div style={{marginBottom:'50px'}}>
@@ -93,9 +117,9 @@ export default function Home() {
       )}
       {showModal && (
         <div className="modal">
-      <SignupFormModal
-        onClose={() => setShowModal(false)}
-      />
+      <div ref={modalRef} className="modal-content">
+            <SignupFormModal onClose={closeModal} />
+          </div>
       </div>
     )}
     </div>

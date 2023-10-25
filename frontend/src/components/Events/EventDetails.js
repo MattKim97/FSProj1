@@ -59,7 +59,7 @@ export default function EventDetails() {
   if (!event || !eventGroup) return null;
 
   return (
-    <div>
+    <div className="eventDetailsPage">
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
