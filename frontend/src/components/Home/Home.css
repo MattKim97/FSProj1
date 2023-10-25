@@ -21,6 +21,7 @@ html{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-left: 100px;
 }
 .meetupImage{
     width: 500px;

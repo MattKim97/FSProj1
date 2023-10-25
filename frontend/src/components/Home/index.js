@@ -6,7 +6,7 @@ export default function Home() {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
-    <div>
+    <div style={{marginBottom:'50px'}}>
       <div className="gridContainer">
         <div className="textContainer">
           <h1 className="textHeader">
@@ -74,9 +74,11 @@ export default function Home() {
           </p>
         </div>
       </div>
+      {!sessionUser && (
       <div className="meetupButton">
         <button className="meetupButtonStyle">Join Meetup</button>
       </div>
+      )}
     </div>
   );
 }
