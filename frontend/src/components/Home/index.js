@@ -1,12 +1,24 @@
 import React from "react";
 import "./Home.css";
 import { useSelector } from "react-redux";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import SignupFormModal
+ from "../SignupFormModal";
+import { useState, useRef } from "react";
 
 export default function Home() {
   const sessionUser = useSelector((state) => state.session.user);
 
+  const [showModal, setShowModal] = useState(false);
+
+
+  const signUpModal = () => {
+    setShowModal(true)
+  }
+
   return (
     <div style={{marginBottom:'50px'}}>
+      
       <div className="gridContainer">
         <div className="textContainer">
           <h1 className="textHeader">
@@ -76,9 +88,16 @@ export default function Home() {
       </div>
       {!sessionUser && (
       <div className="meetupButton">
-        <button className="meetupButtonStyle">Join Meetup</button>
+        <button  onClick={(e)=> signUpModal()}className="meetupButtonStyle">Join Meetup</button>
       </div>
       )}
+      {showModal && (
+        <div className="modal">
+      <SignupFormModal
+        onClose={() => setShowModal(false)}
+      />
+      </div>
+    )}
     </div>
   );
 }

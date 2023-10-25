@@ -4,7 +4,7 @@ import {
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAGroup, getGroup, getGroupEvents } from "../../store/group";
+import { deleteAGroup, getGroup, getGroupEvents, getGroups } from "../../store/group";
 import { useEffect } from "react";
 import "./GroupDetails.css";
 import { useState } from "react";
@@ -14,11 +14,15 @@ export default function GroupDetails() {
 
   const { groupId } = useParams();
 
+  const groups = useSelector((state) => state.groupReducer.groups);
+
   const group = useSelector((state) => state.groupReducer.group);
 
   const sessionUser = useSelector((state) => state.session.user);
 
   const events = useSelector((state) => state.groupReducer.Events);
+
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -44,9 +48,11 @@ export default function GroupDetails() {
     openModal();
   };
 
-  const handleDelete = () => {
-    dispatch(deleteAGroup(groupId))
-    history.push(`/groups`); 
+  const handleDelete = async () => {
+    const response = await dispatch(deleteAGroup(groupId))
+    if(response){
+      history.push(`/groups`); 
+    }
   };
 
   const handleOnClick = () => {
@@ -60,6 +66,7 @@ export default function GroupDetails() {
   useEffect(() => {
     dispatch(getGroup(groupId));
     dispatch(getGroupEvents(groupId));
+    dispatch(getGroups())
   }, [dispatch]);
 
   // if (!events.length) return null;
@@ -210,7 +217,7 @@ export default function GroupDetails() {
           </div>
 
           <div>
-            {events.length > 0 ? (
+            {upcomingEvents.length > 0 ? (
               <h2>Upcoming Events({upcomingEvents.length})</h2>
             ) : (
               <h2>No Upcoming Events</h2>

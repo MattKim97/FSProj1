@@ -15,6 +15,8 @@ export default function EventDetails() {
 
   const { eventId } = useParams();
 
+  const groups = useSelector((state) => state.groupReducer.groups);
+
   const event = useSelector((state) => state.eventReducer.event);
 
   const eventGroup = useSelector((state) => state.groupReducer.group);

@@ -11,14 +11,19 @@ export default function Groups() {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.groupReducer.groups);
   const history = useHistory();
-  const [activeTab, setActiveTab] = useState("groups"); // "groups" is active by default
+  const [activeTab, setActiveTab] = useState("groups");
   const events = useSelector((state) => state.eventReducer.events.Events)
 
+  console.log('GroupsList Render')
 
   useEffect(() => {
     dispatch(getGroups());
     dispatch(getEvents());
   }, [dispatch]);
+
+  useEffect(()=> {
+    history.push('/groups')
+  }, [groups])
 
 
   const  handleOnClick = (groupId) => {
