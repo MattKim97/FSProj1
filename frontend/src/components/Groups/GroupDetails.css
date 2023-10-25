@@ -5,7 +5,8 @@
     grid-row: 200px;
     gap: 20px;
     /* border-top: 2px solid #999999; */
-    border-bottom: 1px solid #999999;
+    /* border-bottom: 1px solid #999999; */
+    width: 97% ;
 }
 
 .groupDetailsEntireContainer{
@@ -56,7 +57,7 @@ margin-top: 215px;
     /* align-items: center; */
     justify-content: center;
     text-align: left;
-    width: 100%;
+    width: 97%;
   }
 
   .groupDetailsBottom > div {
@@ -133,7 +134,7 @@ margin-top: 215px;
   align-items: flex-start;
   justify-content: flex-start;
   gap:5px ;
-  width: 95%;
+  width: 97%;
 }
 
 .modal {
@@ -189,8 +190,4 @@ margin-top: 215px;
   cursor: pointer;
   box-shadow: 5px 2px 2px black;
 
-}
-
-html{
-  /* background-color: #CCCCCC; */
 }
