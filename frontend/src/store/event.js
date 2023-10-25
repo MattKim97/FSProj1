@@ -1,17 +1,24 @@
 import { csrfFetch } from "./csrf";
 
-const GET_EVENTS = 'events/GET_EVENTS';
-const GET_EVENT = 'events/GET_EVENT';
+const GET_EVENTS = "events/GET_EVENTS";
+const GET_EVENT = "events/GET_EVENT";
 const CREATE_EVENT = "event/CREATE_EVENT";
-const CREATE_EVENT_IMAGE = "event/CREATE_EVENT_IMAGE"
+const CREATE_EVENT_IMAGE = "event/CREATE_EVENT_IMAGE";
+const DELETE_EVENT = "event/DELETE_EVENT";
 
+const fetchEvents = (events) => {
+  return {
+    type: GET_EVENTS,
+    events,
+  };
+};
 
-const fetchEvents = (events)=> {
-    return {
-        type: GET_EVENTS,
-        events
-    }
-}
+const deleteEvent = (eventId) => {
+  return {
+    type: DELETE_EVENT,
+    eventId,
+  };
+};
 
 const fetchEvent = (event) => {
   return {
@@ -25,7 +32,7 @@ const createEventImage = (eventImage) => {
     type: CREATE_EVENT_IMAGE,
     eventImage,
   };
-}
+};
 
 const createEvent = (event) => {
   return {
@@ -71,62 +78,79 @@ export const createAEventImage = (eventId, eventImage) => async (dispatch) => {
 };
 
 export const getEvents = () => async (dispatch) => {
-    try {
-      const response = await csrfFetch("/api/events");
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(fetchEvents(data));
-        return response;
-      }
-    } catch (err) {
-      console.error(err);
+  try {
+    const response = await csrfFetch("/api/events");
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(fetchEvents(data));
+      return response;
     }
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-  export const getEvent = (eventId) => async (dispatch) => {
-    try {
-      const response = await csrfFetch(`/api/events/${eventId}`);
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(fetchEvent(data));
-        return data
-      }
-    } catch (err) {
-      console.error(err);
+export const getEvent = (eventId) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/events/${eventId}`);
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(fetchEvent(data));
+      return data;
     }
-  };
-  
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-  
-  const initialState = {
-    events: [],
-  };
-  
-  const eventReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case GET_EVENTS:
-        return {
-          ...state,
-          events: action.events,
-        };
-        case GET_EVENT:
-          return {
-            ...state,
-            event: {...action.event}
-          };
-          case CREATE_EVENT:
-            return {
-              ...state,
-              events: [...state.events.Events, action.event],
-            };
-            // case CREATE_EVENT_IMAGE:
-            //   return {
-            //     ...state,
-            //     eventImages: [...state.eventImages, action.eventImage],
-            //   };
-      default:
-        return state;
+export const deleteAEvent = (eventId) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/events/${eventId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(deleteEvent(eventId));
+      return data;
     }
-  };
-  
-  export default eventReducer;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const initialState = {
+  events: [],
+};
+
+const eventReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_EVENTS:
+      return {
+        ...state,
+        events: action.events,
+      };
+    case GET_EVENT:
+      return {
+        ...state,
+        event: { ...action.event },
+      };
+    case CREATE_EVENT:
+      return {
+        ...state,
+        events: [...state.events.Events, action.event],
+      };
+    case DELETE_EVENT:
+      const updatedEventsDelete = state.events.Events.filter((event)=> event.id !== action.eventId)
+      return {
+        ...state,
+        events:[...updatedEventsDelete]
+      }
+
+    default:
+      return state;
+  }
+};
+
+export default eventReducer;

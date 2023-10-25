@@ -4,13 +4,21 @@ const GET_GROUPS = "groups/GET_GROUPS";
 const GET_GROUP = "groups/GET_GROUP";
 const GET_GROUP_EVENTS = "group/GET_GROUP_EVENTS";
 const CREATE_GROUP = "group/CREATE_GROUP";
-const CREATE_GROUP_IMAGE = "group/CREATE_GROUP_IMAGE"
-const UPDATE_GROUP = "group/UPDATE_GROUP"
+const CREATE_GROUP_IMAGE = "group/CREATE_GROUP_IMAGE";
+const UPDATE_GROUP = "group/UPDATE_GROUP";
+const DELETE_GROUP = "group/DELETE_GROUP";
 
 const fetchGroups = (groups) => {
   return {
     type: GET_GROUPS,
     groups,
+  };
+};
+
+const deleteGroup = (groupId) => {
+  return {
+    type: DELETE_GROUP,
+    groupId,
   };
 };
 
@@ -33,7 +41,7 @@ const createGroupImage = (groupImage) => {
     type: CREATE_GROUP_IMAGE,
     groupImage,
   };
-}
+};
 
 const createGroup = (group) => {
   return {
@@ -45,9 +53,9 @@ const createGroup = (group) => {
 const updateGroup = (group) => {
   return {
     type: UPDATE_GROUP,
-    group
-  }
-}
+    group,
+  };
+};
 
 export const getGroups = () => async (dispatch) => {
   try {
@@ -91,7 +99,24 @@ export const updateAGroup = (groupId, updatedGroup) => async (dispatch) => {
   } catch (err) {
     console.error(err);
   }
-}
+};
+
+export const deleteAGroup = (groupId) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(deleteGroup(groupId));
+      return data;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export const getGroupEvents = (groupId) => async (dispatch) => {
   try {
@@ -157,25 +182,30 @@ const groupReducer = (state = initialState, action) => {
       newState = { ...state, Events: [...action.events.Events] };
       return newState;
     case CREATE_GROUP:
-      newState = {...state, groups: [...state.groups,action.group]}
-      return newState
-      case UPDATE_GROUP:
+      newState = { ...state, groups: [...state.groups, action.group] };
+      return newState;
+    case UPDATE_GROUP:
+      const updatedGroupIndex = state.groups.findIndex(
+        (group) => group.id === action.group.id
+      );
 
-        const updatedGroupIndex = state.groups.findIndex(
-          (group) => group.id === action.group.id
-        );
+      const updatedGroups = [...state.groups];
+      if (updatedGroupIndex !== -1) {
+        updatedGroups[updatedGroupIndex] = action.group;
+      }
 
-        const updatedGroups = [...state.groups];
-        if (updatedGroupIndex !== -1) {
-          updatedGroups[updatedGroupIndex] = action.group;
-        }
+      newState = { ...state, groups: updatedGroups };
+      return newState;
+    case DELETE_GROUP:
+      const updatedGroupsDelete = state.groups.filter(
+        (group) => group.id !== action.groupId
+      );
+      newState = { ...state, groups: updatedGroupsDelete };
+      return newState;
 
-        newState = { ...state, groups: updatedGroups };
-        return newState;
     default:
       return state;
   }
-  
 };
 
 export default groupReducer;

@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getGroup } from "../../store/group";
 import { useEffect } from "react";
 import "./Events.css";
-import { getEvent } from "../../store/event";
+import { deleteAEvent, getEvent } from "../../store/event";
+import { useState } from "react";
 
 export default function EventDetails() {
   const dispatch = useDispatch();
@@ -20,6 +21,28 @@ export default function EventDetails() {
 
   const sessionUser = useSelector((state) => state.session.user);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const history = useHistory();
+
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const onClickDelete = () => {
+    openModal();
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteAEvent(eventId))
+    history.push(`/groups/${eventGroup.id}`); 
+
+  };
 
   useEffect(() => {
     dispatch(getEvent(eventId));
@@ -35,6 +58,22 @@ export default function EventDetails() {
 
   return (
     <div>
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h1>Confirm Delete</h1>
+            <p>Are you sure you want to remove this event?</p>
+            <div className="modalButtons">
+              <button className="deleteButton" onClick={handleDelete}>
+                Yes (Delete Event)
+              </button>
+              <button className="keepButton" onClick={closeModal}>
+                No (Keep Event)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="eventDetailsContainerPage">
         <div className="eventDetailsHeader">
           <div>
@@ -130,7 +169,12 @@ export default function EventDetails() {
                 {sessionUser &&
                   event &&
                   sessionUser.id == eventGroup.Organizer.id && (
-                    <button className="eventDeleteButton">Delete</button>
+                    <button
+                      onClick={(e) => onClickDelete()}
+                      className="eventDeleteButton"
+                    >
+                      Delete
+                    </button>
                   )}
               </div>
             </div>
