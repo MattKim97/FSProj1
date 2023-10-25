@@ -25,6 +25,10 @@ export default function GroupDetails() {
     history.push(`/groups/${groupId}/events/new`)
   }
 
+  const onClickUpdate = () => {
+    history.push(`/groups/${groupId}/edit`)
+  }
+
   const handleOnClick = () => {
     window.alert("Feature Coming Soon...");
   };
@@ -116,8 +120,8 @@ export default function GroupDetails() {
               ? sessionUser.id === group.Organizer.id && (
                   <div className="groupOwnerButtonsContainer">
                     <button onClick={(e)=> onClickCreate()}className="groupOwnerButtons">Create event</button>
-                    <button className="groupOwnerButtons">Update event</button>
-                    <button className="groupOwnerButtons">Delete event</button>
+                    <button onClick={(e)=> onClickUpdate()} className="groupOwnerButtons">Update</button>
+                    <button className="groupOwnerButtons">Delete</button>
                   </div>
                 )
               : null}

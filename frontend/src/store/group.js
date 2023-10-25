@@ -5,6 +5,7 @@ const GET_GROUP = "groups/GET_GROUP";
 const GET_GROUP_EVENTS = "group/GET_GROUP_EVENTS";
 const CREATE_GROUP = "group/CREATE_GROUP";
 const CREATE_GROUP_IMAGE = "group/CREATE_GROUP_IMAGE"
+const UPDATE_GROUP = "group/UPDATE_GROUP"
 
 const fetchGroups = (groups) => {
   return {
@@ -41,6 +42,13 @@ const createGroup = (group) => {
   };
 };
 
+const updateGroup = (group) => {
+  return {
+    type: UPDATE_GROUP,
+    group
+  }
+}
+
 export const getGroups = () => async (dispatch) => {
   try {
     const response = await csrfFetch("/api/groups");
@@ -66,6 +74,24 @@ export const getGroup = (groupId) => async (dispatch) => {
     console.error(err);
   }
 };
+
+export const updateAGroup = (groupId, updatedGroup) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedGroup),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(updateGroup(data));
+      return data;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 export const getGroupEvents = (groupId) => async (dispatch) => {
   try {
@@ -133,6 +159,19 @@ const groupReducer = (state = initialState, action) => {
     case CREATE_GROUP:
       newState = {...state, groups: [...state.groups,action.group]}
       return newState
+      case UPDATE_GROUP:
+
+        const updatedGroupIndex = state.groups.findIndex(
+          (group) => group.id === action.group.id
+        );
+
+        const updatedGroups = [...state.groups];
+        if (updatedGroupIndex !== -1) {
+          updatedGroups[updatedGroupIndex] = action.group;
+        }
+
+        newState = { ...state, groups: updatedGroups };
+        return newState;
     default:
       return state;
   }

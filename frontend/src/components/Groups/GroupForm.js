@@ -165,9 +165,11 @@ export default function GroupForm() {
         <section className="addALineUnderneatch">
           <h2>Describe the purpose of your group</h2>
           <p>
-            People will see this when we promote your group, but you'll be able
-            to add to it later, too. 1. What's the purpose of the group? 2. Who
-            should join? 3. What will you do at your events?
+          People will see this when we promote your group, but you'll be able
+          to add to it later, too.<br></br>
+        1. What's the purpose of the group?  <br></br>
+        2. Who should join? <br></br>
+        3. What will you do at your events?
           </p>
 
           <textarea
