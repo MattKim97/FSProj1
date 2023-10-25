@@ -107,10 +107,10 @@ export default function EventDetails() {
               </div>
 
               <div className="eventDetailsGroupDetailsText">
-                <div style={{ fontSize: "large", fontWeight: "bold" }}>
+                <div style={{ fontSize: "large", fontWeight: "bold", backgroundColor:'white'}}>
                   {eventGroup.name}
                 </div>
-                <div style={{ color: "grey" }}>
+                <div style={{ color: "grey", backgroundColor:'white'}}>
                   {eventGroup.private ? "Private" : "Public"}
                 </div>
               </div>
