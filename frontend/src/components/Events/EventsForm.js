@@ -18,7 +18,7 @@ export default function EventsForm() {
 
   const [eventType, setEventType] = useState("Select One");
 
-  const [eventStatus, setEventStatus] = useState("Select One");
+  const [eventCapacity, setEventCapacity] = useState(0);
 
   const [eventPrice, setEventPrice] = useState(0);
 
@@ -36,12 +36,12 @@ export default function EventsForm() {
 
   const group = useSelector((state) => state.groupReducer.group);
 
+
   const dispatch = useDispatch();
 
   const sessionUser = useSelector((state) => state.session.user);
 
   const events = useSelector((state) => state.eventReducer.events)
-  console.log("🚀 ~ file: EventsForm.js:44 ~ EventsForm ~ events:", events)
 
   useEffect(() => {
       dispatch(getEvents());
@@ -55,6 +55,8 @@ export default function EventsForm() {
   if (!group) return null;
   if(!events || events.length === 0) return null
 
+  console.log("🚀 ~ file: EventsForm.js:38 ~ EventsForm ~ group:", group.Venues[0].id)
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setSubmit(true);
@@ -64,8 +66,8 @@ export default function EventsForm() {
       formErrors.eventName = "Name is required";
     }
 
-    if (eventStatus == "Select One") {
-      formErrors.eventStatus = "Event Type is required";
+    if (eventCapacity == 0) {
+      formErrors.eventCapacity = "Capacity is required";
     }
     if (eventType == "Select One") {
       formErrors.eventType = "Visibility is required";
@@ -99,12 +101,12 @@ export default function EventsForm() {
       return;
     }
     const createdEvent = {
-        venueId: 1,
+        venueId: group.Venues[0].id,
         groupId,
         name: eventName,
         description: eventDescription,
         type: eventType,
-        capacity: 10,
+        capacity: eventCapacity,
         price: eventPrice,
         startDate: eventStartDate,
         endDate: eventEndDate
@@ -122,14 +124,14 @@ export default function EventsForm() {
         history.push(`/events/${response.id}`)
     }
 
-    // setEventName("");
-    // setEventType("In Person")
-    // setEventStatus("In Person")
-    // setEventPrice(0)
-    // setEventStartDate("")
-    // setEventEndDate("")
-    // setEventImage("")
-    // setEventDescription("")
+    setEventName("");
+    setEventType("In Person")
+    setEventPrice(0)
+    setEventCapacity(0)
+    setEventStartDate("")
+    setEventEndDate("")
+    setEventImage("")
+    setEventDescription("")
 
 
   };
@@ -169,19 +171,17 @@ export default function EventsForm() {
             <div className="groupFormErrors">{errors.eventType}</div>
           )}
 
-          <label>Is this group private or public?</label>
+          <label>What is the capacity for this event?</label>
+          <input
+            type="number"
+            placeholder="0"
+            className="eventsFormPrice"
+            value={eventCapacity}
+            onChange={(e) => setEventCapacity(e.target.value)}
+          />
 
-          <select
-            value={eventStatus}
-            className="eventsFormSelection"
-            onChange={(e) => setEventStatus(JSON.parse(e.target.value))}
-          >
-            <option value="Select One">Select One</option>
-            <option value="true">Private</option>
-            <option value="false">Public</option>
-          </select>
-          {errors.eventStatus && (
-            <div className="groupFormErrors">{errors.eventStatus}</div>
+          {errors.eventCapacity && (
+            <div className="groupFormErrors">{errors.eventCapacity}</div>
           )}
 
           <label>What is the price for your event?</label>
