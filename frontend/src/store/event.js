@@ -98,7 +98,7 @@ export const getEvents = () => async (dispatch) => {
   
 
   
-const initialState = {
+  const initialState = {
     events: [],
   };
   
@@ -115,7 +115,15 @@ const initialState = {
             event: {...action.event}
           };
           case CREATE_EVENT:
-            return {...state, events: [...state.events,action.event]}
+            return {
+              ...state,
+              events: [...state.events.Events, action.event],
+            };
+            // case CREATE_EVENT_IMAGE:
+            //   return {
+            //     ...state,
+            //     eventImages: [...state.eventImages, action.eventImage],
+            //   };
       default:
         return state;
     }

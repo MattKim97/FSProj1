@@ -9,6 +9,7 @@ import {
 import { getGroup } from "../../store/group";
 import { createAEvent,createAEventImage } from "../../store/event";
 import "./Events.css"
+import { getEvents } from "../../store/event";
 
 export default function EventsForm() {
   const { groupId } = useParams();
@@ -39,13 +40,20 @@ export default function EventsForm() {
 
   const sessionUser = useSelector((state) => state.session.user);
 
-  const history = useHistory()
+  const events = useSelector((state) => state.eventReducer.events)
+  console.log("🚀 ~ file: EventsForm.js:44 ~ EventsForm ~ events:", events)
 
   useEffect(() => {
-    dispatch(getGroup(groupId));
-  }, [dispatch]);
+      dispatch(getEvents());
+      dispatch(getGroup(groupId));
+
+    }, [dispatch]);
+
+  const history = useHistory()
+
 
   if (!group) return null;
+  if(!events || events.length === 0) return null
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -111,18 +119,18 @@ export default function EventsForm() {
             preview: true
         }
         dispatch(createAEventImage(response.id,createdEventImage))
+        history.push(`/events/${response.id}`)
     }
 
-    setEventName("");
-    setEventType("In Person")
-    setEventStatus("In Person")
-    setEventPrice(0)
-    setEventStartDate("")
-    setEventEndDate("")
-    setEventImage("")
-    setEventDescription("")
+    // setEventName("");
+    // setEventType("In Person")
+    // setEventStatus("In Person")
+    // setEventPrice(0)
+    // setEventStartDate("")
+    // setEventEndDate("")
+    // setEventImage("")
+    // setEventDescription("")
 
-    history.push(`/events/${response.id}`)
 
   };
 

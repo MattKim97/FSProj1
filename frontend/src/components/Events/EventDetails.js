@@ -20,6 +20,7 @@ export default function EventDetails() {
 
   const sessionUser = useSelector((state) => state.session.user);
 
+
   useEffect(() => {
     dispatch(getEvent(eventId));
   }, [dispatch]);
