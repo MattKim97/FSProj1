@@ -21,6 +21,10 @@ export default function GroupDetails() {
 
   const history = useHistory()
 
+  const onClickCreate = () => {
+    history.push('/events/new')
+  }
+
   const handleOnClick = () => {
     window.alert("Feature Coming Soon...");
   };
@@ -67,9 +71,10 @@ export default function GroupDetails() {
 
   return (
     <div>
-      <div>
+    <div className="groupDetailsEntireContainer">
+      <div className="groupDetailsHeader">
         <i class="fa-solid fa-less-than"></i>
-        <a href="/groups"> Groups </a>
+        <a style={{color:'teal'}} href="/groups"> Groups </a>
       </div>
 
       <div className="groupDetailGridContainer">
@@ -110,7 +115,7 @@ export default function GroupDetails() {
             {sessionUser
               ? sessionUser.id === group.Organizer.id && (
                   <div className="groupOwnerButtonsContainer">
-                    <button className="groupOwnerButtons">Create event</button>
+                    <button onClick={(e)=> onClickCreate()}className="groupOwnerButtons">Create event</button>
                     <button className="groupOwnerButtons">Update event</button>
                     <button className="groupOwnerButtons">Delete event</button>
                   </div>
@@ -134,7 +139,7 @@ export default function GroupDetails() {
         </div>
 
         <div>
-          <h2>Upcoming Events({events.length})</h2>
+          {events.length > 0 ?  <h2>Upcoming Events({events.length})</h2> : <h2>No Upcoming Events</h2> }
           <div className="groupDetailsBottom">
             {upcomingEvents.map((event) => (
               <div key={event.id}>
@@ -205,6 +210,7 @@ export default function GroupDetails() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

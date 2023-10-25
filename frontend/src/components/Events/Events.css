@@ -210,3 +210,19 @@ margin-bottom: 10px;
     background-color: white;
     color: teal;
   }
+  .eventDeleteButton{
+    background-color: darkgray;
+    margin-right: 20px;
+    box-shadow: 5px 2px 2px black;
+  }
+
+  .eventDeleteButtonContainer{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .eventDetailsType{
+    display: flex;
+    justify-content: space-between;
+  }

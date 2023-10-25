@@ -63,7 +63,7 @@ export default function Home() {
             src="https://secure.meetupstatic.com/next/images/indexPage/blog/third_article.webp?w=384"
           />
           {sessionUser ? (
-            <a className="meetupGridLinks" href="/">
+            <a className="meetupGridLinks" href="/groups/new">
               Create a group
             </a>
           ) : (

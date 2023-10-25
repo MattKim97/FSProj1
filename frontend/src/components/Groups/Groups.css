@@ -90,3 +90,66 @@ margin-bottom: 10px;
     font-size: large;
     color: #999999;
   }
+
+  .groupFormContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* border: 2px black solid; */
+    width:1000px;
+    margin-left: 250px;
+    padding-bottom: 100px;
+  }
+
+  .groupFormErrors{
+    color: red;
+    margin-bottom: 5px;
+  }
+
+  .locationInput{
+    width: 300px;
+    margin-right: 25px;
+    margin-bottom: 10px;
+    background-color: #E8F0FE;
+  }
+
+  .groupNameInput{
+    width: 300px;
+    margin-bottom: 10px;
+    background-color: #E8F0FE;
+  }
+
+  .groupDescriptionInput{
+    width: 400px;
+    height: 150px;
+    margin-bottom: 10px;
+    resize: none;
+    background-color: #E8F0FE;
+  }
+  .groupTypeSelectSection{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px   ;
+  }
+
+  .groupTypeSelect{
+    width: 100px;
+    background-color: #E8F0FE;
+  }
+  .groupImageInput{
+    width: 300px;
+    background-color: #E8F0FE;
+  }
+
+  .createGroupButton{
+    width: 150px;
+    background-color: #FF5A5F;
+    color: white;
+    height: 40px;
+    box-shadow: 5px 2px 2px black;
+  }
+
+  .addALineUnderneatch{
+    border-bottom: 2px grey solid;
+  }

@@ -4,3 +4,20 @@ background-color: whitesmoke;
 margin-left: 50px;
 color: #FF5A5F;
 }
+
+.headerContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* gap: 1050px; */
+    width: 1300px
+}
+
+.headerLink{
+text-decoration: none;
+color: teal;
+font-weight: bolder;
+display: flex;
+justify-content: flex-end;
+}

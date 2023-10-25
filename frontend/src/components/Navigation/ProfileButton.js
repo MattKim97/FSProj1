@@ -56,8 +56,8 @@ function ProfileButton({ user }) {
   return (
     <>
       <button  className='roundedButton' onClick={openMenu}>
-        <i className="fa-solid fa-bars"></i>
-        <i className="fas fa-user-circle userIcon" />
+        <i className="fa-solid fa-bars" style={{color:'#FF5A5F'}}></i>
+        <i className="fas fa-user-circle userIcon" style={{color:'#FF5A5F'}} />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (

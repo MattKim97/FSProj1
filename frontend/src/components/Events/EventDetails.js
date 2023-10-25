@@ -18,6 +18,8 @@ export default function EventDetails() {
 
   const eventGroup = useSelector((state) => state.groupReducer.group);
 
+  const sessionUser = useSelector((state) => state.session.user);
+
   useEffect(() => {
     dispatch(getEvent(eventId));
   }, [dispatch]);
@@ -35,11 +37,13 @@ export default function EventDetails() {
       <div className="eventDetailsContainerPage">
         <div className="eventDetailsHeader">
           <div>
-            <i style={{fontSize:'10px'}} class="fa-solid fa-less-than"></i>
-            <a href="/events" > Events </a>
+            <i style={{ fontSize: "10px" }} class="fa-solid fa-less-than"></i>
+            <a href="/events"> Events </a>
           </div>
-          <div style={{fontSize:'24px',fontWeight:'bold'}}>{event.name}</div>
-          <div style= {{color:'grey'}}>
+          <div style={{ fontSize: "24px", fontWeight: "bold" }}>
+            {event.name}
+          </div>
+          <div style={{ color: "grey" }}>
             Hosted by {eventGroup.Organizer.firstName}{" "}
             {eventGroup.Organizer.lastName}
           </div>
@@ -61,55 +65,78 @@ export default function EventDetails() {
               </div>
 
               <div className="eventDetailsGroupDetailsText">
-                <div style= {{fontSize:'large',fontWeight:'bold'}}>{eventGroup.name}</div>
-                <div style={{color:'grey'}}>{eventGroup.private ? "Private" : "Public"}</div>
+                <div style={{ fontSize: "large", fontWeight: "bold" }}>
+                  {eventGroup.name}
+                </div>
+                <div style={{ color: "grey" }}>
+                  {eventGroup.private ? "Private" : "Public"}
+                </div>
               </div>
             </div>
             <div className="eventDetailsGridDetails">
               <div className="eventDetailsTime">
                 <i class="fa-regular fa-clock"></i>
-               <div>
-               <div className="eventDetailsTimes">
-                  START <span style={{ color: "teal", backgroundColor:'white'}}>{event.startDate}</span>{" "}
-                  <i
-                    style={{
-                      fontSize: "3px",
-                      display: "flex",
-                      alignItems: "center",
-                      color: "teal",
-                      backgroundColor:'white'
-                    }}
-                    class="fa-solid fa-circle"
-                  ></i>{" "}
-                  <span style={{ color: "teal" , backgroundColor:'white'}}>{event.startTime}</span>{" "}
+                <div>
+                  <div className="eventDetailsTimes">
+                    START{" "}
+                    <span style={{ color: "teal", backgroundColor: "white" }}>
+                      {event.startDate}
+                    </span>{" "}
+                    <i
+                      style={{
+                        fontSize: "3px",
+                        display: "flex",
+                        alignItems: "center",
+                        color: "teal",
+                        backgroundColor: "white",
+                      }}
+                      class="fa-solid fa-circle"
+                    ></i>{" "}
+                    <span style={{ color: "teal", backgroundColor: "white" }}>
+                      {event.startTime}
+                    </span>{" "}
+                  </div>
+                  <div className="eventDetailsTimes">
+                    END{" "}
+                    <span style={{ color: "teal", backgroundColor: "white" }}>
+                      {event.endDate}
+                    </span>{" "}
+                    <i
+                      style={{
+                        fontSize: "3px",
+                        display: "flex",
+                        alignItems: "center",
+                        color: "teal",
+                        backgroundColor: "white",
+                      }}
+                      class="fa-solid fa-circle"
+                    ></i>
+                    <span style={{ color: "teal", backgroundColor: "white" }}>
+                      {event.endTime}
+                    </span>{" "}
+                  </div>
                 </div>
-                <div className="eventDetailsTimes">
-                  END <span style={{ color: "teal" , backgroundColor:'white'}}>{event.endDate}</span>{" "}
-                  <i
-                    style={{
-                      fontSize: "3px",
-                      display: "flex",
-                      alignItems: "center",
-                      color: "teal",
-                      backgroundColor:'white'
-                    }}
-                    class="fa-solid fa-circle"
-                  ></i>
-                  <span style={{ color: "teal" , backgroundColor:'white'}}>{event.endTime}</span>{" "}
-                </div>
-               </div>
               </div>
               <div className="eventDetailsPrice">
-                <div><i class="fa-solid fa-dollar-sign"></i> {event.price}</div>
+                <div>
+                  <i class="fa-solid fa-dollar-sign"></i> {event.price}
+                </div>
               </div>
               <div className="eventDetailsType">
-                <div><i class="fa-solid fa-map-pin"></i> {event.type}</div>
+                <div>
+                  <i class="fa-solid fa-map-pin"></i> {event.type}
+                </div>
+                {sessionUser &&
+                  event &&
+                  sessionUser.id == eventGroup.Organizer.id && (
+                    <button className="eventDeleteButton">Delete</button>
+                  )}
               </div>
             </div>
           </div>
         </div>
         <div className="eventDetailsBottom">
-          <div style={{fontSize:'x-large',fontWeight:'bold'}}>Details</div>
+          <div style={{ fontSize: "x-large", fontWeight: "bold" }}>Details</div>
           {event.description}
         </div>
       </div>

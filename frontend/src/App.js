@@ -10,6 +10,7 @@ import { Route } from "react-router-dom/cjs/react-router-dom.min";
 import GroupDetails from "./components/Groups/GroupDetails";
 import Events from "./components/Events";
 import EventDetails from "./components/Events/EventDetails";
+import GroupForm from "./components/Groups/GroupForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <>
-    <div style={{display:'flex', justifyContent:'space-between', backgroundColor:'whitesmoke', borderBottom:'grey solid'}}>
+    <div style={{display:'flex', justifyContent:'space-between', backgroundColor:'whitesmoke', borderBottom:'grey solid', alignItems:'center'}}>
       <Header/>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && <Switch></Switch>}
@@ -31,6 +32,9 @@ function App() {
       </Route>
       <Route exact path='/groups'>
         <Groups />
+      </Route>
+      <Route exact path='/groups/new'>
+        <GroupForm />
       </Route>
       <Route exact path='/groups/:groupId'>
         <GroupDetails/>

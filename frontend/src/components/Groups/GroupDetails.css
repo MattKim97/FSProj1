@@ -1,11 +1,21 @@
+
 .groupDetailGridContainer{
     display: grid;
     grid-template-columns: 600px 300px;
     grid-row: 200px;
     gap: 20px;
-    border-top: 2px solid #999999;
+    /* border-top: 2px solid #999999; */
     border-bottom: 1px solid #999999;
 }
+
+.groupDetailsEntireContainer{
+display: flex;
+flex-direction: column;
+/* justify-content: center; */
+/* align-items: center; */
+margin-left: 200px;
+}
+
 
 .groupDetailsImages{
     height: 400px;
@@ -39,7 +49,10 @@ margin-top: 215px;
 .groupDetailsBottom {
     background-color: #CCCCCC
     ;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
+    /* width: 1000px */
   }
 
   .groupDetailsBottom > div {
@@ -108,4 +121,12 @@ margin-top: 215px;
     margin-bottom: 5px;
     margin-left: 20px;
     background-color: #CCCCCC
+}
+
+.groupDetailsHeader{
+  margin-top: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap:5px 
 }
