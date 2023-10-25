@@ -22,7 +22,7 @@ export default function GroupDetails() {
   const history = useHistory()
 
   const onClickCreate = () => {
-    history.push('/events/new')
+    history.push(`/groups/${groupId}/events/new`)
   }
 
   const handleOnClick = () => {
@@ -139,7 +139,7 @@ export default function GroupDetails() {
         </div>
 
         <div>
-          {events.length > 0 ?  <h2>Upcoming Events({events.length})</h2> : <h2>No Upcoming Events</h2> }
+          {events.length > 0 ?  <h2>Upcoming Events({upcomingEvents.length})</h2> : <h2>No Upcoming Events</h2> }
           <div className="groupDetailsBottom">
             {upcomingEvents.map((event) => (
               <div key={event.id}>
