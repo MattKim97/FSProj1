@@ -133,11 +133,6 @@ const groupReducer = (state = initialState, action) => {
     case CREATE_GROUP:
       newState = {...state, groups: [...state.groups,action.group]}
       return newState
-    // case CREATE_GROUP_IMAGE:
-    //     newState = {
-    //       ...state,
-    //       GroupImages: [...state.GroupImages, action.groupImage],
-    //     };
     default:
       return state;
   }

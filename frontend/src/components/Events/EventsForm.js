@@ -7,6 +7,8 @@ import {
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 import { getGroup } from "../../store/group";
+import { createAEvent,createAEventImage } from "../../store/event";
+import "./Events.css"
 
 export default function EventsForm() {
   const { groupId } = useParams();
@@ -36,6 +38,8 @@ export default function EventsForm() {
   const dispatch = useDispatch();
 
   const sessionUser = useSelector((state) => state.session.user);
+
+  const history = useHistory()
 
   useEffect(() => {
     dispatch(getGroup(groupId));
@@ -79,19 +83,53 @@ export default function EventsForm() {
       formErrors.eventImage = "Image URL must end in .png,.jpg, or .jpeg";
     }
     if (eventDescription.length < 30) {
-      formErrors.eventDescription = "Description needs 50 or more characters";
+      formErrors.eventDescription = "Description needs 30 or more characters";
     }
 
     if (Object.values(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
+    const createdEvent = {
+        venueId: 1,
+        groupId,
+        name: eventName,
+        description: eventDescription,
+        type: eventType,
+        capacity: 10,
+        price: eventPrice,
+        startDate: eventStartDate,
+        endDate: eventEndDate
+    }
+
+    const response = await dispatch(createAEvent(createdEvent))
+
+    if(response) {
+        const createdEventImage = {
+            eventId: response.id,
+            url: eventImage,
+            preview: true
+        }
+        dispatch(createAEventImage(response.id,createdEventImage))
+    }
+
+    setEventName("");
+    setEventType("In Person")
+    setEventStatus("In Person")
+    setEventPrice(0)
+    setEventStartDate("")
+    setEventEndDate("")
+    setEventImage("")
+    setEventDescription("")
+
+    history.push(`/events/${response.id}`)
+
   };
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
-        <section>
+      <form onSubmit={onSubmit} className="eventsFormContainer">
+        <section className="eventsFormSections"> 
           <h1>Create an event for {group.name}</h1>
           <label>What is the name of your event?</label>
           <input
@@ -99,21 +137,21 @@ export default function EventsForm() {
             placeholder="Event Name"
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
-            className=""
+            className="eventsFormInputText"
           />
           {errors.eventName && (
             <div className="groupFormErrors">{errors.eventName}</div>
           )}
         </section>
 
-        <section>
+        <section className="eventsFormSections">
           <label>Is this an in person or online event?</label>
           <select
             id="eventType"
             name="eventType"
             value={eventType}
             onChange={(e) => setEventType(e.target.value)}
-            className=""
+            className="eventsFormSelection"
           >
             <option value="Select One">Select One</option>
             <option value="In person">In Person</option>
@@ -127,7 +165,7 @@ export default function EventsForm() {
 
           <select
             value={eventStatus}
-            className=""
+            className="eventsFormSelection"
             onChange={(e) => setEventStatus(JSON.parse(e.target.value))}
           >
             <option value="Select One">Select One</option>
@@ -142,7 +180,7 @@ export default function EventsForm() {
           <input
             type="number"
             placeholder="0"
-            className=""
+            className="eventsFormPrice"
             value={eventPrice}
             onChange={(e) => setEventPrice(e.target.value)}
           />
@@ -151,12 +189,12 @@ export default function EventsForm() {
           )}
         </section>
 
-        <section>
+        <section className="eventsFormSections">
           <label>When does your event start?</label>
           <input
             type="text"
-            placeholder="MM/DD/YYYY HH/mm AM"
-            className=""
+            placeholder="MM-DD-YYYY HH:mm"
+            className="eventsFormDate"
             value={eventStartDate}
             onChange={(e) => setEventStartDate(e.target.value)}
           />
@@ -167,8 +205,8 @@ export default function EventsForm() {
           <label>When does your event end?</label>
           <input
             type="text"
-            placeholder="MM/DD/YYYY HH/mm PM"
-            className=""
+            placeholder="MM-DD-YYYY HH:mm"
+            className="eventsFormDate"
             value={eventEndDate}
             onChange={(e) => setEventEndDate(e.target.value)}
           />
@@ -176,24 +214,25 @@ export default function EventsForm() {
             <div className="groupFormErrors">{errors.eventEndDate}</div>
           )}
         </section>
-        <section>
+        <section className="eventsFormSections">
           <label>Please add an image URL for your event below:</label>
           <input
             type="text"
-            className="groupImageInput"
             placeholder="Image URL"
             value={eventImage}
             onChange={(e) => setEventImage(e.target.value)}
+            className="eventsFormInputText"
           />
               {errors.eventImage && (
             <div className="groupFormErrors">{errors.eventImage}</div>
           )}
         </section>
-        <section>
+        <section className="eventsFormSections">
           <label>Please describe your event:</label>
           <textarea
             placeholder="Please include at least 30 characters"
             value={eventDescription}
+            className="eventsFormDescription"
             onChange={(e) => setEventDescription(e.target.value)}
           />
             {errors.eventDescription && (

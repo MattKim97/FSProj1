@@ -99,14 +99,12 @@ export default function GroupForm() {
       dispatch(createAGroupImage(response.id, createdGroupImage));
     }
 
-    console.log(createdGroup);
-
     setCity("");
     setState("");
     setGroupName("");
     setGroupPurpose("");
     setGroupType("In Person");
-    setGroupStatus(true);
+    setGroupStatus("In Person");
     setGroupImage("");
 
     history.push(`/groups/${response.id}`);
