@@ -55,7 +55,6 @@ export default function EventsForm() {
   if (!group) return null;
   if(!events || events.length === 0) return null
 
-  console.log("🚀 ~ file: EventsForm.js:38 ~ EventsForm ~ group:", group.Venues[0].id)
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -135,6 +134,11 @@ export default function EventsForm() {
 
 
   };
+  
+  if(!sessionUser || sessionUser.id !== group.Organizer.id){
+    history.push('/')
+    return;
+}
 
   return (
     <div>

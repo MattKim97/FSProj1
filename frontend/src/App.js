@@ -6,7 +6,7 @@ import Navigation from "./components/Navigation";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Groups from "./components/Groups";
-import { Route } from "react-router-dom/cjs/react-router-dom.min";
+import { Route, Router } from "react-router-dom/cjs/react-router-dom.min";
 import GroupDetails from "./components/Groups/GroupDetails";
 import Events from "./components/Events";
 import EventDetails from "./components/Events/EventDetails";
@@ -43,6 +43,9 @@ function App() {
       </Route>
       <Route exact path = '/groups/:groupId/edit' >
         <GroupUpdateForm/>
+      </Route>
+      <Route>
+        <h1>404 Error: Not Found!</h1>
       </Route>
     </Switch>
     </>
