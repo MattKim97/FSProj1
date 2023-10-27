@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session';
-import OpenModalMenuItem from './OpenModalMenuItem';
-import LoginFormModal from '../LoginFormModal';
-import SignupFormModal from '../SignupFormModal';
+import { useDispatch } from "react-redux";
+import * as sessionActions from "../../store/session";
+import OpenModalMenuItem from "./OpenModalMenuItem";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import './Navigation.css';
+import "./Navigation.css";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
   const history = useHistory();
-
 
   const openMenu = () => {
     if (showMenu) return;
@@ -28,7 +27,7 @@ function ProfileButton({ user }) {
       }
     };
 
-    document.addEventListener('click', closeMenu);
+    document.addEventListener("click", closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
@@ -39,41 +38,59 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     closeMenu();
-    history.push('/');
+    history.push("/");
   };
 
-  const  handleOnClick = () => {
+  const handleOnClick = () => {
     history.push(`/groups`);
-  }
+  };
 
   const handleOnClickEvent = () => {
     history.push(`/events`);
-
-  }
+  };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <>
-      <button  className='roundedButton' onClick={openMenu}>
-        <i className="fa-solid fa-bars" style={{color:'#FF5A5F'}}></i>
-        <i className="fas fa-user-circle userIcon" style={{color:'#FF5A5F'}} />
+      <button className="roundedButton" onClick={openMenu}>
+        <i className="fa-solid fa-bars" style={{ color: "#FF5A5F" }}></i>
+        <i
+          className="fas fa-user-circle userIcon"
+          style={{ color: "#FF5A5F" }}
+        />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
             <li>Hello, {user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li className='navPointers' onClick={() => handleOnClick()}>See all groups</li>
-            <li className='navPointers' onClick={() => handleOnClickEvent()}>View Events</li>
             <li>
-              <button className='navPointers' onClick={logout}>Log Out</button>
+              {user.firstName} {user.lastName}
+            </li>
+            <li>{user.email}</li>
+            <li className="navPointers" onClick={() => handleOnClick()}>
+              See all groups
+            </li>
+            <li className="navPointers" onClick={() => handleOnClickEvent()}>
+              View Events
+            </li>
+            <li>
+              <button className="navPointers" onClick={logout}>
+                Log Out
+              </button>
             </li>
           </>
         ) : (
-          <div className="navPointers"
-          style={{ display:'flex', flexDirection:'column', alignItems: 'center' , marginRight:'35px', marginBottom:'10px', gap:'5px'}}
+          <div
+            className="navPointers"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginRight: "35px",
+              marginBottom: "10px",
+              gap: "5px",
+            }}
           >
             <OpenModalMenuItem
               itemText="Log In"
@@ -87,6 +104,12 @@ function ProfileButton({ user }) {
               modalComponent={<SignupFormModal />}
               className="navPointers"
             />
+            <li className="navPointers" onClick={() => handleOnClick()}>
+              See all groups
+            </li>
+            <li className="navPointers" onClick={() => handleOnClickEvent()}>
+              View Events
+            </li>
           </div>
         )}
       </ul>

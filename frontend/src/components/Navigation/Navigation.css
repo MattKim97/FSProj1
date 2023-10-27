@@ -36,7 +36,7 @@
 .navPointers{
     cursor: pointer;
     font-weight: bold;
-    border-bottom: 1px black solid;
+    /* border-bottom: 1px black solid; */
 }
 
 .profile-dropdown > li {

@@ -4,7 +4,12 @@ import {
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAGroup, getGroup, getGroupEvents, getGroups } from "../../store/group";
+import {
+  deleteAGroup,
+  getGroup,
+  getGroupEvents,
+  getGroups,
+} from "../../store/group";
 import { useEffect } from "react";
 import "./GroupDetails.css";
 import { useState } from "react";
@@ -21,8 +26,6 @@ export default function GroupDetails() {
   const sessionUser = useSelector((state) => state.session.user);
 
   const events = useSelector((state) => state.groupReducer.Events);
-
-
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,15 +52,15 @@ export default function GroupDetails() {
   };
 
   const handleDelete = async () => {
-    const response = await dispatch(deleteAGroup(groupId))
-    if(response){
-      history.push(`/groups`); 
+    const response = await dispatch(deleteAGroup(groupId));
+    if (response) {
+      history.push(`/groups`);
     }
   };
 
   const handleOnClick = () => {
     window.alert("Feature Coming Soon...");
- };
+  };
 
   // const onClick = () => {
   //   history.push(`/events/${event.id}`)
@@ -66,7 +69,7 @@ export default function GroupDetails() {
   useEffect(() => {
     dispatch(getGroup(groupId));
     dispatch(getGroupEvents(groupId));
-    dispatch(getGroups())
+    dispatch(getGroups());
   }, [dispatch]);
 
   // if (!events.length) return null;
@@ -262,44 +265,48 @@ export default function GroupDetails() {
           </div>
 
           <div>
-            <h2>Past Events:</h2>
-            <div className="groupDetailsBottom">
-              {pastEvents.map((event) => (
-                <div key={event.id}>
-                  <div
-                    className="groupEventDetailGridContainer"
-                    onClick={(e) => history.push(`/events/${event.id}`)}
-                  >
-                    <img
-                      className="groupDetailsBottom groupEventImg"
-                      src={event.previewImage}
-                    />
-                    <div className="groupDetailsBottom">
-                      <div className="groupDetailsTime">
-                        <div>{event.startDate}</div>
-                        <i
-                          style={{
-                            fontSize: "3px",
-                            display: "flex",
-                            alignItems: "center",
-                            backgroundColor: "#CCCCCC",
-                          }}
-                          class="fa-solid fa-circle"
-                        ></i>
-                        <div>{event.startTime}</div>
-                      </div>
-                      <div className="groupDetailsName">{event.name}</div>
-                      <div className="groupDetailsLocation">
-                        {event.Venues.city} {event.Venues.state}{" "}
+            {pastEvents.length > 0 && (
+              <div>
+                <h2 style={{backgroundColor:'#CCCCCC'}}>Past Events:</h2>
+                <div className="groupDetailsBottom">
+                  {pastEvents.map((event) => (
+                    <div key={event.id}>
+                      <div
+                        className="groupEventDetailGridContainer"
+                        onClick={(e) => history.push(`/events/${event.id}`)}
+                      >
+                        <img
+                          className="groupDetailsBottom groupEventImg"
+                          src={event.previewImage}
+                        />
+                        <div className="groupDetailsBottom">
+                          <div className="groupDetailsTime">
+                            <div>{event.startDate}</div>
+                            <i
+                              style={{
+                                fontSize: "3px",
+                                display: "flex",
+                                alignItems: "center",
+                                backgroundColor: "#CCCCCC",
+                              }}
+                              class="fa-solid fa-circle"
+                            ></i>
+                            <div>{event.startTime}</div>
+                          </div>
+                          <div className="groupDetailsName">{event.name}</div>
+                          <div className="groupDetailsLocation">
+                            {event.Venues.city} {event.Venues.state}{" "}
+                          </div>
+                        </div>
+                        <div className="groupEventBottom groupDetailsEventsDescription">
+                          {event.description}
+                        </div>
                       </div>
                     </div>
-                    <div className="groupEventBottom groupDetailsEventsDescription">
-                      {event.description}
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
