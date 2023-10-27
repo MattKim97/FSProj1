@@ -115,6 +115,7 @@ margin-bottom: 10px;
     border-radius: 10px;
     padding-left: 25px; 
     align-items: center;
+    cursor: pointer;
   }
   .eventDetailsGroupDetails > *{
     background-color: white;     

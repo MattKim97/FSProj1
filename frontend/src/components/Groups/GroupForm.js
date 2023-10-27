@@ -55,6 +55,9 @@ export default function GroupForm() {
     if (groupName === "") {
       formErrors.groupName = "Name is required";
     }
+    if (groupName.length > 50) {
+      formErrors.groupName = "Name should be less than 50 characters";
+    }
     if (groupPurpose.length < 50) {
       formErrors.groupPurpose = "Description needs 50 or more characters";
     }
@@ -113,7 +116,7 @@ export default function GroupForm() {
   return (
     <div>
       <form className="groupFormContainer" onSubmit={onSubmit}>
-        <h1>Start a New Group</h1>
+        <h1 className="addALineUnderneatch">Start a New Group</h1>
 
         <section className="addALineUnderneatch">
           <h2>Set your group's location</h2>

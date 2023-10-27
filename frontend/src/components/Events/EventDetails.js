@@ -27,6 +27,10 @@ export default function EventDetails() {
 
   const history = useHistory();
 
+  const handleGroupClick = () => {
+      history.push(`/groups/${eventGroup.id}`)
+  }
+
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -98,7 +102,7 @@ export default function EventDetails() {
             />
           </div>
           <div className="rightHandContainer">
-            <div className="eventDetailsGroupDetails">
+            <div className="eventDetailsGroupDetails" onClick={(e) => handleGroupClick()}>
               <div>
                 <img
                   className="eventDetailsGroupImage"
@@ -161,7 +165,7 @@ export default function EventDetails() {
               </div>
               <div className="eventDetailsPrice">
                 <div>
-                  <i class="fa-solid fa-dollar-sign"></i> ${event.price}
+                  <i class="fa-solid fa-dollar-sign"></i> {event.price === 0 ? "FREE" : `$${event.price}`}
                 </div>
               </div>
               <div className="eventDetailsType">

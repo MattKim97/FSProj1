@@ -20,7 +20,7 @@ export default function EventsForm() {
 
   const [eventCapacity, setEventCapacity] = useState(0);
 
-  const [eventPrice, setEventPrice] = useState(0);
+  const [eventPrice, setEventPrice] = useState("");
 
   const [eventStartDate, setEventStartDate] = useState("");
 
@@ -67,7 +67,7 @@ export default function EventsForm() {
     if (eventType == "Select One") {
       formErrors.eventType = "Visibility is required";
     }
-    if (eventPrice == 0) {
+    if (eventPrice == "") {
       formErrors.eventPrice = "Price is required";
     }
 
@@ -116,17 +116,25 @@ export default function EventsForm() {
         preview: true,
       };
       await dispatch(createAEventImage(response.id, createdEventImage));
+      setEventName("");
+      setEventType("In Person");
+      setEventPrice(0);
+      setEventCapacity(0);
+      setEventStartDate("");
+      setEventEndDate("");
+      setEventImage("");
+      setEventDescription("");
       history.push(`/events/${response.id}`);
     }
 
-    setEventName("");
-    setEventType("In Person");
-    setEventPrice(0);
-    setEventCapacity(0);
-    setEventStartDate("");
-    setEventEndDate("");
-    setEventImage("");
-    setEventDescription("");
+    // setEventName("");
+    // setEventType("In Person");
+    // setEventPrice(0);
+    // setEventCapacity(0);
+    // setEventStartDate("");
+    // setEventEndDate("");
+    // setEventImage("");
+    // setEventDescription("");
   };
 
   if (!sessionUser || sessionUser.id !== group.Organizer.id) {
