@@ -100,15 +100,16 @@ export default function GroupForm() {
         preview: true,
       };
       dispatch(createAGroupImage(response.id, createdGroupImage));
+      
+      setCity("");
+      setState("");
+      setGroupName("");
+      setGroupPurpose("");
+      setGroupType("In Person");
+      setGroupStatus("In Person");
+      setGroupImage("");
     }
 
-    setCity("");
-    setState("");
-    setGroupName("");
-    setGroupPurpose("");
-    setGroupType("In Person");
-    setGroupStatus("In Person");
-    setGroupImage("");
 
     history.push(`/groups/${response.id}`);
   };

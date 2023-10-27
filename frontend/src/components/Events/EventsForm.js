@@ -183,6 +183,7 @@ export default function EventsForm() {
             placeholder="0"
             className="eventsFormPrice"
             value={eventCapacity}
+            min={0}
             onChange={(e) => setEventCapacity(e.target.value)}
           />
 
@@ -197,6 +198,7 @@ export default function EventsForm() {
             placeholder="0"
             className="eventsFormPrice"
             value={eventPrice}
+            min={0}
             onChange={(e) => setEventPrice(e.target.value)}
           />
           </div>
