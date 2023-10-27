@@ -26,6 +26,7 @@
     width: 275px;    
     background-color: #FF5A5F;
     color: white;
+    cursor: pointer;
 }
 
 .loginButtonDemo{
@@ -37,6 +38,8 @@
     width: 275px;    
     background-color: #FF5A5F;
     color: white;
+    cursor: pointer;
+
 }
 
 .loginStyle{

@@ -57,7 +57,7 @@ function SignupFormModal() {
   };
 
   return (
-    <div className="loginStyle"> 
+    <div className="signupStyle"> 
       <h1 className="loginTitle">Sign Up</h1>
       <form onSubmit={handleSubmit}>
           <input
@@ -121,8 +121,8 @@ function SignupFormModal() {
             placeholder="Confirm Password"
 
           />
-        {errors.confirmPassword && (
-          <p className="errors">{errors.confirmPassword}</p>
+        { password !== confirmPassword && (
+          <p className="errors">Confirm Password field must be the same as the Password field</p>
         )}
         <button 
         type="submit"

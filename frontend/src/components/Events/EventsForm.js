@@ -96,7 +96,7 @@ export default function EventsForm() {
       return;
     }
     const createdEvent = {
-      venueId: group.Venues[0].id,
+      venueId: 1,
       groupId,
       name: eventName,
       description: eventDescription,

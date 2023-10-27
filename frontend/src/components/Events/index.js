@@ -37,6 +37,7 @@ export default function Events() {
         const eventStartDate = new Date(event.startDate);
         return eventStartDate >= currentDate;
       });
+      console.log("🚀 ~ file: index.js:40 ~ upcomingEvents ~ upcomingEvents:", upcomingEvents)
       
       const pastEvents = events.filter((event) => {
         const eventStartDate = new Date(event.startDate);
@@ -91,7 +92,7 @@ export default function Events() {
                     </div>
                     <div className="eventName">{event.name}</div>
                     <div className=" eventLocation">
-                      {event.Venues.city} {event.Venues.state}{" "}
+                      {event.Group.city} {event.Group.state}{" "}
                     </div>
                 </div>
                 <div className="eventDescription">{event.description}</div>
@@ -120,7 +121,7 @@ export default function Events() {
                     </div>
                     <div className="eventName">{event.name}</div>
                     <div className=" eventLocation">
-                      {event.Venues.city} {event.Venues.state}{" "}
+                      {event.Group.city} {event.Group.state}{" "}
                     </div>
                 </div>
                 <div className="eventDescription">{event.description}</div>

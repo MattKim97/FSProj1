@@ -197,8 +197,8 @@ export default function GroupForm() {
             <option value="In person">In Person</option>
             <option value="Online">Online</option>
           </select>
-          {errors.groupStatus && (
-            <div className="groupFormErrors">{errors.groupStatus}</div>
+          {errors.groupType && (
+            <div className="groupFormErrors">{errors.groupType}</div>
           )}
         </section>
 
