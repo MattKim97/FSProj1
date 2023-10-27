@@ -39,9 +39,21 @@ export default function GroupUpdateForm() {
   
     useEffect(() => {
       dispatch(getGroup(groupId));
-    }, [dispatch]);
+    }, [dispatch,groupId]);
+
+    useEffect(() => {
+      if (group) {
+        setCity(group.city);
+        setState(group.state);
+        setGroupName(group.name);
+        setGroupPurpose(group.about);
+        setGroupType(group.type);
+        setGroupStatus(group.private);
+      }
+    }, [group]);
   
     if (!group) return null;
+
   
     const onSubmit = async (e) => {
       e.preventDefault();
