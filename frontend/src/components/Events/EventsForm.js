@@ -7,8 +7,8 @@ import {
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 import { getGroup } from "../../store/group";
-import { createAEvent,createAEventImage } from "../../store/event";
-import "./Events.css"
+import { createAEvent, createAEventImage } from "../../store/event";
+import "./Events.css";
 import { getEvents } from "../../store/event";
 
 export default function EventsForm() {
@@ -36,25 +36,21 @@ export default function EventsForm() {
 
   const group = useSelector((state) => state.groupReducer.group);
 
-
   const dispatch = useDispatch();
 
   const sessionUser = useSelector((state) => state.session.user);
 
-  const events = useSelector((state) => state.eventReducer.events)
+  const events = useSelector((state) => state.eventReducer.events);
 
   useEffect(() => {
-      dispatch(getEvents());
-      dispatch(getGroup(groupId));
+    dispatch(getEvents());
+    dispatch(getGroup(groupId));
+  }, [dispatch]);
 
-    }, [dispatch]);
-
-  const history = useHistory()
-
+  const history = useHistory();
 
   if (!group) return null;
-  if(!events || events.length === 0) return null
-
+  if (!events || events.length === 0) return null;
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -100,50 +96,48 @@ export default function EventsForm() {
       return;
     }
     const createdEvent = {
-        venueId: group.Venues[0].id,
-        groupId,
-        name: eventName,
-        description: eventDescription,
-        type: eventType,
-        capacity: eventCapacity,
-        price: eventPrice,
-        startDate: eventStartDate,
-        endDate: eventEndDate
-    }
+      venueId: group.Venues[0].id,
+      groupId,
+      name: eventName,
+      description: eventDescription,
+      type: eventType,
+      capacity: eventCapacity,
+      price: eventPrice,
+      startDate: eventStartDate,
+      endDate: eventEndDate,
+    };
 
-    const response = await dispatch(createAEvent(createdEvent))
+    const response = await dispatch(createAEvent(createdEvent));
 
-    if(response) {
-        const createdEventImage = {
-            eventId: response.id,
-            url: eventImage,
-            preview: true
-        }
-        dispatch(createAEventImage(response.id,createdEventImage))
-        history.push(`/events/${response.id}`)
+    if (response) {
+      const createdEventImage = {
+        eventId: response.id,
+        url: eventImage,
+        preview: true,
+      };
+      await dispatch(createAEventImage(response.id, createdEventImage));
+      history.push(`/events/${response.id}`);
     }
 
     setEventName("");
-    setEventType("In Person")
-    setEventPrice(0)
-    setEventCapacity(0)
-    setEventStartDate("")
-    setEventEndDate("")
-    setEventImage("")
-    setEventDescription("")
-
-
+    setEventType("In Person");
+    setEventPrice(0);
+    setEventCapacity(0);
+    setEventStartDate("");
+    setEventEndDate("");
+    setEventImage("");
+    setEventDescription("");
   };
-  
-  if(!sessionUser || sessionUser.id !== group.Organizer.id){
-    history.push('/')
+
+  if (!sessionUser || sessionUser.id !== group.Organizer.id) {
+    history.push("/");
     return;
-}
+  }
 
   return (
     <div>
       <form onSubmit={onSubmit} className="eventsFormContainer">
-        <section className="eventsFormSections"> 
+        <section className="eventsFormSections">
           <h1>Create an event for {group.name}</h1>
           <label>What is the name of your event?</label>
           <input
@@ -189,6 +183,7 @@ export default function EventsForm() {
           )}
 
           <label>What is the price for your event?</label>
+          <div className="priceInputContainer">
           <input
             type="number"
             placeholder="0"
@@ -196,6 +191,7 @@ export default function EventsForm() {
             value={eventPrice}
             onChange={(e) => setEventPrice(e.target.value)}
           />
+          </div>
           {errors.eventPrice && (
             <div className="groupFormErrors">{errors.eventPrice}</div>
           )}
@@ -203,26 +199,31 @@ export default function EventsForm() {
 
         <section className="eventsFormSections">
           <label>When does your event start?</label>
-          <input
-            type="text"
-            placeholder="MM-DD-YYYY HH:mm"
-            className="eventsFormDate"
-            value={eventStartDate}
-            onChange={(e) => setEventStartDate(e.target.value)}
-          />
+          <div className="eventsFormDateDiv">
+            <input
+              type="text"
+              placeholder="MM/DD/YYYY HH:mm"
+              className="eventsFormDate"
+              value={eventStartDate}
+              onChange={(e) => setEventStartDate(e.target.value)}
+            />
+            <i class="fa-regular fa-calendar-days"></i>
+          </div>
           {errors.eventStartDate && (
             <div className="groupFormErrors">{errors.eventStartDate}</div>
           )}
-
           <label>When does your event end?</label>
-          <input
-            type="text"
-            placeholder="MM-DD-YYYY HH:mm"
-            className="eventsFormDate"
-            value={eventEndDate}
-            onChange={(e) => setEventEndDate(e.target.value)}
-          />
-            {errors.eventEndDate && (
+          <div className="eventsFormDateDiv">
+            <input
+              type="text"
+              placeholder="MM/DD/YYYY HH:mm"
+              className="eventsFormDate"
+              value={eventEndDate}
+              onChange={(e) => setEventEndDate(e.target.value)}
+            />
+            <i class="fa-regular fa-calendar-days"></i>
+          </div>
+          {errors.eventEndDate && (
             <div className="groupFormErrors">{errors.eventEndDate}</div>
           )}
         </section>
@@ -235,7 +236,7 @@ export default function EventsForm() {
             onChange={(e) => setEventImage(e.target.value)}
             className="eventsFormInputText"
           />
-              {errors.eventImage && (
+          {errors.eventImage && (
             <div className="groupFormErrors">{errors.eventImage}</div>
           )}
         </section>
@@ -247,7 +248,7 @@ export default function EventsForm() {
             className="eventsFormDescription"
             onChange={(e) => setEventDescription(e.target.value)}
           />
-            {errors.eventDescription && (
+          {errors.eventDescription && (
             <div className="groupFormErrors">{errors.eventDescription}</div>
           )}
         </section>

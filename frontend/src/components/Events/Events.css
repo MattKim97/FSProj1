@@ -162,6 +162,7 @@ margin-bottom: 10px;
 .eventDetailsGroupImage{
     width: 100px;
     height: 100px;
+    object-fit: cover;
 }
 
 
@@ -275,6 +276,7 @@ margin-bottom: 10px;
   width: 150px;
   margin-bottom: 10px;
   background-color: #E8F0FE;
+  margin-right: 10px;
 }
 
 .eventsFormDescription{
@@ -283,4 +285,13 @@ margin-bottom: 10px;
   background-color: #E8F0FE;
   resize: none;
   height: 150px;
+}
+.eventsFormDateDiv{
+display: flex;
+flex-direction: row;
+}
+
+.priceInputContainer{
+  display: flex;
+  align-items: center;
 }
