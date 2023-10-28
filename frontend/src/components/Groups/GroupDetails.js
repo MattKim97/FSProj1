@@ -73,9 +73,11 @@ export default function GroupDetails() {
     dispatch(getGroups());
   }, [dispatch]);
 
-  
+  console.log("🚀 ~ file: GroupDetails.js:79 ~ GroupDetails ~ group:", group)
 
-  if (!group){ return null;}
+
+  if (!group) {
+  }
   if (!events) return null;
 
   events.sort((a, b) => {
@@ -102,6 +104,7 @@ export default function GroupDetails() {
     const eventStartDate = new Date(event.startDate);
     return eventStartDate < currentDate;
   });
+
 
   return (
     <div>

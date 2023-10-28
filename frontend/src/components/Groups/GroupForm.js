@@ -99,8 +99,8 @@ export default function GroupForm() {
         url: groupImage,
         preview: true,
       };
-      dispatch(createAGroupImage(response.id, createdGroupImage));
-      
+     await dispatch(createAGroupImage(response.id, createdGroupImage));
+
       setCity("");
       setState("");
       setGroupName("");
@@ -108,10 +108,10 @@ export default function GroupForm() {
       setGroupType("In Person");
       setGroupStatus("In Person");
       setGroupImage("");
+      history.push(`/groups/${response.id}`);
     }
 
 
-    history.push(`/groups/${response.id}`);
   };
 
   return (
