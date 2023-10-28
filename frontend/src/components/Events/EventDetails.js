@@ -44,9 +44,11 @@ export default function EventDetails() {
     openModal();
   };
 
-  const handleDelete = () => {
-    dispatch(deleteAEvent(eventId))
-    history.push(`/groups/${eventGroup.id}`); 
+  const handleDelete = async () => {
+    const response = await dispatch(deleteAEvent(eventId))
+    if(response){
+      history.push(`/groups/${eventGroup.id}`); 
+    }
 
   };
 
