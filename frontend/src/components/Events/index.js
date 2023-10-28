@@ -37,7 +37,6 @@ export default function Events() {
         const eventStartDate = new Date(event.startDate);
         return eventStartDate >= currentDate;
       });
-      console.log("🚀 ~ file: index.js:40 ~ upcomingEvents ~ upcomingEvents:", upcomingEvents)
       
       const pastEvents = events.filter((event) => {
         const eventStartDate = new Date(event.startDate);

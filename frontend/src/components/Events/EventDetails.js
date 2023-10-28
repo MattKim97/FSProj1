@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getGroup } from "../../store/group";
 import { useEffect } from "react";
 import "./Events.css";
-import { deleteAEvent, getEvent } from "../../store/event";
+import { deleteAEvent, getEvent, getEvents } from "../../store/event";
 import { useState } from "react";
 
 export default function EventDetails() {
@@ -45,9 +45,12 @@ export default function EventDetails() {
   };
 
   const handleDelete = async () => {
-    const response = await dispatch(deleteAEvent(eventId))
-    if(response){
-      history.push(`/groups/${eventGroup.id}`); 
+    const res1 = await dispatch (getEvents())
+    if(res1){
+      const response = await dispatch(deleteAEvent(eventId))
+      if(response){
+        history.push(`/groups/${eventGroup.id}`); 
+      }
     }
 
   };

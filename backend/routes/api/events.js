@@ -99,11 +99,7 @@ const validateQuery = [
       if (!value) return true;
 
       if (value > 0) return true;
-      // if (value > 20) {
-      //     value = 20
-      //     console.log("the value" , value)
-      //     return true
-      // }
+ 
 
       return false;
     })
@@ -124,7 +120,6 @@ const validateQuery = [
     .withMessage("Name must be a string"),
   check("type")
     .custom((value) => {
-      console.log(value);
       if (!value) return true;
       if (value == "Online" || value == "In person") return true;
       else return false;
@@ -702,8 +697,7 @@ router.delete("/:eventId/attendance", requireAuth, async (req, res, next) => {
 
     res.json({ message: "Successfully deleted attendance from event" });
   } else {
-    // console.log(currentUser.id)
-    // console.log(userId)
+
 
     return res
       .status(403)

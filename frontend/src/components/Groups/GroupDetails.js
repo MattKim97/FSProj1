@@ -20,7 +20,6 @@ export default function GroupDetails() {
   const { groupId } = useParams();
 
   const groups = useSelector((state) => state.groupReducer.groups);
-  console.log("🚀 ~ file: GroupDetails.js:23 ~ GroupDetails ~ groups:", groups)
 
   const group = useSelector((state) => state.groupReducer.group);
 
@@ -73,7 +72,6 @@ export default function GroupDetails() {
     dispatch(getGroups());
   }, [dispatch]);
 
-  console.log("🚀 ~ file: GroupDetails.js:79 ~ GroupDetails ~ group:", group)
 
 
   if (!group) {

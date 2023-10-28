@@ -14,7 +14,6 @@ export default function Groups() {
   const [activeTab, setActiveTab] = useState("groups");
   const events = useSelector((state) => state.eventReducer.events.Events)
 
-  console.log('GroupsList Render')
 
   useEffect(() => {
     dispatch(getGroups());

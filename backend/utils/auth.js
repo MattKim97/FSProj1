@@ -186,7 +186,6 @@ const attendance = await event.getAttendances({
   }
 })
 
-console.log(attendance)
 
 if(membership.length){
   if(membership[0].status == "co-host") return next()
