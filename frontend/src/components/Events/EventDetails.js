@@ -165,7 +165,7 @@ export default function EventDetails() {
               </div>
               <div className="eventDetailsPrice">
                 <div>
-                  <i class="fa-solid fa-dollar-sign"></i> {event.price === 0 ? "FREE" : `$${event.price}`}
+                  <i class="fa-solid fa-dollar-sign"></i> {event.price == 0 ? "FREE" : `$${event.price}`}
                 </div>
               </div>
               <div className="eventDetailsType">
