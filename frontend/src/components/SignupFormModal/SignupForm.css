@@ -11,6 +11,7 @@
     justify-content: center;
     text-align: left;
     margin-top: 5px;
+    
 }
 
 .signupButton{
@@ -35,7 +36,12 @@
 
 .signupStyle{
     border-radius: 25px;
-    padding: 40px 150px;
-
+    padding: 40px 80px;
+/* position: relative; */
     background-color: whitesmoke;
+}
+
+.errorContainer{
+    position: relative;
+    padding: 5px;
 }

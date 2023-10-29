@@ -121,9 +121,11 @@ function SignupFormModal() {
             placeholder="Confirm Password"
 
           />
+          <div className="errorContainer">
         { password !== confirmPassword && (
-          <p className="errors">Confirm Password field must be the same as the Password field</p>
+          <p className="errors" style={{width:'280px'}}>Confirm Password field must be the same as the Password field</p>
         )}
+          </div>
         <button 
         type="submit"
         //I dunno about this lol
